@@ -52,7 +52,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       app-network:
-        ipv4_address: 172.30.0.1
+        ipv4_address: 172.30.0.4
 volumes:
   back_bundle_data:
   postgres_data:
