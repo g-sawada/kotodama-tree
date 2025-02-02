@@ -1,0 +1,14 @@
+FROM --platform=linux/amd64 ruby:3.2.2
+
+WORKDIR /app
+
+RUN apt-get update -qq && \
+    apt-get install -y build-essential libpq-dev vim
+
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+
+RUN gem install bundler
+RUN bundle install
+
+COPY . /app
