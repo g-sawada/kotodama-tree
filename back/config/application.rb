@@ -20,13 +20,23 @@ module App
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
+    # 
+    config.time_zone = "Tokyo"
+    config.active_record.default_timezone = :local
     # config.eager_load_paths << Rails.root.join("extras")
+    config.i18n.default_locale = :ja
+    config.i18n.available_locales = [:en, :ja]
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.generators do |g|
+      g.skip_routes true   # ルート自動設定を無効化
+      g.helper false       # ヘルパー生成を無効化
+      g.test_framework nil # テストフレームワークを無効化
+    end
+
   end
 end
