@@ -17,8 +17,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={dotGothic16.className}>
-        <div>
-          {children}
+        <div className="min-w-[360] sm:bg-gray-700 md:bg-blue-500 lg:bg-yellow-500 xl:bg-green-500">
+          <div className="container mx-auto h-screen border-2 border-white text-white bg-gray-900">
+            <div className=""> 
+            {children}
+            </div>
+          </div>
         </div>
       </body>
     </html>
