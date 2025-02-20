@@ -1,0 +1,12 @@
+import React from 'react'
+
+export default function MockPage() {
+  return (
+    <div>
+      <h1 className="text-lg">ここはモックページ</h1>
+      <div className='flex w-full justify-center items-center h-60 gap-4'>
+        キの画像
+      </div>
+    </div>
+  )
+}

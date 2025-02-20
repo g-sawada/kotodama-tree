@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DotGothic16 } from "next/font/google"
 import "./globals.css";
+import Header from "@/components/layout/Header";
 
 export const metadata: Metadata = {
   title: "コトダマプロジェクト（仮）",
@@ -20,7 +21,8 @@ export default function RootLayout({
         <div className="min-w-[360] sm:bg-gray-700 md:bg-blue-500 lg:bg-yellow-500 xl:bg-green-500">
           <div className="container mx-auto h-screen border-2 border-white text-white bg-gray-900">
             <div className=""> 
-            {children}
+              <Header />
+              {children}
             </div>
           </div>
         </div>
