@@ -35,7 +35,10 @@ module App
     config.generators do |g|
       g.skip_routes true   # ルート自動設定を無効化
       g.helper false       # ヘルパー生成を無効化
-      g.test_framework nil # テストフレームワークを無効化
+      g.test_framework :rspec, # テストフレームワークをrspecに設定
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false
     end
 
   end
