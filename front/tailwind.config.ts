@@ -9,6 +9,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: "480px",  // スマートフォン
+        md: "744px",  // タブレット, スマートフォン横
+        lg: "960px",  // タブレット, スマートフォン横
+        xl: "1280px",  // ノートPC, タブレット横
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
