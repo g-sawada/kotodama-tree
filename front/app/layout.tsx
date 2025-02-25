@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DotGothic16 } from "next/font/google"
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "コトダマプロジェクト（仮）",
