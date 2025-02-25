@@ -24,7 +24,6 @@ export default function RootLayout({
             <div className="flex flex-col justify-between h-full"> 
               <Header />
               {children}
-              <Footer />
             </div>
           </div>
         </div>
