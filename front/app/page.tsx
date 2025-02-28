@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button";
+import DemoModalController from "@/features/demo/components/DemoModalController";
 import React from "react";
 
 export default function Home() {
@@ -21,6 +22,10 @@ export default function Home() {
           // inProgress={true}
           // isDisabled={true}
         />
+      </div>
+
+      <div className="flex justify-center items-center my-10">
+        <DemoModalController />
       </div>
     </>
   );
