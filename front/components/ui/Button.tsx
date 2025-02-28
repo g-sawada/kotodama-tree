@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * 共通ボタンコンポーネント
@@ -15,7 +15,7 @@
 
 type Props = {
   text: string;
-  buttonType: "default" | "ok" | "cancel" | "danger";
+  buttonType?: "default" | "ok" | "cancel" | "danger";
   handleClick: () => void;
   inProgress?: boolean;
   isDisabled?: boolean;
@@ -29,8 +29,8 @@ export default function Button({
     isDisabled=false
   }: Props) {
 
-  // buttonTypeに応じたデザインを定義
-  const buttonTypeClasses: Record<Props["buttonType"], string> = {
+  // buttonTypeに応じたデザインを定義(NonNullableでnullとundefinedを除外)
+  const buttonTypeClasses: Record<NonNullable<Props["buttonType"]>, string> = {
     default: "bg-gray-900 hover:bg-gray-800",
     ok: "bg-cyan-500 hover:bg-cyan-400",
     cancel: "bg-gray-500 hover:bg-gray-600",
