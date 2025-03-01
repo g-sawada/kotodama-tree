@@ -5,25 +5,25 @@ RSpec.describe Tree, type: :model do
 
   describe 'バリデーション' do
     context 'levelに関するバリデーション' do
-     it '空の場合は無効' do
-       subject.level = ''
-       expect(subject).to be_invalid
-     end
+      it '空の場合は無効' do
+        subject.level = ''
+        expect(subject).to be_invalid
+      end
 
-     it '整数でない場合は無効' do
-       subject.level = 'abc'
-       expect(subject).to be_invalid
-     end
+      it '整数でない場合は無効' do
+        subject.level = 'abc'
+        expect(subject).to be_invalid
+      end
 
-     it '負の整数の場合は無効' do
-       subject.level = -1
-       expect(subject).to be_invalid
-     end
+      it '負の整数の場合は無効' do
+        subject.level = -1
+        expect(subject).to be_invalid
+      end
 
-     it '少数の場合は無効' do
-       subject.level = 1.2
-       expect(subject).to be_invalid
-     end
+      it '少数の場合は無効' do
+        subject.level = 1.2
+        expect(subject).to be_invalid
+      end
     end
 
     context 'expに関するバリデーション' do

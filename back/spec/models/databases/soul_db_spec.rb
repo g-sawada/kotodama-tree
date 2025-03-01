@@ -4,9 +4,13 @@ RSpec.describe Soul, type: :model do
   subject { build(:soul) }
 
   let(:creator) { create(:user) }
+  let(:home_tree) { create(:tree) }
 
   before do
     subject.creator = creator
+    subject.owner = creator
+    subject.home_tree = home_tree
+    subject.captured_tree = home_tree
   end
 
   describe 'データベース制約' do

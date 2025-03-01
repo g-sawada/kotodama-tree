@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
     context 'name に関するバリデーション' do
       it '空の場合は無効' do
         subject.name = ''
-        expect(subject).to be_invalid
+        expect(subject).to be_invalid 
       end
 
       it '21文字以上の場合は無効' do
@@ -17,7 +17,6 @@ RSpec.describe User, type: :model do
     end
 
     context 'levelに関するバリデーション' do
-
       it '空の場合は無効' do
         subject.level = ''
         expect(subject).to be_invalid
@@ -40,7 +39,6 @@ RSpec.describe User, type: :model do
     end
 
     context 'expに関するバリデーション' do
-
       it '空の場合は無効' do
         subject.exp = ''
         expect(subject).to be_invalid
@@ -63,7 +61,6 @@ RSpec.describe User, type: :model do
     end
 
     context 'max_createに関するバリデーション' do
-
       it '空の場合は無効' do
         subject.max_create = ''
         expect(subject).to be_invalid
@@ -71,7 +68,6 @@ RSpec.describe User, type: :model do
     end
 
     context 'max_soulに関するバリデーション' do
-
       it '空の場合は無効' do
         subject.max_soul = ''
         expect(subject).to be_invalid

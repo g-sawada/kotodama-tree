@@ -28,8 +28,8 @@ RSpec.describe User, type: :model do
       end
 
       it 'デフォルト値が1であること' do
-         subject.save(validate: false)
-         expect(subject.level).to eq(1)
+        subject.save(validate: false)
+        expect(subject.level).to eq(1)
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
       end
 
       it '他ユーザーとprovider, provider_idが重複しないこと' do
-        user = User.create(name: 'Test User', provider: 'google', provider_id: 'test123', level: 1, exp: 0, max_create: 3, max_soul: 3)
+        User.create(name: 'Test User', provider: 'google', provider_id: 'test123', level: 1, exp: 0, max_create: 3, max_soul: 3)
         subject.provider_id = 'test123'
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
         expect(User.exists?(subject.id)).to be_falsey

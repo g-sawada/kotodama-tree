@@ -32,6 +32,10 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+# 実行SQLを出力する。(不要な場合は一時的にコメントアウトして下さい。)
+#ActiveRecord::Base.logger = Logger.new($stdout) 
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
@@ -45,7 +49,11 @@ RSpec.configure do |config|
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
-
+  config.after(:each) do |example|
+    if example.metadata[:type] == :model
+      puts example.instance_variable_get(:@example_group_instance).subject.errors.full_messages
+    end
+  end
   # RSpec Rails uses metadata to mix in different behaviours to your tests,
   # for example enabling you to call `get` and `post` in request specs. e.g.:
   #

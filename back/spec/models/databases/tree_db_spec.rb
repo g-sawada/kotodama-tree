@@ -3,11 +3,16 @@ require 'rails_helper'
 RSpec.describe Tree, type: :model do
   subject { build(:tree) }
 
+  let(:room) { create(:room) }
+
+  before do
+    subject.user = room.user
+    subject.room = room
+  end
+
   describe 'データベース制約' do
     context 'バリデーションを通過しdbに正常に保存できること' do
       it '必須項目が入っている場合は保存、削除ができること' do
-        subject.user.save
-        subject.room.save
         expect(subject.save).to be_truthy
         subject.destroy
         expect { subject.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -30,8 +35,8 @@ RSpec.describe Tree, type: :model do
       end
 
       it 'デフォルト値が1であること' do
-         subject.save(validate: false)
-         expect(subject.level).to eq(1)
+        subject.save(validate: false)
+        expect(subject.level).to eq(1)
       end
     end
 
@@ -58,7 +63,6 @@ RSpec.describe Tree, type: :model do
 
     context 'user_idに関する制約' do
       it 'nilの場合に保存できないこと' do
-        subject.user = nil
         subject.user_id = nil
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::NotNullViolation)
         expect(Tree.exists?(subject.id)).to be_falsey
@@ -67,7 +71,6 @@ RSpec.describe Tree, type: :model do
 
     context 'room_idに関する制約' do
       it 'nilの場合に保存できないこと' do
-        subject.room = nil
         subject.room_id = nil
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::NotNullViolation)
         expect(Tree.exists?(subject.id)).to be_falsey
