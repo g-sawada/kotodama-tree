@@ -76,8 +76,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_27_055410) do
     t.string "name", null: false
     t.integer "level", default: 1, null: false
     t.integer "exp", default: 0, null: false
-    t.integer "max_create", null: false
-    t.integer "max_soul", null: false
+    t.integer "max_create_souls", null: false
+    t.integer "max_carry_souls", null: false
     t.string "provider", null: false
     t.string "provider_id", null: false
     t.datetime "created_at", null: false
