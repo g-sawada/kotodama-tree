@@ -43,6 +43,9 @@ front/.vercel
 front/*.tsbuildinfo
 front/next-env.d.ts
 
+# json-server
+front/json-server/db.json
+
 ######## Backend ########
 
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
