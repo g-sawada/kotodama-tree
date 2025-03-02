@@ -46,17 +46,17 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'max_createに関する制約' do
+    context 'max_create_soulsに関する制約' do
       it 'nilの場合に保存できないこと' do
-        subject.max_create = nil
+        subject.max_create_souls = nil
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::NotNullViolation)
         expect(User.exists?(subject.id)).to be_falsey
       end
     end
 
-    context 'max_soulに関する制約' do
+    context 'max_carry_soulsに関する制約' do
       it 'nilの場合に保存できないこと' do
-        subject.max_soul = nil
+        subject.max_carry_souls = nil
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::NotNullViolation)
         expect(User.exists?(subject.id)).to be_falsey
       end
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
       end
 
       it '他ユーザーとprovider, provider_idが重複しないこと' do
-        User.create(name: 'Test User', provider: 'google', provider_id: 'test123', level: 1, exp: 0, max_create: 3, max_soul: 3)
+        User.create(name: 'Test User', provider: 'google', provider_id: 'test123', level: 1, exp: 0, max_create_souls: 3, max_carry_souls: 3)
         subject.provider_id = 'test123'
         expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
         expect(User.exists?(subject.id)).to be_falsey

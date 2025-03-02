@@ -60,16 +60,16 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'max_createに関するバリデーション' do
+    context 'max_create_soulsに関するバリデーション' do
       it '空の場合は無効' do
-        subject.max_create = ''
+        subject.max_create_souls = ''
         expect(subject).to be_invalid
       end
     end
 
-    context 'max_soulに関するバリデーション' do
+    context 'max_carry_soulsに関するバリデーション' do
       it '空の場合は無効' do
-        subject.max_soul = ''
+        subject.max_carry_souls = ''
         expect(subject).to be_invalid
       end
     end

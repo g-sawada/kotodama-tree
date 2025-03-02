@@ -3,6 +3,16 @@ require 'rails_helper'
 RSpec.describe Soul, type: :model do
   subject { build(:soul) }
 
+  let(:creator) { create(:user) }
+  let(:home_tree) { create(:tree) }
+
+  before do
+    subject.creator = creator
+    subject.owner = creator
+    subject.home_tree = home_tree
+    subject.captured_tree = home_tree
+  end
+
   describe 'バリデーション' do
     context 'contentに関するバリデーション' do
       it '空の場合は無効' do
@@ -49,7 +59,7 @@ RSpec.describe Soul, type: :model do
         expect(subject).to be_invalid
       end
 
-      it '少数の場合は無効' do
+      it '小数の場合は無効' do
         subject.harvested_count = 1.2
         expect(subject).to be_invalid
       end

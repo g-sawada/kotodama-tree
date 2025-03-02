@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe Tree, type: :model do
   subject { build(:tree) }
 
+  let(:room) { create(:room) }
+
+  before do
+    subject.user = room.user
+    subject.room = room
+  end
+
   describe 'バリデーション' do
     context 'levelに関するバリデーション' do
       it '空の場合は無効' do
@@ -20,7 +27,7 @@ RSpec.describe Tree, type: :model do
         expect(subject).to be_invalid
       end
 
-      it '少数の場合は無効' do
+      it '小数の場合は無効' do
         subject.level = 1.2
         expect(subject).to be_invalid
       end
@@ -42,7 +49,7 @@ RSpec.describe Tree, type: :model do
         expect(subject).to be_invalid
       end
 
-      it '少数の場合は無効' do
+      it '小数の場合は無効' do
         subject.exp = 1.2
         expect(subject).to be_invalid
       end

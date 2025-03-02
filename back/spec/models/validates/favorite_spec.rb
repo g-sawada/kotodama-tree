@@ -3,6 +3,14 @@ require 'rails_helper'
 RSpec.describe Favorite, type: :model do
   subject { build_stubbed(:favorite) }
 
+  let(:user) { create(:user) }
+  let(:soul) { create(:soul) }
+
+  before do
+    subject.user = user
+    subject.soul = soul
+  end
+
   describe 'バリデーション' do
     context '必須項目の値が正常に入っている場合' do
       it '有効であること' do
