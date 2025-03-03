@@ -1,17 +1,31 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image"
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "./SoulDetailCard";
 import SoulCardList from "./SoulCardList";
+import { useRouter } from 'next/navigation'
 
-export default function HoldingSoulsModalController() {
+/**
+ * 手持ちのコトダマ一覧用のモーダルコントローラー
+ * 
+ * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
+ * 
+ * 
+ */
+
+type Props = {
+  isRoomOwner?: boolean;
+};
+
+export default function HoldingSoulsModalController({ isRoomOwner=false }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
+  const router = useRouter();
 
   // モーダルの開閉制御
   const openModal = async () => {
@@ -28,7 +42,7 @@ export default function HoldingSoulsModalController() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedSoul(null);    // 選択中のコトダマをリセット
+    setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
   // Modalボタンをクリックした時の処理
@@ -61,18 +75,37 @@ export default function HoldingSoulsModalController() {
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <h1 className="text-center text-xl font-bold">
-            {selectedSoul ? "コトダマ詳細" : "コトダマ一覧"}
+            {selectedSoul ? "コトダマ詳細" : "手持ちのコトダマ一覧"}
           </h1>
           <div className="my-4">
             {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
             {selectedSoul ? (
-              <SoulDetailCard soul={selectedSoul} setSelectedSoul={setSelectedSoul} />
+              <SoulDetailCard
+                soul={selectedSoul}
+                setSelectedSoul={setSelectedSoul}
+              />
             ) : (
-              <SoulCardList souls={souls} setSelectedSoul={setSelectedSoul} />
+              <>
+                <SoulCardList souls={souls} setSelectedSoul={setSelectedSoul} />
+                {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
+                {isRoomOwner && (
+                  <div className="flex justify-center my-4">
+                    <Button
+                      text="コトダマを捧げる"
+                      handleClick={() => router.push('#')}
+                      buttonType="cancel"
+                    />
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className="flex justify-center my-4">
-            <Button text="閉じる" handleClick={handleClickCloseButton} buttonType="cancel" />
+            <Button
+              text="閉じる"
+              handleClick={handleClickCloseButton}
+              buttonType="cancel"
+            />
           </div>
         </FullSizeModal>
       </div>

@@ -15,7 +15,7 @@ export default function SoulDetailCard({ soul, setSelectedSoul }: Props) {
     <>
       <div className="w-full rounded overflow-hidden shadow-lg bg-cyan-300">
         <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{soul.content}</div>
+          <div className="font-bold text-gray-700 text-xl mb-2">{soul.content}</div>
           <p className="text-gray-700 text-md">by 名無しさん</p>
         </div>
       </div>

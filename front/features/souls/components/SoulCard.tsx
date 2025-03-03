@@ -13,7 +13,8 @@ export default function SoulCard({ soul, setSelectedSoul }: Props) {
         onClick={() => setSelectedSoul(soul)}
       >
         <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{soul.content}</div>
+          <div className="font-bold text-gray-700 text-xl mb-2">{soul.content}</div>
+          <p className="text-gray-700 text-md">by 名無しさん</p>
         </div>
       </div>
     </>
