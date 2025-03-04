@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Soul } from "@/types/soul";
+import EmptyHeartButton from "../EmptyHeartButton";
 
 type Props = {
   soul: Soul;
@@ -10,7 +10,7 @@ export default function SoulCard({ soul, setSelectedSoul }: Props) {
   return (
     <>
       <div
-        className="w-full rounded-lg overflow-hidden shadow-[0px_0px_15px_5px_#66e8f9] bg-cyan-300 hover:cursor-pointer"
+        className="w-full rounded-lg overflow-hidden shadow-[0px_0px_5px_2px_#66e8f9] bg-cyan-300 hover:cursor-pointer"
         onClick={() => setSelectedSoul(soul)}
       >
         <div className="px-6 py-4">
@@ -19,12 +19,7 @@ export default function SoulCard({ soul, setSelectedSoul }: Props) {
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700 text-md">by 名無しさん</p>
-            <Image
-              src="icon_images/heart.svg"
-              alt="heart"
-              width={20}
-              height={20}
-            />
+            <EmptyHeartButton />
           </div>
         </div>
       </div>

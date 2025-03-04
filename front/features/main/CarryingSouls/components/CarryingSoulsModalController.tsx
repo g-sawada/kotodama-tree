@@ -1,27 +1,29 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
-import SoulDetailCard from "@/components/ui/SoulDetailCard";
-import SoulCardList from "@/components/ui/SoulCardList";
+import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
+import SoulCardList from "@/components/ui/SoulCard/SoulCardList";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
- * 
+ *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
- * 
- * 
+ *
+ *
  */
 
 type Props = {
   isRoomOwner?: boolean;
 };
 
-export default function CarryingSoulsModalController({ isRoomOwner=false }: Props) {
+export default function CarryingSoulsModalController({
+  isRoomOwner = false,
+}: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
@@ -91,7 +93,7 @@ export default function CarryingSoulsModalController({ isRoomOwner=false }: Prop
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push('#')}
+                      handleClick={() => router.push("#")}
                       buttonType="cancel"
                     />
                   </div>
