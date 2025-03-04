@@ -1,6 +1,6 @@
 import Image from "next/image"
-import Button from "@/components/ui/Button";
 import { Soul } from "@/types/soul";
+import Button from "./Button";
 
 type Props = {
   soul: Soul;

@@ -1,5 +1,5 @@
 import Image from "next/image"
-import HoldingSoulsModalController from "@/features/souls/components/HoldingSoulsModalController";
+import CarryingSoulsModalController from "@/features/main/CarryingSouls/components/CarryingSoulsModalController";
 
 export default function Footer() {
   return (
@@ -13,7 +13,7 @@ export default function Footer() {
         <span className="text-[0.5rem] btm-nav-label">自分のキ</span>
       </a>
       {/* 自分のキにいるときのモーダル確認のため、isRoomOwnerにtrueを設定 */}
-      <HoldingSoulsModalController isRoomOwner={true}/>
+      <CarryingSoulsModalController isRoomOwner={true}/>
     </footer>
   );
 }

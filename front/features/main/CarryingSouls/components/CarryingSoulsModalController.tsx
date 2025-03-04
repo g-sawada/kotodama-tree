@@ -6,8 +6,8 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
-import SoulDetailCard from "./SoulDetailCard";
-import SoulCardList from "./SoulCardList";
+import SoulDetailCard from "@/components/ui/SoulDetailCard";
+import SoulCardList from "@/components/ui/SoulCardList";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -21,7 +21,7 @@ type Props = {
   isRoomOwner?: boolean;
 };
 
-export default function HoldingSoulsModalController({ isRoomOwner=false }: Props) {
+export default function CarryingSoulsModalController({ isRoomOwner=false }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
