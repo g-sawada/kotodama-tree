@@ -1,6 +1,6 @@
+import React from "react";
 import Button from "@/components/ui/Button";
 import DemoModalController from "@/features/demo/components/DemoModalController";
-import React from "react";
 
 export default function Home() {
   
