@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "./SoulDetailCard";
 import SoulCardList from "./SoulCardList";
-import { useRouter } from 'next/navigation'
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -58,7 +58,6 @@ export default function HoldingSoulsModalController({ isRoomOwner=false }: Props
   return (
     <>
       <button
-        text="Open Modal"
         onClick={handleClickModalButton}
         className="flex flex-col items-center flex-1 py-4"
       >
