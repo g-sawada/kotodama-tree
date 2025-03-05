@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@/components/ui/Button";
 import DemoModalController from "@/features/demo/components/DemoModalController";
+import SignInButton from "@/components/ui/authButton/SignInButton";
 
 export default function Home() {
   
@@ -22,6 +23,10 @@ export default function Home() {
           // inProgress={true}
           // isDisabled={true}
         />
+      </div>
+
+      <div className="flex mx-auto justify-center items-center gap-4">
+        <SignInButton />
       </div>
 
       <div className="flex justify-center items-center my-10">
