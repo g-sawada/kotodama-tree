@@ -22,7 +22,7 @@ export default function Portal({ roomUuid, pathway }: Props) {
   const Component = componentMap[figureType]
 
   return (
-    <Link href="/" width="30" height="30" className="inline">
+    <Link href="/" width="30" height="30" className="inline-block">
     <Component color={color} />
   </Link>
 );
