@@ -1,3 +1,5 @@
+import SignOutButton from "../ui/authButton/SignOutButton";
+
 export default async function Header () {
   return (
     <nav className="flex justify-between w-full border-b px-6">
@@ -6,7 +8,7 @@ export default async function Header () {
       </div>
       <div className="flex items-center justify-center h-16 gap-4">
         <a href="/login" className="text-sm">遊び方</a>
-        <a href="/register" className="text-sm">ログアウト</a>
+        <SignOutButton />
       </div>
     </nav>
   )
