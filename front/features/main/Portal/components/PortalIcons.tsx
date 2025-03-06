@@ -5,7 +5,7 @@ type Props = {
 };
 
 // filled Triangle
-export function Type1({ color }: Props) {
+export function PI_FilledTriangle({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export function Type1({ color }: Props) {
 }
 
 // filled Star
-export function Type2({ color }: Props) {
+export function PI_FilledStar({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export function Type2({ color }: Props) {
 }
 
 // filled Pentagon
-export function Type3({ color }: Props) {
+export function PI_FilledPentagon({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,23 +1,23 @@
 import React from "react";
 import Link from "next/link";
 import { Pathway } from "@/types/pathway";
-import { Type1, Type2, Type3 } from "./PortalIcons";
+import { PI_FilledTriangle, PI_FilledStar, PI_FilledPentagon } from "./PortalIcons";
 import "@/styles/embla.css";
 
 type Props = {
-  roomUuid: string;
+  thisRoomUuid: string;
   pathway: Pathway;
 };
 
 const componentMap: { [key: number]: React.FC } = {
-  1: Type1,
-  2: Type2,
-  3: Type3,
+  1: PI_FilledTriangle,
+  2: PI_FilledStar,
+  3: PI_FilledPentagon,
 };
 
-export default function Portal({ roomUuid, pathway }: Props) {
+export default function Portal({ thisRoomUuid, pathway }: Props) {
   const hRef =
-    roomUuid === pathway.room_1_id ? pathway.room_2_id : pathway.room_1_id;
+  thisRoomUuid === pathway.room_1_id ? pathway.room_2_id : pathway.room_1_id;
   console.log(hRef) // 対象のroom_idが取得できているか確認用
   const figureType = pathway.figuretype;
   const color = pathway.color;

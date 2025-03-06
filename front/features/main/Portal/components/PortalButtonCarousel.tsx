@@ -6,7 +6,7 @@ import {
   PrevButton,
   NextButton,
   usePrevNextButtons,
-} from "./EmblaCarouselArrowButtons";
+} from "./PortalButtonCarouselArrowButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import "@/styles/embla.css";
 
@@ -15,7 +15,7 @@ type Props = {
   options?: EmblaOptionsType;
 };
 
-export default function EmblaCarousel({ children, options }: Props) {
+export default function PortalButtonCarousel({ children, options }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const {
     prevBtnDisabled,
