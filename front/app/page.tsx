@@ -25,8 +25,10 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex mx-auto justify-center items-center gap-4">
-        <SignInButton />
+      <div className="flex flex-col mx-auto justify-center items-center gap-4">
+        <SignInButton provider="github"/>
+        <SignInButton provider="google"/>
+        <SignInButton provider="x"/>
       </div>
 
       <div className="flex justify-center items-center my-10">
