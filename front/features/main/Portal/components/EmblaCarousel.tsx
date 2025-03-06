@@ -10,15 +10,13 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import "@/styles/embla.css";
 
-type PropType = {
+type Props = {
   children: React.ReactNode;
   options?: EmblaOptionsType;
 };
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { children, options } = props;
+export default function EmblaCarousel({ children, options }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
-
   const {
     prevBtnDisabled,
     nextBtnDisabled,
@@ -36,6 +34,4 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
     </section>
   );
-};
-
-export default EmblaCarousel;
+}
