@@ -5,7 +5,7 @@ type Props = {
 };
 
 // filled Triangle
-export function Type1({ color }: Props): React.FC {
+export function Type1({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export function Type1({ color }: Props): React.FC {
 }
 
 // filled Star
-export function Type2({ color }: Props): React.FC {
+export function Type2({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export function Type2({ color }: Props): React.FC {
 }
 
 // filled Pentagon
-export function Type3({ color }: Props): React.FC {
+export function Type3({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
