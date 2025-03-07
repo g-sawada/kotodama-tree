@@ -4,8 +4,8 @@ type Props = {
   color: string;
 };
 
-// filled Triangle
-export function PI_FilledTriangle({ color }: Props) {
+//  Triangle
+export function PI_Triangle({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +19,8 @@ export function PI_FilledTriangle({ color }: Props) {
   );
 }
 
-// filled Star
-export function PI_FilledStar({ color }: Props) {
+//  Star
+export function PI_Star({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -34,8 +34,8 @@ export function PI_FilledStar({ color }: Props) {
   );
 }
 
-// filled Pentagon
-export function PI_FilledPentagon({ color }: Props) {
+//  Pentagon
+export function PI_Pentagon({ color }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
