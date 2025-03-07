@@ -2,9 +2,11 @@ import React from "react";
 import Button from "@/components/ui/Button";
 import DemoModalController from "@/features/demo/components/DemoModalController";
 import SignInButton from "@/components/ui/authButton/SignInButton";
+import { auth } from "@/auth";
 
-export default function Home() {
-  
+export default async function Home() {
+  const session = await auth();
+
   // ボタンテスト用関数（不要になったら削除）
   const handleButtonClick = async () => {
     "use server";
@@ -15,7 +17,7 @@ export default function Home() {
   return (
     <>
       <div className="text-4xl text-center">ここはHomeページです</div>
-      <div className="flex max-w-32 mx-auto justify-center items-center h-60 gap-4">
+      <div className="flex max-w-32 mx-auto justify-center items-center h-40 gap-4">
         <Button 
           text="ボタン"
           buttonType="ok"
@@ -23,6 +25,10 @@ export default function Home() {
           // inProgress={true}
           // isDisabled={true}
         />
+      </div>
+      <div className="my-4">
+        <p className="flex justify-center font-bold">current_user session</p>
+        <pre className="flex justify-center text-sm">{JSON.stringify(session, null, 2)}</pre>
       </div>
 
       <div className="flex flex-col mx-auto justify-center items-center gap-4">
