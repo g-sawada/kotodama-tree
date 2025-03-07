@@ -1,13 +1,13 @@
 import { signIn } from "@/auth";
 import { GitHubIcon, GoogleIcon, XIcon } from "./ProviderIcons";
 
-type Provider = "github" | "google" | "x";
+type Provider = "github" | "google" | "twitter";
 
 // プロバイダーごとのテキストとアイコンを定義
 const providerData: Record<Provider, { text: string; Icon: React.FC }> = {
   github: { text: "GitHub", Icon: GitHubIcon },
   google: { text: "Google", Icon: GoogleIcon },
-  x: { text: "X", Icon: XIcon },
+  twitter: { text: "X", Icon: XIcon },
 };
 
 export default function SignInButton({provider}: {provider: Provider}) {

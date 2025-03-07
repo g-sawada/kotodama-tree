@@ -34,7 +34,7 @@ export default async function Home() {
       <div className="flex flex-col mx-auto justify-center items-center gap-4">
         <SignInButton provider="github"/>
         <SignInButton provider="google"/>
-        <SignInButton provider="x"/>
+        <SignInButton provider="twitter"/>
       </div>
 
       <div className="flex justify-center items-center my-10">
