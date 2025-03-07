@@ -1,7 +1,7 @@
 import Footer from "@/components/layout/Footer";
-import React from "react";
+import PortalButtonComponent from "@/features/main/Portal/components/PortalButtonComponent";
 
-export default function MockPage() {
+export default async function MockPage() {
   return (
     <>
       <div className="flex-auto">
@@ -9,6 +9,7 @@ export default function MockPage() {
         <div className="flex w-full justify-center items-center h-60 gap-4">
           キの画像
         </div>
+        <PortalButtonComponent />
       </div>
       <Footer />
     </>

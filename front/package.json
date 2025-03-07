@@ -10,6 +10,7 @@
     "json-server": "json-server --watch json-server/db.json --host front --port 3001 --routes json-server/routes.json"
   },
   "dependencies": {
+    "embla-carousel-react": "^8.5.2",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
