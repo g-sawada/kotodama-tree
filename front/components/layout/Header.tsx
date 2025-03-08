@@ -5,6 +5,7 @@ export default async function Header () {
         <p className="text-xl font-bold">コトダマプロジェクト</p>
       </div>
       <div className="flex items-center justify-center h-16 gap-4">
+        <a href="mypage" className="text-sm">マイページ</a>
         <a href="/login" className="text-sm">遊び方</a>
         <a href="/register" className="text-sm">ログアウト</a>
       </div>
