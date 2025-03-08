@@ -1,3 +1,4 @@
+import DemoResizeModalController from "@/features/demo/components/DemoResizeModalController";
 import SignOutButton from "../ui/authButton/SignOutButton";
 
 export default async function Header () {
@@ -7,6 +8,7 @@ export default async function Header () {
         <p className="text-xl font-bold">コトダマプロジェクト</p>
       </div>
       <div className="flex items-center justify-center h-16 gap-4">
+        <DemoResizeModalController />
         <a href="/login" className="text-sm">遊び方</a>
         <SignOutButton />
       </div>
