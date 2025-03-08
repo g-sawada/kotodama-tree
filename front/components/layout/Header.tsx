@@ -1,4 +1,5 @@
 import DemoResizeModalController from "@/features/demo/components/DemoResizeModalController";
+import SignOutButton from "../ui/authButton/SignOutButton";
 
 export default async function Header () {
   return (
@@ -9,7 +10,7 @@ export default async function Header () {
       <div className="flex items-center justify-center h-16 gap-4">
         <DemoResizeModalController />
         <a href="/login" className="text-sm">遊び方</a>
-        <a href="/register" className="text-sm">ログアウト</a>
+        <SignOutButton />
       </div>
     </nav>
   )
