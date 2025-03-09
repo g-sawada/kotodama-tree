@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DotGothic16 } from "next/font/google"
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 
 export const metadata: Metadata = {
   title: "コトダマプロジェクト（仮）",
