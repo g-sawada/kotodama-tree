@@ -1,8 +1,8 @@
 class Soul < ApplicationRecord
-  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id', optional: true
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
-  belongs_to :home_tree, class_name: 'Tree', foreign_key: 'home_tree_id'
-  belongs_to :captured_tree, class_name: 'Tree', foreign_key: 'captured_tree_id'
+  belongs_to :home_tree, class_name: 'Tree', foreign_key: 'home_tree_id', optional: true
+  belongs_to :captured_tree, class_name: 'Tree', foreign_key: 'captured_tree_id', optional: true
   has_many :favorites, dependent: :destroy
 
   with_options presence: true do
