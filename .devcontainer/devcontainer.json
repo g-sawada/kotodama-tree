@@ -10,7 +10,11 @@
       },
       "extensions": [
         "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "oderwat.indent-rainbow",
+        "bradlc.vscode-tailwindcss",
+        "ckolkman.vscode-postgres",
+        "rangav.vscode-thunder-client"
       ]
     }
   },
