@@ -5,4 +5,36 @@ class Room < ApplicationRecord
   has_many :room_2_pathways, class_name: 'Pathway', foreign_key: 'room_2_id', dependent: :destroy
 
   validates :user_id, uniqueness: true
+
+  # 指定したroomとpathwayを作成
+  def create_pathway_with!(room)
+    # UNIQUEのため，2つのroom_idをソートしてから保存
+    smaller_room_id, larger_room_id = [self.id, room.id].sort
+
+    Pathway.create!(
+      room_1_id: smaller_room_id,
+      room_2_id: larger_room_id
+    )
+  end
+
+  # ランダムなroomとpathwayを作成
+  def create_pathway_random!
+    other_rooms = Room.where.not(id: self.id)
+    raise StandardError, "他のroomを取得できません" if other_rooms.empty?
+
+    # UNIQUE制約を満たす場合のみ保存し，満たさない場合はloop
+    loop do
+      other_room = other_rooms.sample
+
+      # UNIQUEのため，2つのroom_idをソート
+      smaller_room_id, larger_room_id = [self.id, other_room.id].sort
+      pathway = Pathway.new(room_1_id: smaller_room_id, room_2_id: larger_room_id)
+      
+      if pathway.valid?
+        pathway.save!
+        break
+      end
+      puts "pathwayは重複しているためloopします: #{pathway.errors.full_messages}"
+    end
+  end
 end
