@@ -34,7 +34,7 @@ class Room < ApplicationRecord
         pathway.save!
         break
       end
-      puts "pathwayは重複しているためloopします: #{pathway.errors.full_messages}"
+      # puts "pathwayは重複しているためloopします: #{pathway.errors.full_messages}"
     end
   end
 end
