@@ -25,7 +25,7 @@ export default function PortalButtonCarousel({ children, options }: Props) {
   } = usePrevNextButtons(emblaApi);
 
   return (
-    <section className="embla">
+    <section className="embla z-30">
       <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">{children}</div>
