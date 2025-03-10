@@ -12,12 +12,12 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /api/v1/users
   def create
-    # トランザクションでUser, Room, Treeを同時に作成
+    # トランザクションでUser, Room, Pathway, Treeを同時に作成
     result = ActiveRecord::Base.transaction do
       user = User.create!(user_params) # その他のカラムのデフォルト値はDBまたはモデルで設定
       room = user.create_room!
+      room.create_pathway_random!
       user.create_tree!(room_id: room.id, image: 'tree1.png')
-      
       user  # 成功時にuserを返す
     end
 
