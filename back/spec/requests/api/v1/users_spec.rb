@@ -68,6 +68,11 @@ RSpec.describe "Api::V1::Users", type: :request do
         expect(User.count).to eq(@default_user_count + 1)
       end
 
+      it "作成Userが存在すること" do
+        user = User.find_by(name: "test_user")
+        expect(user).to be_present
+      end
+
       it "作成UserのRoomが存在すること" do
         json = JSON.parse(response.body)
         user = User.find(json['id'])
