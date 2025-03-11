@@ -73,6 +73,14 @@ RSpec.describe "Api::V1::Users", type: :request do
         expect(user).to be_present
       end
 
+      it "作成Userのname, provider, provider_idがパラメータと一致すること" do
+        json = JSON.parse(response.body)
+        user = User.find(json['id'])
+        expect(user.name).to eq("test_user")
+        expect(user.provider).to eq("github")
+        expect(user.provider_id).to eq("111111111")
+      end
+
       it "作成UserのRoomが存在すること" do
         json = JSON.parse(response.body)
         user = User.find(json['id'])
@@ -122,6 +130,7 @@ RSpec.describe "Api::V1::Users", type: :request do
 
     context '既存データ（room）が存在しない場合' do
       before(:all) do
+        # 既存データを全て削除
         ActiveRecord::Tasks::DatabaseTasks.truncate_all
         @default_user_count = User.count
         @default_room_count = Room.count
