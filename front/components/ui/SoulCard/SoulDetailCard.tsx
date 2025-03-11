@@ -5,9 +5,10 @@ import EmptyHeartButton from "../EmptyHeartButton";
 type Props = {
   soul: Soul;
   setSelectedSoul: (soul: Soul | null) => void;
+  treeId?: string;
 };
 
-export default function SoulDetailCard({ soul, setSelectedSoul }: Props) {
+export default function SoulDetailCard({ soul, setSelectedSoul, treeId }: Props) {
   const backToList = () => {
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
@@ -30,7 +31,7 @@ export default function SoulDetailCard({ soul, setSelectedSoul }: Props) {
           </div>
         </div>
       </div>
-      {!soul.exp && (
+      {!soul.exp && treeId && (
         <div className="flex justify-center my-4">
           <Button
             text="しゅうかくする"

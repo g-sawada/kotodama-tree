@@ -22,10 +22,12 @@ import {
 
 type Props = {
   isRoomOwner?: boolean;
+  treeId: string;
 };
 
 export default function TreeSoulsModalController({
   isRoomOwner = false,
+  treeId,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
@@ -35,12 +37,11 @@ export default function TreeSoulsModalController({
   // モーダルの開閉制御
   const openModal = async () => {
     setIsModalOpen(true);
-    const captured_tree_id = "ABC";
     // コトダマ一覧データを取得し，stateにセット
     try {
       const souls: Soul[] = isRoomOwner
-        ? await getSoulsWithExpByCapturedTreeIdAction(captured_tree_id)
-        : await getSoulsByCapturedTreeIdAction(captured_tree_id);
+        ? await getSoulsWithExpByCapturedTreeIdAction(treeId)
+        : await getSoulsByCapturedTreeIdAction(treeId);
       setSouls(souls);
     } catch (error) {
       console.error(error);
@@ -82,6 +83,7 @@ export default function TreeSoulsModalController({
               <SoulDetailCard
                 soul={selectedSoul}
                 setSelectedSoul={setSelectedSoul}
+                treeId={treeId}
               />
             ) : (
               <>
