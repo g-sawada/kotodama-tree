@@ -17,6 +17,11 @@ export default function SoulCard({ soul, setSelectedSoul }: Props) {
           <div className="font-bold text-gray-700 text-xl mb-2">
             {soul.content}
           </div>
+          {soul.exp && (
+            <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2">
+              exp: {soul.exp}
+            </p>
+          )}
           <div className="flex justify-between">
             <p className="text-gray-700 text-md">by 名無しさん</p>
             <EmptyHeartButton />

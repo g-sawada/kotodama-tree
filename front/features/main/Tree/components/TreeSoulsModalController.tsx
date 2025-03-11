@@ -7,7 +7,10 @@ import { Soul } from "@/types/soul";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import SoulCardList from "@/components/ui/SoulCard/SoulCardList";
 import Tree from "@/components/ui/Tree";
-import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
+import {
+  getSoulsByCapturedTreeIdAction,
+  getSoulsWithExpByCapturedTreeIdAction,
+} from "@/lib/actions/getSouls";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -35,7 +38,9 @@ export default function TreeSoulsModalController({
     const captured_tree_id = "ABC";
     // コトダマ一覧データを取得し，stateにセット
     try {
-      const souls: Soul[] = await getSoulsByCapturedTreeIdAction(captured_tree_id);
+      const souls: Soul[] = isRoomOwner
+        ? await getSoulsWithExpByCapturedTreeIdAction(captured_tree_id)
+        : await getSoulsByCapturedTreeIdAction(captured_tree_id);
       setSouls(souls);
     } catch (error) {
       console.error(error);
@@ -61,10 +66,9 @@ export default function TreeSoulsModalController({
     <>
       <button
         onClick={handleClickModalButton}
-        className="flex flex-col items-center flex-1 py-4"
+        className="flex flex-col items-center flex-1 py-4 my-4 md:my-0"
       >
         <Tree />
-        
       </button>
 
       <div>
@@ -88,7 +92,7 @@ export default function TreeSoulsModalController({
                     <Button
                       text="コトダマを捧げる"
                       handleClick={() => router.push("#")}
-                      buttonType="cancel"
+                      buttonType="ok"
                     />
                   </div>
                 )}
