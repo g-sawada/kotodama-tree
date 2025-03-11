@@ -20,7 +20,8 @@ class Room < ApplicationRecord
   # ランダムなroomとpathwayを作成
   def create_pathway_random!
     other_rooms = Room.where.not(id: self.id)
-    raise StandardError, "他のroomを取得できません" if other_rooms.empty?
+    # 他のroomが存在しない場合は例外を発生させる
+    raise StandardError, "他のroomを取得できませんでした。" if other_rooms.empty?
 
     # UNIQUE制約を満たす場合のみ保存し，満たさない場合はloop
     loop do
