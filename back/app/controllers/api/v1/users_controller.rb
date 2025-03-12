@@ -10,6 +10,11 @@ class Api::V1::UsersController < ApplicationController
   def show
   end
 
+  # GET /api/v1/users/find_by_provider
+  def find_by_provider
+    return {}, status: :ok
+  end
+
   # POST /api/v1/users
   def create
     begin
