@@ -41,5 +41,8 @@ module App
         routing_specs: false
     end
 
+    # test環境でのホスト名を設定
+    config.hosts << ".example.com"
+
   end
 end
