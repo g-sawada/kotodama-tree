@@ -14,4 +14,14 @@ class User < ApplicationRecord
     validates :provider
     validates :provider_id, uniqueness: { scope: :provider }
   end
+
+  # インスタンス作成時にデフォルト値を設定
+  after_initialize :set_default_values
+
+  private
+
+  def set_default_values
+    self.max_create_souls ||= 3
+    self.max_carry_souls  ||= 3
+  end
 end

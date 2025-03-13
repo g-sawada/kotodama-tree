@@ -6,4 +6,14 @@ class Pathway < ApplicationRecord
     validates :room_1_id, uniqueness: { scope: :room_2_id }
     validates :room_2_id
   end
+
+  # インスタンス作成時にデフォルト値を設定
+  after_initialize :set_default_values
+
+  private
+
+  def set_default_values
+    self.figuretype ||= 1
+    self.color  ||= "#000000"
+  end
 end

@@ -1,6 +1,9 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+
+# 初期設定は ||= 'test' だが，compose.ymlでdevelopmentに設定しているため，明示的に上書き
+ENV['RAILS_ENV'] = 'test'
+
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -37,6 +40,15 @@ end
 #ActiveRecord::Base.logger = Logger.new($stdout) 
 
 RSpec.configure do |config|
+  config.before(:suite) do
+    env = Rails.env
+    db_name = ActiveRecord::Base.connection.current_database
+    puts "==========================================="
+    puts "  Running tests in #{env} environment"
+    puts "  Connected to database: #{db_name}"
+    puts "==========================================="
+  end
+  
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
