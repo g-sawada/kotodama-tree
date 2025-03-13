@@ -43,6 +43,69 @@ RSpec.describe "Api::V1::Users", type: :request do
   #   end
   # end
 
+  describe "GET /find_by_provider" do
+    # userを作成
+    let!(:user) { create(:user) }
+
+    context '有効なprovider, provider_idの場合' do
+      it "ステータス200が返ること" do
+        get "/api/v1/users/find_by_provider?provider=#{user.provider}&provider_id=#{user.provider_id}"
+        expect(response).to have_http_status(200)
+      end
+
+      it "user.idのみ取得できること" do
+        get "/api/v1/users/find_by_provider?provider=#{user.provider}&provider_id=#{user.provider_id}"
+        json = JSON.parse(response.body)
+        expect(json['data']['id']).to eq(user.id)
+        expect(json['data']['name']).to be_nil
+        expect(json['data']['level']).to be_nil
+        expect(json['data']['exp']).to be_nil
+        expect(json['data']['max_create_souls']).to be_nil
+        expect(json['data']['max_carry_souls']).to be_nil
+        expect(json['data']['provider']).to be_nil
+        expect(json['data']['provider_id']).to be_nil
+        expect(json['data']['created_at']).to be_nil
+        expect(json['data']['updated_at']).to be_nil
+      end
+    end
+
+    context 'パラメータproviderが空の場合' do
+      it "ステータス400(Bad Request)が返ること" do
+        get "/api/v1/users/find_by_provider?provider=&provider_id=#{user.provider_id}"
+        expect(response).to have_http_status(400)
+      end
+
+      it "dataがnilであること" do
+        get "/api/v1/users/find_by_provider?provider=&provider_id=#{user.provider_id}"
+        expect(JSON.parse(response.body)['data']).to be_nil
+      end
+    end
+
+    context 'パラメータprovider_idが空の場合' do
+      it "ステータス400(Bad Request)が返ること" do
+        get "/api/v1/users/find_by_provider?provider=#{user.provider}&provider_id="
+        expect(response).to have_http_status(400)
+      end
+
+      it "dataがnilであること" do
+        get "/api/v1/users/find_by_provider?provider=#{user.provider}&provider_id="
+        expect(JSON.parse(response.body)['data']).to be_nil
+      end
+    end
+
+    context 'ユーザーが見つからない場合' do
+      it "ステータス404(Not Found)が返ること" do
+        get "/api/v1/users/find_by_provider?provider=google&provider_id=hogehogehoge"
+        expect(response).to have_http_status(404)
+      end
+
+      it "dataがnilであること" do
+        get "/api/v1/users/find_by_provider?provider=google&provider_id=hogehogehoge"
+        expect(JSON.parse(response.body)['data']).to be_nil
+      end
+    end
+  end
+
   describe "GET /create" do
     context '有効なパラメータの場合' do
       before(:all) do
