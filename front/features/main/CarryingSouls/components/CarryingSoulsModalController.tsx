@@ -8,6 +8,7 @@ import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import CarryingSoulCardList from "../CarryingSoulCardList";
+import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -76,7 +77,12 @@ export default function CarryingSoulsModalController({
             {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
             {selectedSoul ? (
               <>
-                <SoulDetailCard soul={selectedSoul} />
+                <SoulDetailCard soul={selectedSoul}>
+                  <div className="flex justify-between">
+                    <p className="text-gray-700 text-md">by 名無しさん</p>
+                    <EmptyHeartButton />
+                  </div>
+                </SoulDetailCard>
                 <div className="flex justify-center my-4">
                   <Button
                     text="一覧にもどる"

@@ -1,5 +1,4 @@
 import { Soul } from "@/types/soul";
-import EmptyHeartButton from "../EmptyHeartButton";
 
 type Props = {
   soul: Soul;
@@ -15,10 +14,6 @@ export default function SoulDetailCard({ soul, children }: Props) {
             {soul.content}
           </div>
           {children}
-          <div className="flex justify-between">
-            <p className="text-gray-700 text-md">by 名無しさん</p>
-            <EmptyHeartButton />
-          </div>
         </div>
       </div>
     </>

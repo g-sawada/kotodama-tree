@@ -8,6 +8,7 @@ import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import Tree from "@/components/ui/Tree";
 import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
+import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -76,6 +77,10 @@ export default function TreeSoulsModalController({
                       exp: {selectedSoul.exp}
                     </p>
                   )}
+                  <div className="flex justify-between">
+                    <p className="text-gray-700 text-md">by 名無しさん</p>
+                    <EmptyHeartButton />
+                  </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (
                   <div className="flex justify-center my-4">
