@@ -12,7 +12,27 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /api/v1/users/find_by_provider
   def find_by_provider
-    return {}, status: :ok
+    begin
+      # providerとprovider_idを指定してユーザーを取得
+      provider = params[:provider]
+      provider_id = params[:provider_id]
+
+      if provider.blank? || provider_id.blank?
+        return render json: { error: 'provider と provider_id は必須です' }, status: :bad_request
+      end
+
+      user = User.find_by(provider: provider, provider_id: provider_id)
+
+      if user.nil?
+        return render json: { error: 'ユーザーが見つかりません' }, status: :not_found
+      else
+        # user.idのみ返す
+        user = user.slice(:id)
+        render json: {data: user}, status: :ok
+      end
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
   end
 
   # POST /api/v1/users
