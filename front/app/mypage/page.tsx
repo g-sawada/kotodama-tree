@@ -13,6 +13,7 @@ export default async function MyPage() {
   const user: User = await getUsersIdAction(useruuId);
   const souls: Soul[] = await getUserBySoulCreatorIdAction(useruuId);
   const tree: Tree = await getUserByTreeIdAction(useruuId);
+  console.log(tree.image)
 
   return (
     <>
@@ -22,7 +23,7 @@ export default async function MyPage() {
         <div className="text-center">{user.name}</div>
       </div>
       <div className="row-span-2 border border-white rounded-lg p-2 grid grid-cols-12">
-        <img src="/キ.svg" className="h-40 w-27 col-span-5"></img>
+        <img src={`/${tree.image}`} className="h-40 w-27 col-span-5"></img>
         <div className="grid grid-rows-3 col-span-7">
           <div className="text-end rows-span-2">キのようす</div>
           <div className="text-end rows-span-1">Lv:{tree.level}
