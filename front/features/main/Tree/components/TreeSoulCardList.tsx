@@ -14,6 +14,7 @@ export default function TreeSoulCardList({ souls, setSelectedSoul }: Props) {
   // const { data: session } = useSession() セッション情報もここで取得予定
   // 上記URL上のroom_idに紐づくuser_idとsession情報のuser_idが一致するか判定し、displayExpにbooleanを格納
   const displayExp = true;
+
   return (
     <>
       <div className="mx-auto w-full">
@@ -22,7 +23,8 @@ export default function TreeSoulCardList({ souls, setSelectedSoul }: Props) {
             <SoulCard
               key={soul.id}
               soul={soul}
-              setSelectedSoul={setSelectedSoul}
+              handleCardClick={() => setSelectedSoul(soul)}
+              // swd修正🐘: 「setSelectedSoul(soul)を実行する関数」として渡します
             >
               {displayExp && (
                 <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2 shadow-[0px_0px_5px_2px_#fff]">
