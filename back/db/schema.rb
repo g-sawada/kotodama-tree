@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_27_055410) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_13_120910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,10 +90,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_27_055410) do
   add_foreign_key "pathways", "rooms", column: "room_1_id"
   add_foreign_key "pathways", "rooms", column: "room_2_id"
   add_foreign_key "rooms", "users", on_delete: :nullify
-  add_foreign_key "souls", "trees", column: "captured_tree_id"
-  add_foreign_key "souls", "trees", column: "home_tree_id"
+  add_foreign_key "souls", "trees", column: "captured_tree_id", on_delete: :nullify
+  add_foreign_key "souls", "trees", column: "home_tree_id", on_delete: :nullify
   add_foreign_key "souls", "users", column: "creator_id"
-  add_foreign_key "souls", "users", column: "owner_id"
+  add_foreign_key "souls", "users", column: "owner_id", on_delete: :nullify
   add_foreign_key "trees", "rooms"
   add_foreign_key "trees", "users"
 end

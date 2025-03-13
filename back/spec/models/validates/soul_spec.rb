@@ -71,5 +71,26 @@ RSpec.describe Soul, type: :model do
         expect(subject).to be_invalid
       end
     end
+
+    context 'owner_idに関するバリデーション' do
+      it '空の場合でも登録できること' do
+        subject.owner_id = ''
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'home_tree_idに関するバリデーション' do
+      it '空の場合でも登録できること' do
+        subject.home_tree_id = ''
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'captrued_tree_idに関するバリデーション' do
+      it '空の場合でも登録できること' do
+        subject.captured_tree_id = ''
+        expect(subject).to be_valid
+      end
+    end
   end
 end
