@@ -94,9 +94,9 @@ RSpec.describe "Api::V1::Users", type: :request do
     end
 
     context 'ユーザーが見つからない場合' do
-      it "ステータス404(Not Found)が返ること" do
+      it "ステータス200が返ること" do
         get "/api/v1/users/find_by_provider?provider=google&provider_id=hogehogehoge"
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(200)
       end
 
       it "dataがnilであること" do

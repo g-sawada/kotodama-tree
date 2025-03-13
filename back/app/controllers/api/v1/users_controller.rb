@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
       user = User.find_by(provider: provider, provider_id: provider_id)
 
       if user.nil?
-        return render json: { error: 'ユーザーが見つかりません' }, status: :not_found
+        return render json: { data: nil, message: 'ユーザーが見つかりません' }, status: :ok
       else
         # user.idのみ返す
         user = user.slice(:id)
