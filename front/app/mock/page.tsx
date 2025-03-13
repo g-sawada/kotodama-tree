@@ -9,7 +9,7 @@ export default async function MockPage() {
       <div className="flex-auto">
         <h1 className="text-lg">ここはモックページ</h1>
         <div className="w-2/3 md:w-1/2 mx-auto flex flex-col items-center">
-          <TreeSoulsModalController treeId={treeId}/>
+          <TreeSoulsModalController treeId={treeId} isRoomOwner={true}/>
         </div>
         <PortalButtonComponent />
       </div>

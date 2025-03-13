@@ -5,18 +5,15 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
-import SoulCardList from "@/components/ui/SoulCard/SoulCardList";
 import Tree from "@/components/ui/Tree";
-import {
-  getSoulsByCapturedTreeIdAction,
-  getSoulsWithExpByCapturedTreeIdAction,
-} from "@/lib/actions/getSouls";
+import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
+import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
  *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
- *
+ * @param treeId 滞在中のroomに紐づくtree_idを受け取る
  *
  */
 
@@ -39,9 +36,7 @@ export default function TreeSoulsModalController({
     setIsModalOpen(true);
     // コトダマ一覧データを取得し，stateにセット
     try {
-      const souls: Soul[] = isRoomOwner
-        ? await getSoulsWithExpByCapturedTreeIdAction(treeId)
-        : await getSoulsByCapturedTreeIdAction(treeId);
+      const souls: Soul[] = await getSoulsByCapturedTreeIdAction(treeId);
       setSouls(souls);
     } catch (error) {
       console.error(error);
@@ -53,20 +48,14 @@ export default function TreeSoulsModalController({
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
-  // Modalボタンをクリックした時の処理
-  const handleClickModalButton = () => {
-    openModal();
-  };
-
-  // 閉じるボタンをクリックした時の処理
-  const handleClickCloseButton = () => {
-    closeModal();
+  const backToList = () => {
+    setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
   return (
     <>
       <button
-        onClick={handleClickModalButton}
+        onClick={() => openModal()}
         className="flex flex-col items-center flex-1 py-4 my-4 md:my-0"
       >
         <Tree />
@@ -80,14 +69,37 @@ export default function TreeSoulsModalController({
           <div className="my-4">
             {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
             {selectedSoul ? (
-              <SoulDetailCard
-                soul={selectedSoul}
-                setSelectedSoul={setSelectedSoul}
-                treeId={treeId}
-              />
+              <>
+                <SoulDetailCard soul={selectedSoul}>
+                  {isRoomOwner && (
+                    <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2 shadow-[0px_0px_5px_2px_#fff]">
+                      exp: {selectedSoul.exp}
+                    </p>
+                  )}
+                </SoulDetailCard>
+                {!isRoomOwner && (
+                  <div className="flex justify-center my-4">
+                    <Button
+                      text="しゅうかくする"
+                      handleClick={() => router.push("#")}
+                      buttonType="ok"
+                    />
+                  </div>
+                )}
+                <div className="flex justify-center my-4">
+                  <Button
+                    text="一覧にもどる"
+                    handleClick={backToList}
+                    buttonType="cancel"
+                  />
+                </div>
+              </>
             ) : (
               <>
-                <SoulCardList souls={souls} setSelectedSoul={setSelectedSoul} />
+                <TreeSoulCardList
+                  souls={souls}
+                  setSelectedSoul={setSelectedSoul}
+                />
                 {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
                 {isRoomOwner && (
                   <div className="flex justify-center my-4">
@@ -104,7 +116,7 @@ export default function TreeSoulsModalController({
           <div className="flex justify-center my-4">
             <Button
               text="閉じる"
-              handleClick={handleClickCloseButton}
+              handleClick={() => closeModal()}
               buttonType="cancel"
             />
           </div>

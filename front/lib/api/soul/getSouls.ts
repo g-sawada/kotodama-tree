@@ -19,14 +19,3 @@ export const getSoulsByCapturedTreeId = async (captured_tree_id: string) => {
   });
   return res.json();
 }
-
-export const getSoulsWithExpByCapturedTreeId = async (captured_tree_id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls_with_exp?captured_tree_id=${captured_tree_id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    cache: 'no-cache',
-  });
-  return res.json();
-}

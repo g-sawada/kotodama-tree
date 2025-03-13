@@ -3,6 +3,5 @@
   "/api/v1/souls/:id": "/souls/:id",
   "/api/v1/souls?owner_id=:owner_id": "/souls?owner_id=:owner_id",
   "/api/v1/souls?captured_tree_id=:captured_tree_id": "/souls?captured_tree_id=:captured_tree_id",
-  "/api/v1/souls_with_exp?captured_tree_id=:captured_tree_id": "/souls_with_exp?captured_tree_id=:captured_tree_id",
   "/api/v1/pathways?room_uuid=:room_uuid": "/pathways?room_uuid=:room_uuid"
 }

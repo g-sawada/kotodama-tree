@@ -7,7 +7,7 @@ import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
 import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
-import SoulCardList from "@/components/ui/SoulCard/SoulCardList";
+import CarryingSoulCardList from "../CarryingSoulCardList";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -47,20 +47,14 @@ export default function CarryingSoulsModalController({
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
-  // Modalボタンをクリックした時の処理
-  const handleClickModalButton = () => {
-    openModal();
-  };
-
-  // 閉じるボタンをクリックした時の処理
-  const handleClickCloseButton = () => {
-    closeModal();
+  const backToList = () => {
+    setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
   return (
     <>
       <button
-        onClick={handleClickModalButton}
+        onClick={() => openModal()}
         className="flex flex-col items-center flex-1 py-4"
       >
         <Image
@@ -81,20 +75,29 @@ export default function CarryingSoulsModalController({
           <div className="my-4">
             {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
             {selectedSoul ? (
-              <SoulDetailCard
-                soul={selectedSoul}
-                setSelectedSoul={setSelectedSoul}
-              />
+              <>
+                <SoulDetailCard soul={selectedSoul} />
+                <div className="flex justify-center my-4">
+                  <Button
+                    text="一覧にもどる"
+                    handleClick={backToList}
+                    buttonType="cancel"
+                  />
+                </div>
+              </>
             ) : (
               <>
-                <SoulCardList souls={souls} setSelectedSoul={setSelectedSoul} />
+                <CarryingSoulCardList
+                  souls={souls}
+                  setSelectedSoul={setSelectedSoul}
+                />
                 {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
                 {isRoomOwner && (
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
                       handleClick={() => router.push("#")}
-                      buttonType="cancel"
+                      buttonType="ok"
                     />
                   </div>
                 )}
@@ -104,7 +107,7 @@ export default function CarryingSoulsModalController({
           <div className="flex justify-center my-4">
             <Button
               text="閉じる"
-              handleClick={handleClickCloseButton}
+              handleClick={() => closeModal()}
               buttonType="cancel"
             />
           </div>
