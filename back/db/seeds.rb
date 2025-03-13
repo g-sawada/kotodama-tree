@@ -1,9 +1,89 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker'
+
+# 各モデルのデータを作成するメソッド
+def create_dummy_user(name)
+  User.create!(
+    name: name,
+    level: 1,
+    exp: 0,
+    max_create_souls: 3,
+    max_carry_souls: 3,
+    provider: "google",
+    provider_id: Faker::Alphanumeric.alphanumeric(number: 10)
+  )
+end
+
+def create_dummy_room(user)
+  Room.create!(
+    user_id: user.id
+  )
+end
+
+def create_dummy_tree(user)
+  Tree.create!(
+    user_id: user.id,
+    room_id: user.room.id,
+    image: "tree.png"
+  )
+end
+
+def create_dummy_pathway(room_1, room_2)
+  # 重複排除のため，2つのroom_idをソートしてから保存
+  smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
+
+  Pathway.create!(
+    figuretype: 1,
+    color: "#000000",
+    room_1_id: smaller_room_id,
+    room_2_id: larger_room_id
+  )
+end
+
+def create_dummy_soul(creator_id, owner_id, home_tree_id, captured_tree_id)
+  Soul.create!(
+    content: Faker::Lorem.sentence, 
+    captured_count: 0,
+    harvested_count: 0,
+    creator_id: creator_id,
+    owner_id: owner_id,
+    home_tree_id: home_tree_id,
+    captured_tree_id: captured_tree_id
+  )
+end
+
+# ユーザーを5人作成
+users = 5.times.map do |i|
+  create_dummy_user("だみーゆーざー #{i + 1}")
+end
+
+# ユーザーごとに部屋とキを作成
+users.each do |user|
+  create_dummy_room(user)
+  create_dummy_tree(user)
+end
+
+# 部屋と部屋をつなぐpathwayを作成
+rooms = Room.all
+rooms.each_with_index do |room, index|
+  next_room = rooms[(index + 1) % rooms.length] # 配列の最後の要素の次は最初の要素
+  create_dummy_pathway(room, next_room)
+end
+
+# Soulを作成
+users.each do |user|
+  # 自身が所持している状態のSoulを作成
+  create_dummy_soul(creator_id = user.id, owner_id = user.id, home_tree_id = user.tree.id, captured_tree_id = nil)
+
+  # 自分のキに捧げられている状態のSoulを作成
+  create_dummy_soul(creator_id = user.id, owner_id = nil, home_tree_id = user.tree.id, captured_tree_id = user.tree.id)
+
+  # 他のユーザーが所持している状態のSoulを作成
+  other_user = users[(users.index(user) + 1) % users.length] # 自分の次のユーザー。最後の次は最初へ
+  create_dummy_soul(creator_id = user.id, owner_id = other_user.id, home_tree_id = user.tree.id, captured_tree_id = nil)
+
+  # 他のユーザーのキに捧げられている状態のSoulを作成
+  create_dummy_soul(creator_id = user.id, owner_id = nil, home_tree_id = user.tree.id, captured_tree_id = other_user.tree.id)
+end
+
+puts "seed data successfully created!"
+
