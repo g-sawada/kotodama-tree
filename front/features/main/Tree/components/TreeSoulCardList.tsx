@@ -24,7 +24,6 @@ export default function TreeSoulCardList({ souls, setSelectedSoul }: Props) {
               key={soul.id}
               soul={soul}
               handleCardClick={() => setSelectedSoul(soul)}
-              // swd修正🐘: 「setSelectedSoul(soul)を実行する関数」として渡します
             >
               {displayExp && (
                 <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2 shadow-[0px_0px_5px_2px_#fff]">

@@ -20,7 +20,7 @@ export default function CarryingSoulCardList({
             <SoulCard
               key={soul.id}
               soul={soul}
-              setSelectedSoul={setSelectedSoul}
+              setSelectedSoul={() => setSelectedSoul(soul)}
             >
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by 名無しさん</p>
