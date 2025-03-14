@@ -1,29 +1,31 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
-import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
-import CarryingSoulCardList from "../CarryingSoulCardList";
+import Tree from "@/components/ui/Tree";
+import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
+import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 /**
- * 手持ちのコトダマ一覧用のモーダルコントローラー
+ * キのコトダマ一覧用のモーダルコントローラー
  *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
- *
+ * @param treeId 滞在中のroomに紐づくtree_idを受け取る
  *
  */
 
 type Props = {
   isRoomOwner?: boolean;
+  treeId: string;
 };
 
-export default function CarryingSoulsModalController({
+export default function TreeSoulsModalController({
   isRoomOwner = false,
+  treeId,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
@@ -33,10 +35,9 @@ export default function CarryingSoulsModalController({
   // モーダルの開閉制御
   const openModal = async () => {
     setIsModalOpen(true);
-    const user_uuid = "abc";
     // コトダマ一覧データを取得し，stateにセット
     try {
-      const souls: Soul[] = await getSoulsByOwnerIdAction(user_uuid);
+      const souls: Soul[] = await getSoulsByCapturedTreeIdAction(treeId);
       setSouls(souls);
     } catch (error) {
       console.error(error);
@@ -56,33 +57,40 @@ export default function CarryingSoulsModalController({
     <>
       <button
         onClick={() => openModal()}
-        className="flex flex-col items-center flex-1 py-4"
+        className="flex flex-col items-center flex-1 py-4 my-4 md:my-0"
       >
-        <Image
-          src="icon_images/footer_kotodama.svg"
-          alt="Icon 1"
-          width={20}
-          height={20}
-          className="mb-1"
-        />
-        <span className="text-[0.5rem] btm-nav-label">手持ちのコトダマ</span>
+        <Tree />
       </button>
 
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <h1 className="text-center text-xl font-bold">
-            {selectedSoul ? "コトダマ詳細" : "手持ちのコトダマ一覧"}
+            {selectedSoul ? "コトダマ詳細" : "コトダマ一覧"}
           </h1>
           <div className="my-4">
             {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
             {selectedSoul ? (
               <>
                 <SoulDetailCard soul={selectedSoul}>
+                  {isRoomOwner && (
+                    <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2 shadow-[0px_0px_5px_2px_#fff]">
+                      exp: {selectedSoul.exp}
+                    </p>
+                  )}
                   <div className="flex justify-between">
                     <p className="text-gray-700 text-md">by 名無しさん</p>
                     <EmptyHeartButton />
                   </div>
                 </SoulDetailCard>
+                {!isRoomOwner && (
+                  <div className="flex justify-center my-4">
+                    <Button
+                      text="しゅうかくする"
+                      handleClick={() => router.push("#")}
+                      buttonType="ok"
+                    />
+                  </div>
+                )}
                 <div className="flex justify-center my-4">
                   <Button
                     text="一覧にもどる"
@@ -93,7 +101,7 @@ export default function CarryingSoulsModalController({
               </>
             ) : (
               <>
-                <CarryingSoulCardList
+                <TreeSoulCardList
                   souls={souls}
                   setSelectedSoul={setSelectedSoul}
                 />

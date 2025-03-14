@@ -9,4 +9,5 @@ export interface Soul {
   creator_id: string;
   home_tree_id: string;
   captured_tree_id: string;
+  exp: number;
 }
