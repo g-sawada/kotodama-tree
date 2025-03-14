@@ -78,6 +78,16 @@ RSpec.describe Soul, type: :model do
         expect(subject.save(validate: false)).to be_truthy
       end
 
+      it 'owner_idのuserが削除されたときnilになること' do
+        user = FactoryBot.create(:user)
+        subject.owner_id = user
+        subject.save(validate: false)
+
+        user.destroy
+        subject.reload
+        expect(subject.owner_id).to eq(nil)
+      end
+
       it 'owner_idに他ユーザーのidが正常に入ること' do
         other_user = create(:user)
         subject.owner_id = other_user.id
@@ -90,12 +100,32 @@ RSpec.describe Soul, type: :model do
         subject.home_tree_id = nil
         expect(subject.save(validate: false)).to be_truthy
       end
+
+      it 'home_tree_idのtreeが削除されたときnilになること' do
+        tree = FactoryBot.create(:tree)
+        subject.home_tree_id = tree
+        subject.save(validate: false)
+
+        tree.destroy
+        subject.reload
+        expect(subject.home_tree_id).to eq(nil)
+      end
     end
 
     context 'captured_tree_idに関する制約' do
       it 'nilの場合でも保存できること' do
         subject.captured_tree_id = nil
         expect(subject.save(validate: false)).to be_truthy
+      end
+
+      it 'captured_tree_idのtreeが削除されたときnilになること' do
+        tree = FactoryBot.create(:tree)
+        subject.captured_tree_id = tree
+        subject.save(validate: false)
+
+        tree.destroy
+        subject.reload
+        expect(subject.captured_tree_id).to eq(nil)
       end
 
       it 'captured_tree_idに他ユーザーのidが正常に入ること' do
