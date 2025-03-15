@@ -64,6 +64,7 @@ RSpec.configure do |config|
   config.after(:each) do |example|
     if example.metadata[:type] == :model
       puts example.instance_variable_get(:@example_group_instance).subject.errors.full_messages
+      puts "#{subject.attributes}"
     end
   end
   # RSpec Rails uses metadata to mix in different behaviours to your tests,
