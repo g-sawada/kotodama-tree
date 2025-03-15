@@ -34,7 +34,7 @@ export default function MyPagesModalController({ souls }: Props) {
 
   return (
     <>
-    <Button text="作成したコトダマ一覧" handleClick={openListModal}/>
+    <Button text="作成したコトダマ一覧" buttonType="ok" handleClick={openListModal}/>
       <FullSizeModal isOpen={isListModalOpen}>
         <UserCardList souls={souls} openModal={openSoulModal} />
         <div className="flex justify-center my-4">
