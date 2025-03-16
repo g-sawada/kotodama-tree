@@ -1,12 +1,9 @@
 "use client";
 
-import { createContext, useState, useContext } from "react";
-
-// Flashオブジェクトの型定義
-interface FlashContent {
-  type: "error" | "success" | "info" | "warning";
-  message: string | null;
-}
+import { createContext, useState, useContext, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { FlashContent } from "@/types/flashContent";
+import { fetchFlash } from "@/lib/api/flash/fetchFlash";
 
 // 使用するコンテキストの型定義 stateとsetState()を全コンポーネントで参照できるようにする
 interface FlashContextType {
@@ -40,8 +37,19 @@ export const useFlash = () => {
 };
 
 // FlashMessageを表示するコンポーネント
-export const FlashMessage =() => {
+export const FlashMessage = () => {
   const { flash, setFlash } = useFlash();
+
+  // ページ遷移時にflashDataを取得するため，pathnameを監視
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const getFlash = async () => {
+      const flashData = await fetchFlash();
+      setFlash(flashData);
+    };
+    getFlash();
+  }, [setFlash, pathname]);
 
   if (!flash) {
     return null;
