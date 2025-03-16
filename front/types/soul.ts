@@ -1,7 +1,6 @@
 export interface Soul {
   id: number;
   content: string;
-  captured_count: number;
   harvested_count: number;
   created_at: string;
   updated_at: string;

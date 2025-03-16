@@ -42,7 +42,6 @@ end
 def create_dummy_soul(creator_id, owner_id, home_tree_id, captured_tree_id)
   Soul.create!(
     content: Faker::Lorem.sentence, 
-    captured_count: 0,
     harvested_count: 0,
     creator_id: creator_id,
     owner_id: owner_id,
