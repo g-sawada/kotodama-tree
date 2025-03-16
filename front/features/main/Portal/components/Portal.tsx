@@ -19,8 +19,8 @@ export default function Portal({ thisRoomUuid, pathway }: Props) {
   const targetRoomId = thisRoomUuid === pathway.room_1_id ? pathway.room_2_id :
                         pathway.room_1_id;
   console.log(targetRoomId); // 対象のroom_idが取得できているか確認用
-  const { figuretype, color } = pathway;
-  const PortalIcon = PortalIconMap[figuretype];
+  const { figure_type, color } = pathway;
+  const PortalIcon = PortalIconMap[figure_type];
 
   return (
     // /:room_uuidを実装後、href={targetRoomId}に切り替え予定

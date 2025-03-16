@@ -13,7 +13,7 @@ class Pathway < ApplicationRecord
   private
 
   def set_default_values
-    self.figuretype ||= 1
+    self.figure_type ||= 1
     self.color  ||= "#000000"
   end
 end

@@ -32,7 +32,7 @@ def create_dummy_pathway(room_1, room_2)
   smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
 
   Pathway.create!(
-    figuretype: 1,
+    figure_type: 1,
     color: "#000000",
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
