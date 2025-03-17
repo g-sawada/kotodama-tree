@@ -1,5 +1,6 @@
 'use client';
 
+import createUserAction from "@/lib/actions/user/createUserAction";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,7 @@ export default function SignupForm() {
   }, [name])
 
   return (
-    <form action={()=>(console.log(`user name: ${name}`))}>
+    <form action={createUserAction}>
       <div className="flex flex-col items-center">
         <label htmlFor="name" className="block font-bold mb-6">
           ユーザー名をきめてください
