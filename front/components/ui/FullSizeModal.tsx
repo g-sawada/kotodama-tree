@@ -17,7 +17,7 @@ export default function FullSizeModal({ isOpen, children }: ModalProps) {
 
   return (
     // モーダルの背景 > レスポンシブ対応のコンテナ > モーダルデザイン > childrenの順に配置
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-30">
       <div className="flex container mx-auto h-full justify-center items-center">
         <div className="bg-gray-900 border-white border-2 rounded-lg w-[90%] h-[90%] overflow-y-auto">
           <div className="p-6">
