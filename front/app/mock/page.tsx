@@ -11,11 +11,11 @@ export default async function MockPage() {
     <>
       <div className="flex-auto">
         <h1 className="text-lg">ここはモックページ</h1>
-        <div className="w-80 mx-auto flex flex-col items-center">
+        <div className="w-64 md:w-80 mx-auto flex flex-col items-center">
           <TreeSoulsModalController treeId={treeId} isRoomOwner={isRoomOwner} />
         </div>
         <PortalButtonComponent />
-        <div className="text-center my-8">
+        <div className="text-center my-4 md:my-8">
         {isRoomOwner ? <ChargeButton treeId={treeId}/> : <HomePortalButton />}
         </div>
       </div>
