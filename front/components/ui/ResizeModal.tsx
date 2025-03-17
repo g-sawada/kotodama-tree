@@ -18,7 +18,7 @@ export default function ResizeModal({ isOpen, children }: ModalProps) {
 
   return (
     // モーダルの背景 > レスポンシブ対応のコンテナ > モーダルデザイン > childrenの順に配置
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-30">
       {/* 横幅はmdで固定。高さの最大も固定し，要素がはみ出る場合は縦スクロール */}
       <div className="flex container mx-auto max-w-md justify-center items-center">
         <div className="bg-gray-900 border-white border-2 rounded-lg w-[90%] max-h-80 overflow-y-auto">
