@@ -48,9 +48,15 @@ export const authConfig: NextAuthConfig = {
       // accoutが存在する（=認証ページからリダイレクトされた）場合
       if (!!account) {
 
-        // テスト用
-        account.provider = "google";
-        account.providerAccountId = "jz6jcfw1my"
+        // DEBUG: DUMMY_USER_MODEがtrueの場合は，providerとproviderAccountIdを環境変数から上書き
+        if(process.env.DUMMY_USER_MODE === "true" ) {
+          console.log("============== DUMMY_USER_MODE ==============");
+          console.log(`provider: ${process.env.DUMMY_USER_PROVIDER}`);
+          console.log(`providerAccountId: ${process.env.DUMMY_USER_PROVIDER_ID}`);
+
+          account.provider = process.env.DUMMY_USER_PROVIDER as string;
+          account.providerAccountId = process.env.DUMMY_USER_PROVIDER_ID as string;
+        }
 
         const result = await getUserByProvider(account.provider, account.providerAccountId);
         console.log(result);
@@ -80,8 +86,9 @@ export const authConfig: NextAuthConfig = {
       
       // アクセス時にtoken.providerとtoken.provider_idが存在し，token.userIdが存在しない場合 
       if (!!token.provider && !!token.provider_id) {
-        console.log("tokenにproviderとprovider_idが存在します");
+        console.log("tokenにproviderとprovider_idが存在。userIdを取得します");
         const result = await getUserByProvider(token.provider, token.provider_id);
+        console.log(result);
         
         // isOkがfalseの場合はErrorResponse
         if (!result.isOk) {
@@ -92,6 +99,7 @@ export const authConfig: NextAuthConfig = {
         const userData = result.body.data;
         // userが取得できた場合(=登録処理完了済み）uuidをtokenに追加
         if (!!userData) {
+          console.log("既存ユーザーが認証されました")
           token.userId = userData.id;
           // provider, provider_idは不要のため削除
           token.provider = "";
@@ -102,6 +110,7 @@ export const authConfig: NextAuthConfig = {
       console.log("通常の認証処理です");
       return token
     },
+
     // セッションに追加するデータをカスタマイズ（jwt -> sessionの順で実行される）
     async session({session, token}) {
       session.user = {
