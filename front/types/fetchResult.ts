@@ -1,14 +1,18 @@
-export interface FetchResult<T> {
+export type FetchResult<T> = SuccessResponse<T> | ErrorResponse;
+
+type SuccessResponse<T> = {
   status: number;
-  isOk: boolean;
-  body: SuccessResponse<T> | ErrorResponse;
+  isOk: true;
+  body: {
+    data: T;               // ジェネリック型 T を置いておき，引数で型を指定
+    message?: string
+  };
 };
 
-interface SuccessResponse<T> {
-  data: T;               // ジェネリック型 T を置いておき，引数で型を指定
-  message?: string
-};
-
-interface ErrorResponse {
-  error: string
+type ErrorResponse = {
+  status: number;
+  isOk: false;
+  body: {
+    error: string;
+  };
 };
