@@ -1,24 +1,24 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 import Image from "next/image";
-import Button from '@/components/ui/Button'
-import ResizeModal from '@/components/ui/ResizeModal'
+import Button from "@/components/ui/Button";
+import ResizeModal from "@/components/ui/ResizeModal";
 
 export default function HomePortalButton() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // モーダルの開閉制御
   const openModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
   const handleClickMakePortal = () => {
     try {
-      console.log("自分の部屋へのポータル作成＆自分の部屋へのリダイレクト処理")
+      console.log("自分の部屋へのポータル作成＆自分の部屋へのリダイレクト処理");
     } catch (error) {
       console.error(error);
     }
@@ -32,7 +32,11 @@ export default function HomePortalButton() {
       <div>
         <ResizeModal isOpen={isModalOpen}>
           <div className="flex flex-col justify-center gap-4 mt-6">
-            <p className="text-center text-lg">自分の部屋へのポータルを開きます。<br/>よろしいですか？</p>
+            <p className="text-center text-lg">
+              自分の部屋へのポータルを開きます。
+              <br />
+              よろしいですか？
+            </p>
             <div className="flex justify-center my-4 gap-6">
               <Button
                 text="Cancel"

@@ -7,9 +7,17 @@ import ResizeModal from "@/components/ui/ResizeModal";
 
 type Props = {
   treeId: string;
-}
+};
+
 export default function ChargeButton(treeId: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // チャージ可能状態かどうかを取得
+  // try {
+  //   const canCharge: boolean = await getCanChargeByTreeIdAction(treeId);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  const canCharge = false;
 
   // モーダルの開閉制御
 
@@ -20,26 +28,32 @@ export default function ChargeButton(treeId: Props) {
   // Modal展開ボタンをクリックした時の処理
   const openModal = async () => {
     setIsModalOpen(true);
-    // チャージ可能状態かどうかを取得
-    // try {
-    //   const canCharge: boolean = await getCanChargeByTreeId(treeId);
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   const handleClickCharge = () => {
     try {
-      console.log("チャージ実行")
+      console.log("チャージ実行");
     } catch (error) {
       console.error(error);
     }
   };
   return (
     <>
-      <button onClick={() => openModal()} className="text-sm">
-        <Image src="charge.svg" alt="charge_icon" width={64} height={64} />
-      </button>
+      {canCharge ? (
+        <button onClick={() => openModal()}>
+          <Image src="charge.svg" alt="charge_icon" width={64} height={64} />
+        </button>
+      ) : (
+        <button disabled>
+          <Image
+            src="charge_disabled.svg"
+            alt="charge_icon"
+            width={64}
+            height={64}
+          />
+        </button>
+      )}
+
       <div>
         <ResizeModal isOpen={isModalOpen}>
           <div className="flex flex-col justify-center gap-4 mt-6">
