@@ -7,6 +7,8 @@ import TreeSoulsModalController from "@/features/main/Tree/components/TreeSoulsM
 export default async function MockPage() {
   const treeId = "ABC";
   const isRoomOwner = true;
+  // ここでtreeデータを元にチャージ可否を判定、canChargeにbooleanを格納予定
+  const canCharge = true;
   return (
     <>
       <div className="flex-auto">
@@ -16,7 +18,7 @@ export default async function MockPage() {
         </div>
         <PortalButtonComponent />
         <div className="text-center my-4 md:my-8">
-        {isRoomOwner ? <ChargeButton treeId={treeId}/> : <HomePortalButton />}
+        {isRoomOwner ? <ChargeButton treeId={treeId} canCharge={canCharge}/> : <HomePortalButton />}
         </div>
       </div>
       <Footer />

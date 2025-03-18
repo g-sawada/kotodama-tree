@@ -7,17 +7,11 @@ import ResizeModal from "@/components/ui/ResizeModal";
 
 type Props = {
   treeId: string;
+  canCharge: boolean;
 };
 
-export default function ChargeButton(treeId: Props) {
+export default function ChargeButton({treeId, canCharge}: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // チャージ可能状態かどうかを取得
-  // try {
-  //   const canCharge: boolean = await getCanChargeByTreeIdAction(treeId);
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  const canCharge = false;
 
   // モーダルの開閉制御
 
