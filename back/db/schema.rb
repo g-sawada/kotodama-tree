@@ -48,10 +48,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_145307) do
     t.integer "harvested_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "creator_id", null: false
-    t.bigint "captured_tree_id"
-    t.bigint "home_tree_id"
     t.uuid "owner_id"
+    t.uuid "creator_id", null: false
+    t.bigint "home_tree_id"
+    t.bigint "captured_tree_id"
     t.index ["captured_tree_id"], name: "index_souls_on_captured_tree_id"
     t.index ["creator_id"], name: "index_souls_on_creator_id"
     t.index ["home_tree_id"], name: "index_souls_on_home_tree_id"
