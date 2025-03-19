@@ -9,6 +9,7 @@ export default async function OfferPage() {
   // const session = await auth();
   // const user_id = session.id
   const user_id = "abc";
+  const treeId = "ABC";
   const souls: Soul[] = await getSoulsByOwnerId(user_id);
   const backToMainPage = async () => {
     'use server'
@@ -23,7 +24,7 @@ export default async function OfferPage() {
         <div className="max-w-80 mx-auto flex flex-col items-center">
           <OfferSoulCardList souls={souls} />
           <div className="mt-8 mb-4">
-            <CreateSoulsModalController />
+            <CreateSoulsModalController treeId={treeId}/>
           </div>
           <Button
             text="もどる"
