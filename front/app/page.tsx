@@ -3,6 +3,8 @@ import Button from "@/components/ui/Button";
 import DemoModalController from "@/features/demo/components/DemoModalController";
 import SignInButton from "@/components/ui/authButton/SignInButton";
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { setFlash } from "@/lib/api/flash/setFlash";
 
 export default async function Home() {
   const session = await auth();
@@ -11,6 +13,11 @@ export default async function Home() {
   const handleButtonClick = async () => {
     "use server";
     console.log("ボタンがクリックされました");
+    // フラッシュメッセージ用データをcookieに保存
+    setFlash("success", "処理成功");
+
+    console.log("mockページにリダイレクトします");
+    redirect("/mock")
   }
 
 

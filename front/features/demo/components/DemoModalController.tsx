@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import FullSizeModal from '@/components/ui/FullSizeModal'
+import { useFlash } from '@/components/layout/FlashMessage'
 
 
 /**
@@ -36,6 +37,9 @@ export default function DemoModalController() {
     closeModal()
   }
 
+  // フラッシュメッセージを表示するテスト
+  const { setFlash } = useFlash(); 
+
   return (
     <>
       <Button text='Open Modal' handleClick={handleClickModalButton} />
@@ -43,6 +47,20 @@ export default function DemoModalController() {
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <div className='flex flex-col justify-center gap-10 mt-10'>
+
+            <div className='flex justify-center gap-4'>
+              <Button 
+                text="Flash Success"
+                buttonType="ok"
+                handleClick={() => setFlash( { type: "success", message: "処理成功" } )} 
+              />
+              <Button 
+                text="Flash Error"
+                buttonType="danger"
+                handleClick={() => setFlash( { type: "error", message: "処理失敗" } )} 
+              />
+            </div>
+
             <h1 className='text-center text-xl font-bold'>This is Modal</h1>
             <p className='text-center text-lg'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
