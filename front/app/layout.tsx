@@ -27,7 +27,7 @@ export default async function RootLayout({
             <div className="min-w-[360] sm:bg-gray-700 md:bg-blue-500 lg:bg-yellow-500 xl:bg-green-500">
               <div className="container mx-auto full:h-screen border-2 border-white text-white bg-gray-900">
                 <div className="flex flex-col h-full"> 
-                  <FlashProvider />
+                  <FlashProvider>
                     <Header />
                     {children}
                   </FlashProvider>
