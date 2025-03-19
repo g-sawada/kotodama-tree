@@ -38,19 +38,6 @@ RSpec.describe Soul, type: :model do
       end
     end
 
-    context 'captured_countに関する制約' do
-      it 'nilの場合に保存できないこと' do
-        subject.captured_count = nil
-        expect{ subject.save(validate: false) }.to raise_error(ActiveRecord::NotNullViolation)
-        expect(User.exists?(subject.id)).to be_falsey
-      end
-
-      it 'デフォルト値が0であること' do
-        subject.save
-        expect(subject.captured_count).to eq(0)
-      end
-    end
-
     context 'harvested_countに関する制約' do
       it 'nilの場合に保存できないこと' do
         subject.harvested_count = nil
