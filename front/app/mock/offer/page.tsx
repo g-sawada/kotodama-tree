@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
-import { getSoulsByOwnerId } from "@/lib/api/soul/getSouls";
+import { getSoulsByCreatorId, getSoulsByOwnerId } from "@/lib/api/soul/getSouls";
 import { Soul } from "@/types/soul";
 
 export default async function OfferPage() {
@@ -15,6 +15,10 @@ export default async function OfferPage() {
     'use server'
     console.log("メインページにリダイレクト")
   }
+  // 現在のコトダマ作成可能数を算出（上限まであといくつか）
+  const createdSouls: Soul[] = await getSoulsByCreatorId(user_id)
+  const maxCreate: number = 8
+  const remainingCreatableCount = maxCreate - createdSouls.length
   return (
     <>
       <div className="flex-auto p-6">
@@ -24,7 +28,7 @@ export default async function OfferPage() {
         <div className="max-w-80 mx-auto flex flex-col items-center">
           <OfferSoulCardList souls={souls} />
           <div className="mt-8 mb-4">
-            <CreateSoulsModalController treeId={treeId}/>
+            <CreateSoulsModalController treeId={treeId} remainingCreatableCount={remainingCreatableCount}/>
           </div>
           <Button
             text="もどる"
