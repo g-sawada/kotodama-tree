@@ -21,10 +21,12 @@ export async function createSoulAction(formData: FormData) {
   const creator_id = user_id
   const home_tree_id = tree_id
   const captured_tree_id = tree_id
-  try {
-    await createSoul(content, owner_id, creator_id, home_tree_id, captured_tree_id);
-  } catch (error) {
-    console.error("投稿失敗:", error);
-  }
-  redirect("/mock");
+  console.log(`createSoulAction発動。content：${content}、tree_id：${tree_id}`) //アクション動作確認用
+  // try {
+  //   await createSoul(content, owner_id, creator_id, home_tree_id, captured_tree_id);
+  // } catch (error) {
+  //   console.error("コトダマ作成失敗:", error);
+  // }
+  // 捧げアニメーションのあと、メイン画面へ
+  // redirect("/mock");
 }

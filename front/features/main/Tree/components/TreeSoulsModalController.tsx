@@ -9,6 +9,7 @@ import Tree from "@/components/ui/Tree";
 import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
+import { authOfferAction } from "@/lib/actions/authOffer";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -31,6 +32,7 @@ export default function TreeSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
+  const room_uuid = "room11"
 
   // モーダルの開閉制御
   const openModal = async () => {
@@ -110,7 +112,7 @@ export default function TreeSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push("#")}
+                      handleClick={() => authOfferAction(room_uuid)}
                       buttonType="ok"
                     />
                   </div>

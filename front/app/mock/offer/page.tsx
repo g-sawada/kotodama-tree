@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
@@ -13,7 +14,8 @@ export default async function OfferPage() {
   const souls: Soul[] = await getSoulsByOwnerId(user_id);
   const backToMainPage = async () => {
     'use server'
-    console.log("メインページにリダイレクト")
+    // ユーザーのメインページにリダイレクト
+    redirect("/mock")
   }
   // 現在のコトダマ作成可能数を算出（上限まであといくつか）
   const createdSouls: Soul[] = await getSoulsByCreatorId(user_id)
@@ -26,8 +28,8 @@ export default async function OfferPage() {
           捧げるコトダマを選んでください
         </h1>
         <div className="max-w-80 mx-auto flex flex-col items-center">
-          <OfferSoulCardList souls={souls} />
-          <div className="mt-8 mb-4">
+          <OfferSoulCardList souls={souls} treeId={treeId}/>
+          <div className="my-4">
             <CreateSoulsModalController treeId={treeId} remainingCreatableCount={remainingCreatableCount}/>
           </div>
           <Button
