@@ -9,7 +9,6 @@ class Soul < ApplicationRecord
     validates :creator_id
     validates :content
     with_options numericality: { only_integer: true, greater_than_or_equal_to: 0 } do
-      validates :captured_count 
       validates :harvested_count
     end
   end

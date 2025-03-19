@@ -32,7 +32,7 @@ def create_dummy_pathway(room_1, room_2)
   smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
 
   Pathway.create!(
-    figuretype: 1,
+    figure_type: 1,
     color: "#000000",
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
@@ -42,7 +42,6 @@ end
 def create_dummy_soul(creator_id, owner_id, home_tree_id, captured_tree_id)
   Soul.create!(
     content: Faker::Lorem.sentence, 
-    captured_count: 0,
     harvested_count: 0,
     creator_id: creator_id,
     owner_id: owner_id,
