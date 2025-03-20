@@ -13,7 +13,7 @@ type Props = {
   souls: Soul[];
 };
 
-export default function MyPagesModalController({ souls }: Props) {
+export default function SoulModalController({ souls }: Props) {
   const [isListModalOpen, setIsListModalOpen] = useState(false); // 一覧表示用モーダル
   const [isSoulModalOpen, setIsSoulModalOpen] = useState(false); // 個別表示用モーダル
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null); // 選択されたコトダマ
