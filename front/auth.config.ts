@@ -5,6 +5,7 @@ import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
 import { getUserByProvider } from "./lib/api/user/getUserByProvider";
 import { redirect } from "next/navigation";
+import { setFlash } from "./lib/api/flash/setFlash";
 
 // tokenとsessionにカスタムデータを追加するための型拡張
 declare module "next-auth" {
@@ -59,11 +60,11 @@ export const authConfig: NextAuthConfig = {
         }
 
         const result = await getUserByProvider(account.provider, account.providerAccountId);
-        console.log(result);
 
         // isOkがfalseの場合はErrorResponse
         if (!result.isOk) {
           console.log("ユーザーの情報取得時にエラーが発生しました");
+          await setFlash("error", "ユーザー情報の取得に失敗しました");
           redirect("/login");
         }
 
@@ -76,15 +77,16 @@ export const authConfig: NextAuthConfig = {
           token.provider = account.provider;
           token.provider_id = account.providerAccountId
           return token;
-        }
         
-        // userIdが取得できた場合は，tokenにuserIdを追加
-        console.log("既存ユーザーが認証されました");
-        token.userId = userData.id;
-        return token;
+        } else {
+          // userが取得できた場合(=登録処理完了済み）userIdをtokenに追加
+          console.log("既存ユーザーが認証されました");
+          token.userId = userData.id;
+          return token;
+        }
       }
       
-      // アクセス時にtoken.providerとtoken.provider_idが存在し，token.userIdが存在しない場合 
+      // 認証済かつ未登録の場合 
       if (!!token.provider && !!token.provider_id) {
         console.log("tokenにproviderとprovider_idが存在。userIdを取得します");
         const result = await getUserByProvider(token.provider, token.provider_id);
@@ -97,6 +99,8 @@ export const authConfig: NextAuthConfig = {
         }
 
         const userData = result.body.data;
+        console.log(`userData: ${userData}`);
+        console.log('!!userData', !!userData);
         // userが取得できた場合(=登録処理完了済み）uuidをtokenに追加
         if (!!userData) {
           console.log("既存ユーザーが認証されました")
@@ -107,8 +111,13 @@ export const authConfig: NextAuthConfig = {
         }
       }
 
-      console.log("通常の認証処理です");
+      // 通常のアクセス時はtokenをそのまま返す
       return token
+    },
+
+    // デフォルトのリダイレクト先をカスタマイズ
+    async redirect({baseUrl}) {
+      return baseUrl + "/loggedIn";
     },
 
     // セッションに追加するデータをカスタマイズ（jwt -> sessionの順で実行される）
