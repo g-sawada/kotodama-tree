@@ -1,5 +1,6 @@
 "use server"
 
+import { setFlash } from "@/lib/api/flash/setFlash";
 import { createUser } from "@/lib/api/user/createUser";
 import { redirect } from "next/navigation";
 
@@ -23,5 +24,6 @@ export default async function createUserAction(formData: FormData) {
   }
 
   console.log("ユーザーの作成に成功しました");
-  redirect("/");
+  await setFlash("success", "ユーザーの作成に成功しました");
+  redirect("/loggedIn");
 } 
