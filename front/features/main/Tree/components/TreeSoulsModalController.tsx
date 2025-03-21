@@ -9,7 +9,6 @@ import Tree from "@/components/ui/Tree";
 import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
-import { authOfferAction } from "@/lib/actions/authOffer";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -112,7 +111,7 @@ export default function TreeSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => authOfferAction(room_uuid)}
+                      handleClick={() => router.push("/mock/offer")}
                       buttonType="ok"
                     />
                   </div>
