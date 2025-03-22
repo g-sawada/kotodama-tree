@@ -11,11 +11,9 @@ import { createSoulAction } from "@/lib/actions/createSoul";
  */
 
 type Props = {
-  treeId: string;
   remainingCreatableCount: number;
 };
 export default function CreateSoulsModalController({
-  treeId,
   remainingCreatableCount,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,10 +53,9 @@ export default function CreateSoulsModalController({
             <p>作成可能コトダマ数：あと{remainingCreatableCount}個</p>
             <textarea
               name="content"
-              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] h-[90%] overflow-y-auto my-4 h-20 max-w-80"
+              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] h-[90%] overflow-y-auto my-4 h-20 max-w-80 p-2 resize-none"
               placeholder="コトダマを入力してください"
             ></textarea>
-            <input type="hidden" value={treeId} name="tree_id" />
             <Button
               text="コトダマを捧げる"
               handleClick={() => handleClick()} // 関数設定は不要？

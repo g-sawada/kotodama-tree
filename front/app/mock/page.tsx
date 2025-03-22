@@ -5,14 +5,6 @@ import PortalButtonComponent from "@/features/main/Portal/components/PortalButto
 import TreeSoulsModalController from "@/features/main/Tree/components/TreeSoulsModalController";
 
 export default async function MockPage() {
-  // 捧げるページへの認証ロジック
-  // const session = auth();
-  // const user = await getUserInfo(session.userId);
-  // const thisRoomId = <URLから取得したroom.id>
-  // if (thisRoomId !==  user.last_visit_room) {
-  //     redirect(`/${last_visit_room}`)
-  // }
-
   const treeId = "ABC";
   const isRoomOwner = true;
 
