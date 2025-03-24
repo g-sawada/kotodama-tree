@@ -6,6 +6,9 @@ Rails.application.routes.draw do
           get :find_by_provider
         end
       end
+
+      resources :rooms, only: %i[show]
+      
     end
   end
 end
