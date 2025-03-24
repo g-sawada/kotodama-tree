@@ -7,6 +7,7 @@ import TreeSoulsModalController from "@/features/main/Tree/components/TreeSoulsM
 export default async function MockPage() {
   const treeId = "ABC";
   const isRoomOwner = true;
+
   // ここでtreeデータを元にチャージ可否を判定、canChargeにbooleanを格納予定
   const canCharge = true;
   return (
