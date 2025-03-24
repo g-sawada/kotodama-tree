@@ -3,19 +3,16 @@ import SoulModalController from "@/features/profile/components/SoulModalControll
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
-import { User, Soul, Tree, Favorite } from '@/types';
-import { getUserBySoulCreatorIdAction, getUsersIdAction, getUserByTreeIdAction, getFavoritesByUserCreatedSoulsAction, getSoulsHarvestedCountAction, getUserBySoulOwnerIdAction } from "@/lib/actions/getUsers";
+import { User, Soul, Tree } from '@/types';
+import { getUserBySoulCreatorIdAction, getUsersIdAction, getUserByTreeIdAction } from "@/lib/actions/getUsers";
 import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
 
 
 export default async function ProfilePage() {
   const useruuId = "abc123";
   const user: User = await getUsersIdAction(useruuId);
-  const soul: Soul[] = await getSoulsHarvestedCountAction(useruuId);
   const souls: Soul[] = await getUserBySoulCreatorIdAction(useruuId);
-  const ownersouls: Soul[] = await getUserBySoulOwnerIdAction(useruuId);
   const tree: Tree = await getUserByTreeIdAction(useruuId);
-  const favorites: Favorite[] = await getFavoritesByUserCreatedSoulsAction(useruuId);
 
   return (
     <>
@@ -43,7 +40,7 @@ export default async function ProfilePage() {
             <SoulModalController user={user} souls={souls} />
           </div>
         </div>
-        <PerformanceModalController user={user} ownersouls={ownersouls} soul={soul} favorites={favorites}/>
+        <PerformanceModalController/>
     </div>
     </>
   )

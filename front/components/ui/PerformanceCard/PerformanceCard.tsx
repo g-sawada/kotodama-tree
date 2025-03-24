@@ -1,21 +1,29 @@
-import { Soul, User, Favorite } from "@/types";
 
-type Props = {
-  soul: Soul[];
-  ownersouls: Soul[];
-  user: User;
-  favorites: Favorite[];
-  openModal: (soul: Soul[], ownersouls: Soul[], user: User, favorites: Favorite[]) => void;
-};
 
-export default function PerformanceCard({ soul, ownersouls, user, favorites }: Props) {
+export default function PerformanceCard() {
   return (
     <>
-    <div onClick={() => openModal(soul, ownersouls, user, favorites)}>
-      <div>ユーザーレベル{user.level}</div>
-      <div>そうしゅうかく数{ownersouls}</div>
-      <div>いいね数{favorites}</div>
-      <div>ささげた回数{soul}</div>
+    <div className="text-center" onClick={() => openModal()}>
+      <div className="pb-10">
+        testUser1さん
+        <div>のこれまでのじっせき</div>
+      </div>
+      <div className="grid grid-cols-2 pb-10">
+        <div className="col-span-1">ユーザーレベル</div>
+        <div className="col-span-1 ps-10">3</div>
+      </div>
+      <div className="grid grid-cols-2 pb-10">
+        <div className="col-span-1">そうしゅうかく数</div>
+        <div className="col-span-1 ps-10">1</div>
+      </div>
+      <div className="grid grid-cols-2 pb-10">
+        <div className="col-span-1">いいね数</div>
+        <div className="col-span-1 ps-10">0</div>
+      </div>
+      <div className="grid grid-cols-2 pb-10">
+        <div className="col-span-1">ささげた回数</div>
+        <div className="col-span-1 ps-10">4</div>
+      </div>
     </div>
     </>
   );

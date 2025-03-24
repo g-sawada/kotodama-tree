@@ -5,9 +5,8 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import ResizeModal from "@/components/ui/ResizeModal";
 import { Soul } from "@/types/soul";
-import UserCardList from "@/components/ui/UserCard/UserCardList";
-import UserCard from "@/components/ui/UserCard/UserCard";
-
+import UserCardList from "@/features/main/Profile/components/UserCardList";
+import UserCard from "@/features/main/Profile/components/UserCard";
 
 type Props = {
   souls: Soul[];
@@ -34,22 +33,37 @@ export default function SoulModalController({ souls }: Props) {
 
   return (
     <>
-    <Button text="作成したコトダマ一覧" buttonType="ok" handleClick={openListModal}/>
+      <Button
+        text="作成したコトダマ一覧"
+        buttonType="ok"
+        handleClick={openListModal}
+      />
       <FullSizeModal isOpen={isListModalOpen}>
         <UserCardList souls={souls} openModal={openSoulModal} />
         <div className="flex justify-center my-4">
-          <Button text="閉じる" handleClick={closeListModal} buttonType="cancel"/>
+          <Button
+            text="閉じる"
+            handleClick={closeListModal}
+            buttonType="cancel"
+          />
         </div>
       </FullSizeModal>
 
-
       {selectedSoul && (
         <ResizeModal isOpen={isSoulModalOpen}>
-          <UserCard soul={selectedSoul}/>
+          <UserCard soul={selectedSoul} />
           <div className="flex justify-center my-4">
-            <Button text="削除" handleClick={() => router.push("#")} buttonType="danger"/>
-            <Button text="閉じる" handleClick={closeSoulModal} buttonType="cancel" />
-            </div>
+            <Button
+              text="削除"
+              handleClick={() => router.push("#")}
+              buttonType="danger"
+            />
+            <Button
+              text="閉じる"
+              handleClick={closeSoulModal}
+              buttonType="cancel"
+            />
+          </div>
         </ResizeModal>
       )}
     </>

@@ -1,5 +1,5 @@
 import { Soul } from "@/types/soul";
-import UserCard from "./UserCard";
+import SoulCard from "@/components/ui/SoulCard/SoulCard";
 
 type Props = {
   souls: Soul[];
@@ -13,7 +13,7 @@ export default function UserCardList({ souls, openModal }: Props) {
     <div className="mx-auto w-full">
       <div className="flex flex-col gap-6 items-center">
         {souls.map((soul: Soul) => (
-          <UserCard key={soul.id} soul={soul} openModal={openModal}/>
+          <SoulCard key={soul.id} soul={soul} handleCardClick={() => openModal(soul)}/>
         ))}
       </div>
     </div>
