@@ -28,7 +28,7 @@ class Api::V1::UsersController < ApplicationController
       else
         # user.idのみ返す
         user = user.slice(:id)
-        render json: {data: user}, status: :ok
+        render json: { data: user }, status: :ok
       end
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
@@ -49,13 +49,13 @@ class Api::V1::UsersController < ApplicationController
       end
       
       # 成功時のレスポンス
-      render json: result, status: :created
+      render json: { data: result }, status: :created
     
-    # ActiveRecordのバリデーションエラー
+    # ActiveRecordのバリデーションエラー(422 Unprocessable Entity)
     rescue ActiveRecord::RecordInvalid => e
-      render json: e.record.errors, status: :unprocessable_entity
+      render json: { error: e.record.errors }, status: :unprocessable_entity
       
-    # create_pathway_random!で他のroomを取得できなかった場合，およびその他のエラー
+    # create_pathway_random!で他のroomを取得できなかった場合，およびその他のエラー(500 Internal Server Error)
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
     end
