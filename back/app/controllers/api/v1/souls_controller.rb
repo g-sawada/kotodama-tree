@@ -4,8 +4,9 @@ class Api::V1::SoulsController < ApplicationController
     begin
       user = User.find(params[:creator_id])
       # last_visit_roomがユーザー自身の部屋でない場合は403を返す
-      #
-      #
+      if user.last_visit_room != user.room_id
+        render json: { error: "アクセス権がありません" }, status: :forbidden
+      end
       # ユーザーが作成済みのコトダマ数が上限値に達している場合は409(Conflict)を返す
       created_souls_count = Soul.where(creator_id: user.id).count
       if user.max_create_souls - created_souls_count < 1
