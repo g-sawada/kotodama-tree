@@ -84,5 +84,17 @@ users.each do |user|
   create_dummy_soul(creator_id = user.id, owner_id = nil, home_tree_id = user.tree.id, captured_tree_id = other_user.tree.id)
 end
 
+# Favoriteを作成
+# 2人のユーザーが自分以外のユーザーのSoulを1つずつお気に入り登録
+souls = Soul.all
+two_users = users[0..1]
+two_users.each do |user|
+  souls.each do |soul|
+    if soul.creator_id != user.id
+      user.favorites.create!(soul_id: soul.id)
+    end
+  end
+end
+
 puts "seed data successfully created!"
 
