@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       end
 
       resources :rooms, only: %i[show]
-      
+      resources :souls, only: %i[create]
     end
   end
 end
