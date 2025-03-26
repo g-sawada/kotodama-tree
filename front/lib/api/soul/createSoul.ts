@@ -27,11 +27,13 @@ export const createSoul = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          content: content,
-          owner_id: owner_id,
-          creator_id: creator_id,
-          home_tree_id: home_tree_id,
-          captured_tree_id: captured_tree_id,
+          soul: {
+            content: content,
+            owner_id: owner_id,
+            creator_id: creator_id,
+            home_tree_id: home_tree_id,
+            captured_tree_id: captured_tree_id,
+          },
         }),
         cache: "no-cache",
       }
