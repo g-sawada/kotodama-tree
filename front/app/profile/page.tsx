@@ -1,9 +1,12 @@
 import React from "react";
+import Image from "next/image";
 import SoulModalController from "@/features/profile/components/SoulModalController";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
-import { User, Soul, Tree } from '@/types';
+import { User } from '@/types/user';
+import { Soul } from '@/types/soul';
+import { Tree } from "@/types/tree";
 import { getUserBySoulCreatorIdAction, getUsersIdAction, getUserByTreeIdAction } from "@/lib/actions/getUsers";
 import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
 
@@ -17,12 +20,12 @@ export default async function ProfilePage() {
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>
-    <div className="grid place-content-center grid-rows-1 gap-1 mt-10 m-5">
-      <div className="row-span-1 border border-white rounded-lg mb-1">
-        <div className="text-center py-2 text-lg">{user.name}</div>
+    <div className="grid place-content-center grid-rows-1 gap-1 mt-5 m-5">
+      <div className="row-span-1 border border-white rounded-lg mb-3">
+        <div className="text-center py-4 text-lg">{user.name}</div>
       </div>
-      <div className="row-span-2 border border-white rounded-lg p-2 grid grid-cols-12 mb-1">
-        <img src={`/${tree.image}`} className="h-40 w-27 col-span-5"></img>
+      <div className="row-span-2 border border-white rounded-lg p-5 grid grid-cols-12 mb-3 ">
+        <Image src={`/${tree.image}`} width={130} height={130} alt="Tree Image" className="col-span-5"/>
         <div className="grid grid-rows-3 col-span-7">
           <div className="text-end rows-span-2">キのようす</div>
           <div className="text-end rows-span-1">Lv:{tree.level}
@@ -33,11 +36,11 @@ export default async function ProfilePage() {
           </div>
         </div>
       </div>
-      <div className="row-span-2 border border-white rounded-lg p-2 grid grid-cols-12 mb-1">
+      <div className="row-span-2 border border-white rounded-lg p-2 py-5 grid grid-cols-12 mb-5">
         <img src="/soul.svg" className="w-20 h-20 col-span-4"></img>
         <div className="col-span-8">
           <div className="pb-3">コトダマ作成数 {souls.length} / {user.max_create_souls}</div>
-            <SoulModalController user={user} souls={souls} />
+            <SoulModalController souls={souls} />
           </div>
         </div>
         <PerformanceModalController/>

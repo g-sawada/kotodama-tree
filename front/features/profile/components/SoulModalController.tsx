@@ -5,8 +5,8 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import ResizeModal from "@/components/ui/ResizeModal";
 import { Soul } from "@/types/soul";
-import UserCardList from "@/features/main/Profile/components/UserCardList";
-import UserCard from "@/features/main/Profile/components/UserCard";
+import SoulCardList from "../SoulCardList";
+import SoulCard from "@/components/ui/SoulCard/SoulCard";
 
 type Props = {
   souls: Soul[];
@@ -39,7 +39,7 @@ export default function SoulModalController({ souls }: Props) {
         handleClick={openListModal}
       />
       <FullSizeModal isOpen={isListModalOpen}>
-        <UserCardList souls={souls} openModal={openSoulModal} />
+        <SoulCardList souls={souls} openModal={openSoulModal} />
         <div className="flex justify-center my-4">
           <Button
             text="閉じる"
@@ -51,7 +51,14 @@ export default function SoulModalController({ souls }: Props) {
 
       {selectedSoul && (
         <ResizeModal isOpen={isSoulModalOpen}>
-          <UserCard soul={selectedSoul} />
+          <SoulCard soul={selectedSoul} >
+            <div className="flex justify-between">
+              <p className="text-gray-700 text-md">
+                しゅうかくされたかいすう
+                <span className="ml-2 font-bold">{selectedSoul.harvested_count}</span>
+              </p>
+            </div>
+          </SoulCard>
           <div className="flex justify-center my-4">
             <Button
               text="削除"

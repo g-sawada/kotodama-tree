@@ -1,9 +1,8 @@
 
-
 export default function PerformanceCard() {
   return (
     <>
-    <div className="text-center" onClick={() => openModal()}>
+    <div className="text-center">
       <div className="pb-10">
         testUser1さん
         <div>のこれまでのじっせき</div>
