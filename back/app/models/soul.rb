@@ -7,7 +7,7 @@ class Soul < ApplicationRecord
 
   with_options presence: true do
     validates :creator_id
-    validates :content
+    validates :content, length: { maximum: 80 }
     with_options numericality: { only_integer: true, greater_than_or_equal_to: 0 } do
       validates :harvested_count
     end

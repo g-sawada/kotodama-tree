@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import { Soul } from "@/types/soul";
@@ -9,6 +8,7 @@ import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import CarryingSoulCardList from "../CarryingSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
+import { useRouter } from "next/navigation";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -28,6 +28,7 @@ export default function CarryingSoulsModalController({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
+  const room_uuid = "room11"
   const router = useRouter();
 
   // モーダルの開閉制御
@@ -102,7 +103,7 @@ export default function CarryingSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push("#")}
+                      handleClick={() => router.push("/mock/offer")}
                       buttonType="ok"
                     />
                   </div>

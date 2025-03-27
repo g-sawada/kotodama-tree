@@ -31,6 +31,7 @@ export default function TreeSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
+  const room_uuid = "room11"
 
   // モーダルの開閉制御
   const openModal = async () => {
@@ -110,7 +111,7 @@ export default function TreeSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push("#")}
+                      handleClick={() => router.push("/mock/offer")}
                       buttonType="ok"
                     />
                   </div>
