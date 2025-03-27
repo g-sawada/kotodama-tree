@@ -65,6 +65,40 @@ class Api::V1::UsersController < ApplicationController
   def destroy
   end
 
+  # PATCH /api/v1/users/:id/move
+  # ユーザーが部屋を移動できる場合，last_visit_roomを更新する
+  def move
+    begin
+      target_room = Room.find(params[:room_id])
+      user = User.find(params[:id])
+
+      # 既にuserのlast_visit_roomがtarget_room.idと一致している場合は何もしない
+      if user.last_visit_room == target_room.id
+        return render json: { data: target_room, message: "移動済みです" }, status: :ok
+      end
+
+      # 移動したいroomがpathwayで接続しているroomのリストを取得
+      linked_rooms = target_room.linked_rooms
+
+      if linked_rooms.any?{ |r| r.id == user.last_visit_room }
+        # userのlast_visit_roomがリストに含まれる場合, 移動可能としてuserのlast_visit_roomを更新
+        user.update!(last_visit_room: target_room.id)
+        return render json: { data: target_room, message: "部屋を移動しました" }, status: :ok
+      else
+        # 移動できない場合は403 Forbiddenを返す
+        return render json: { error: "移動権限がありません" }, status: :forbidden
+      end
+
+    # target_roomまたはuserが見つからない場合は404を返す
+    rescue ActiveRecord::RecordNotFound => e
+      return render json: { error: e.message }, status: :not_found
+    
+    # 予期しないエラー
+    rescue StandardError => e
+      return render json: { error: e.message }, status: :internal_server_error
+    end
+  end
+
   private
   def user_params
     params.require(:user).permit(:name, :provider, :provider_id)

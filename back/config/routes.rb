@@ -5,6 +5,10 @@ Rails.application.routes.draw do
         collection do
           get :find_by_provider
         end
+
+        member do
+          patch :move
+        end
       end
 
       resources :rooms, only: %i[show] do
