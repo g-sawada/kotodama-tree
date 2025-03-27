@@ -7,7 +7,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :rooms, only: %i[show]
+      resources :rooms, only: %i[show] do
+        member do
+          post :enter
+        end
+      end
 
       resources :souls, only: %i[index create destroy]
     end
