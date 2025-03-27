@@ -37,7 +37,7 @@ export default async function ProfilePage() {
         </div>
       </div>
       <div className="row-span-2 border border-white rounded-lg p-2 py-5 grid grid-cols-12 mb-5">
-        <img src="/soul.svg" className="w-20 h-20 col-span-4"></img>
+        <Image src="/soul.svg" width={90} height={90} alt="Soul Image" className="col-span-4"/>
         <div className="col-span-8">
           <div className="pb-3">コトダマ作成数 {souls.length} / {user.max_create_souls}</div>
             <SoulModalController souls={souls} />
