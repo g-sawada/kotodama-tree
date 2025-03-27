@@ -74,7 +74,7 @@ class Api::V1::UsersController < ApplicationController
 
       # 既にuserのlast_visit_roomがtarget_room.idと一致している場合は何もしない
       if user.last_visit_room == target_room.id
-        return render json: { data: target_room, message: "移動済みです" }, status: :ok
+        return render json: { data: target_room.id, message: "移動済みです" }, status: :ok
       end
 
       # 移動したいroomがpathwayで接続しているroomのリストを取得
@@ -83,7 +83,7 @@ class Api::V1::UsersController < ApplicationController
       if linked_rooms.any?{ |r| r.id == user.last_visit_room }
         # userのlast_visit_roomがリストに含まれる場合, 移動可能としてuserのlast_visit_roomを更新
         user.update!(last_visit_room: target_room.id)
-        return render json: { data: target_room, message: "部屋を移動しました" }, status: :ok
+        return render json: { data: target_room.id, message: "部屋を移動しました" }, status: :ok
       else
         # 移動できない場合は403 Forbiddenを返す
         return render json: { error: "移動権限がありません" }, status: :forbidden
