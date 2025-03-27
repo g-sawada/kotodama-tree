@@ -8,11 +8,11 @@ class Api::V1::SoulsController < ApplicationController
         return render json: { error: "アクセス権がありません" }, status: :forbidden
       end
       # ユーザーが作成済みのコトダマ数が上限値に達している場合は409(Conflict)を返す
-      created_souls_count = Soul.where(creator_id: user.id).count
-      if user.max_create_souls - created_souls_count < 1
+      created_souls_count = user.creator_souls.count
+      if user.max_create_souls <= created_souls_count
         return render json: { error: "コトダマ作成数が上限に達しています" }, status: :conflict
       end
-      @soul = Soul.new(soul_params)
+      @soul = Soul.new(content: params[:soul][:content], creator_id: user.id, home_tree_id: user.tree.id, captured_tree_id:  user.tree.id)
       if @soul.save
         render json: { data: @soul }, status: :created
       # saveに失敗した場合は422(Unprocessable Entity)を返す
@@ -28,6 +28,6 @@ class Api::V1::SoulsController < ApplicationController
 
   private
   def soul_params
-    params.require(:soul).permit(:content, :owner_id, :creator_id, :home_tree_id, :captured_tree_id)
+    params.require(:soul).permit(:content, :creator_id)
   end
 end
