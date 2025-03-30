@@ -8,6 +8,20 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /api/v1/users/:id
   def show
+    begin
+      user = User.find(params[:id])
+      
+      return render json: { data: user.as_json(
+        except: [:provider, :provider_id]
+      )}, status: :ok
+
+    rescue ActiveRecord::RecordNotFound => e
+      # ユーザーが見つからない場合は404を返す
+      return render json: { error: e.message }, status: :not_found
+    rescue StandardError => e
+      # 予期しないエラー
+      return render json: { error: e.message }, status: :internal_server_error
+    end
   end
 
   # GET /api/v1/users/find_by_provider
