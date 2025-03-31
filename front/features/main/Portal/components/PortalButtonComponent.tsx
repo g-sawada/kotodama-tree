@@ -1,21 +1,33 @@
 import { EmblaOptionsType } from 'embla-carousel';
 import { Pathway } from "@/types/pathway";
-import { getPathwaysByRoomUuid } from "@/lib/api/pathway/getPathways";
 import PortalButtonCarousel from "./PortalButtonCarousel";
 import Portal from './Portal';
 
-export default async function PortalButtonComponent() {
-  const thisRoomUuid = "room1" // テスト用に設置
-  const pathways = await getPathwaysByRoomUuid(thisRoomUuid)
-  const emblaOptions: EmblaOptionsType = { dragFree: true } //カルーセルに渡すオプション
+/**
+ * @param thisRoomId 
+ * @param pathways {Pathway[]} 
+ * @returns React.ReactNode
+ */
+
+type Props = {
+  thisRoomId: string;
+  pathways: Pathway[];
+};
+
+export default async function PortalButtonComponent({
+    thisRoomId,
+    pathways
+  }: Props) {
+  //カルーセルに渡すオプション
+  const emblaOptions: EmblaOptionsType = { dragFree: true } 
+  
   return (
     <>
-        <PortalButtonCarousel options={emblaOptions}>
-          {pathways.map((pathway: Pathway) => (
-            <Portal key={pathway.id} thisRoomUuid={thisRoomUuid} pathway={pathway} />
-          ))}
-        </PortalButtonCarousel>
-
+      <PortalButtonCarousel options={emblaOptions}>
+        {pathways.map((pathway: Pathway) => (
+          <Portal key={pathway.id} thisRoomId={thisRoomId} pathway={pathway} />
+        ))}
+      </PortalButtonCarousel>
     </>
   );
 }

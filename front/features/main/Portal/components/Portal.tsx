@@ -5,7 +5,7 @@ import { PI_Triangle, PI_Star, PI_Pentagon } from "./PortalIcons";
 import "@/styles/embla.css";
 
 type Props = {
-  thisRoomUuid: string;
+  thisRoomId: string;
   pathway: Pathway;
 };
 
@@ -15,10 +15,9 @@ const PortalIconMap: { [key: number]: React.FC } = {
   3: PI_Pentagon,
 };
 
-export default function Portal({ thisRoomUuid, pathway }: Props) {
-  const targetRoomId = thisRoomUuid === pathway.room_1_id ? pathway.room_2_id :
-                        pathway.room_1_id;
-  console.log(targetRoomId); // 対象のroom_idが取得できているか確認用
+export default function Portal({ thisRoomId, pathway }: Props) {
+  const targetRoomId = thisRoomId === pathway.room_1_id ?
+                        pathway.room_2_id : pathway.room_1_id;
   const { figure_type, color } = pathway;
   const PortalIcon = PortalIconMap[figure_type];
 
