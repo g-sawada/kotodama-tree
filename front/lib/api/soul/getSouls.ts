@@ -12,7 +12,7 @@ import { Soul } from "@/types/soul";
 interface getSoulsParams {
   owner_id?: string;
   creator_id?: string;
-  captured_tree_id?: string;
+  captured_tree_id?: number;
 }
 
 export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSoulsParams) : Promise<FetchResult<Soul[]>>=> {
@@ -21,7 +21,7 @@ export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSo
   const params = new URLSearchParams();
   if (owner_id) params.append('owner_id', owner_id);
   if (creator_id) params.append('creator_id', creator_id);
-  if (captured_tree_id) params.append('captured_tree_id', captured_tree_id);
+  if (captured_tree_id) params.append('captured_tree_id', captured_tree_id.toString());
 
   // URLパラメータが全て空の場合はエラーを投げる
   if(!params.toString()) {

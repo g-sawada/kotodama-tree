@@ -14,7 +14,7 @@ import { getSouls } from "@/lib/api/soul/getSouls";
 interface getSoulsParams {
   owner_id?: string;
   creator_id?: string;
-  captured_tree_id?: string;
+  captured_tree_id?: number;
 }
 
 export default async function getSoulsAction({
