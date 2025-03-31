@@ -5,8 +5,7 @@ export interface User {
   exp: number;
   max_create_souls: number;
   max_carry_souls: number;
-  provider: string;     // NOTE: 修正対象 providerとprovider_idは基本フロントには渡さない
-  provider_id: string;
+  last_visit_room: string;
   created_at: string;
   updated_at: string;
 }

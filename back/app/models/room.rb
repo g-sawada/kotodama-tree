@@ -6,6 +6,22 @@ class Room < ApplicationRecord
 
   validates :user_id, uniqueness: true
 
+  # 自身とpathwayで繋がるroomの配列を取得
+  def linked_rooms
+    linked_rooms = []
+
+    # 自身がroom_1のpathwayを取得し，pathwayのroom_2_idからroomを取得
+    self.room_1_pathways.each do |pathway|
+      linked_rooms << Room.find(pathway.room_2_id)
+    end
+    # 自身がroom_2のpathwayを取得し，pathwayのroom_1_idからroomを取得
+    self.room_2_pathways.each do |pathway|
+      linked_rooms << Room.find(pathway.room_1_id)
+    end
+    # NOTE: room_1とroom_2でUNIQUE制約があるため，重複排除は不要
+    linked_rooms
+  end
+
   # 指定したroomとpathwayを作成
   def create_pathway_with!(room)
     # UNIQUEのため，2つのroom_idをソートしてから保存

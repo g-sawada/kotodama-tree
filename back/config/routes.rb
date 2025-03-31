@@ -5,9 +5,17 @@ Rails.application.routes.draw do
         collection do
           get :find_by_provider
         end
+
+        member do
+          patch :move
+        end
       end
 
-      resources :rooms, only: %i[show]
+      resources :rooms, only: %i[show] do
+        member do
+          post :enter
+        end
+      end
 
       resources :souls, only: %i[index create destroy] do
         member do

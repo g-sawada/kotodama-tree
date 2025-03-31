@@ -27,4 +27,28 @@ class Api::V1::RoomsController < ApplicationController
       render json: { error: e.message }, status: :internal_server_error
     end
   end
+
+  # POST /api/v1/rooms/:id/enter
+  # ユーザーが部屋にアクセス可能かどうかをチェックする
+  # URLからroom_idを取得，bodyからuser_idを取得
+  def enter
+    begin
+      target_room = Room.find(params[:id])
+      user = User.find(params[:user_id])
+
+      # userのlast_visit_roomがtarget_room.idと一致するかをチェック
+      can_enter = user.last_visit_room == target_room.id
+
+      # canEnterのtrue/falseをステータス200で返す
+      render json: { data: { canEnter: can_enter }}, status: :ok
+    
+    # target_roomまたはuserが見つからない場合は404を返す
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { error: e.message }, status: :not_found
+
+    # 予期しないエラー
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
+  end
 end
