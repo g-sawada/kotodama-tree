@@ -17,7 +17,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :souls, only: %i[index create destroy]
+      resources :souls, only: %i[index create destroy] do
+        member do
+          patch :harvest
+        end
+      end
     end
   end
 end
