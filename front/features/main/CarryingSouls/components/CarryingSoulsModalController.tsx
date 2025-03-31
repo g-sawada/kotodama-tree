@@ -60,7 +60,7 @@ export default function CarryingSoulsModalController({
         className="flex flex-col items-center flex-1 py-4"
       >
         <Image
-          src="icon_images/footer_kotodama.svg"
+          src="/icon_images/footer_kotodama.svg"
           alt="Icon 1"
           width={20}
           height={20}
