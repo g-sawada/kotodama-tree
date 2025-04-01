@@ -1,31 +1,36 @@
+'use client'
+
 import React from "react";
 import Link from "next/link";
 import { Pathway } from "@/types/pathway";
 import { PI_Triangle, PI_Star, PI_Pentagon } from "./PortalIcons";
 import "@/styles/embla.css";
+import userMoveAction from "@/lib/actions/user/userMoveAction";
 
 type Props = {
   thisRoomId: string;
   pathway: Pathway;
 };
 
-const PortalIconMap: { [key: number]: React.FC } = {
+const PortalIconMap: { [key: number]: React.FC<{color: string}> } = {
   1: PI_Triangle,
   2: PI_Star,
   3: PI_Pentagon,
 };
 
 export default function Portal({ thisRoomId, pathway }: Props) {
-  const targetRoomId = thisRoomId === pathway.room_1_id ?
-                        pathway.room_2_id : pathway.room_1_id;
   const { figure_type, color } = pathway;
   const PortalIcon = PortalIconMap[figure_type];
 
+  const handleClick = async (pathway: Pathway) =>  {
+    // room_1またはroom_2のうち，現在の部屋ではない方を移動先roomとして渡す
+    const targetRoomId = pathway.room_1_id === thisRoomId ? pathway.room_2_id : pathway.room_1_id
+    await userMoveAction(targetRoomId)
+  }
+
   return (
-    // /:room_uuidを実装後、href={targetRoomId}に切り替え予定
-    <Link href="/" width="64" height="64" className="inline-block embla__slide">
-      {/* PortalIconMapから該当するアイコンコンポーネントを取得し、動的にレンダリングする */}
+    <div onClick={() => handleClick(pathway)} className="cursor-pointer">
       <PortalIcon color={color} />
-    </Link>
+    </div>
   );
 }
