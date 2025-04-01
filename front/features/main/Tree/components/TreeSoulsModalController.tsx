@@ -15,10 +15,8 @@ import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
- *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
  * @param treeId 滞在中のroomに紐づくtree_idを受け取る
- *
  */
 
 type Props = {
@@ -67,8 +65,9 @@ export default function TreeSoulsModalController({
             {selectedSoul ? "コトダマ詳細" : "コトダマ一覧"}
           </h1>
           <div className="my-4">
-            {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
+
             {selectedSoul ? (
+              // 選択中のコトダマがあれば詳細画面を表示
               <>
                 <SoulDetailCard soul={selectedSoul}>
                   {isRoomOwner && (
@@ -77,7 +76,7 @@ export default function TreeSoulsModalController({
                     </p>
                   )}
                   <div className="flex justify-between">
-                    <p className="text-gray-700 text-md">by 名無しさん</p>
+                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
                     <EmptyHeartButton />
                   </div>
                 </SoulDetailCard>
@@ -99,10 +98,12 @@ export default function TreeSoulsModalController({
                 </div>
               </>
             ) : (
+            // 選択中のコトダマがなければ一覧を表示
               <>
                 <TreeSoulCardList
                   souls={souls}
                   setSelectedSoul={setSelectedSoul}
+                  isRoomOwner={isRoomOwner}
                 />
                 {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
                 {isRoomOwner && (

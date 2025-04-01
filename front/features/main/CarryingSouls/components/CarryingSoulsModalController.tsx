@@ -44,7 +44,6 @@ export default function CarryingSoulsModalController({
     setIsModalOpen(true);
     // モーダルを開いた時にユーザーが所持中のコトダマ一覧データを取得
     const souls: Soul[] = await getSoulsAction({ owner_id: userId });
-    console.log(souls)
     setSouls(souls);
   };
 
@@ -84,7 +83,7 @@ export default function CarryingSoulsModalController({
               <>
                 <SoulDetailCard soul={selectedSoul}>
                   <div className="flex justify-between">
-                    <p className="text-gray-700 text-md">by 名無しさん</p>
+                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
                     <EmptyHeartButton />
                   </div>
                 </SoulDetailCard>

@@ -6,14 +6,10 @@ import { Soul } from "@/types/soul";
 type Props = {
   souls: Soul[];
   setSelectedSoul: (soul: Soul) => void;
-  // params: Promise<{ roomId: string }>;
+  isRoomOwner: boolean;
 };
 
-export default function TreeSoulCardList({ souls, setSelectedSoul }: Props) {
-  // const { id } = React.use(params)
-  // const { data: session } = useSession() セッション情報もここで取得予定
-  // 上記URL上のroom_idに紐づくuser_idとsession情報のuser_idが一致するか判定し、displayExpにbooleanを格納
-  const displayExp = true;
+export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }: Props) {
 
   return (
     <>
@@ -25,13 +21,15 @@ export default function TreeSoulCardList({ souls, setSelectedSoul }: Props) {
               soul={soul}
               handleCardClick={() => setSelectedSoul(soul)}
             >
-              {displayExp && (
+              {/* ユーザーのホームのキの場合のみ，expを表示 */}
+              {isRoomOwner && (
                 <p className="w-24 text-gray-700 bg-white rounded-xl px-2 text-center my-2 shadow-[0px_0px_5px_2px_#fff]">
                   exp: {soul.exp}
                 </p>
               )}
+              
               <div className="flex justify-between">
-                <p className="text-gray-700 text-md">by 名無しさん</p>
+                <p className="text-gray-700 text-md">by {soul.creator.name}</p>
                 <EmptyHeartButton />
               </div>
             </SoulCard>

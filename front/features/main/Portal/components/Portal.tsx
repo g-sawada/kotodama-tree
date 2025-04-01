@@ -1,11 +1,11 @@
 'use client'
 
-import React from "react";
-import Link from "next/link";
 import { Pathway } from "@/types/pathway";
-import { PI_Triangle, PI_Star, PI_Pentagon } from "./PortalIcons";
 import "@/styles/embla.css";
+
 import userMoveAction from "@/lib/actions/user/userMoveAction";
+
+import { PI_Triangle, PI_Star, PI_Pentagon } from "./PortalIcons";
 
 type Props = {
   thisRoomId: string;

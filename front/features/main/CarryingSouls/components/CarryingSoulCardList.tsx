@@ -5,7 +5,7 @@ import SoulCard from "@/components/ui/SoulCard/SoulCard";
 
 /**
  * 手持ちコトダマ一覧を表示するコンポーネント
- * @param souls {Soul[]} コトダマの配列
+ * @param souls {SoulResponse[]]} コトダマの配列
  * @param setSelectedSoul {function} 親コンポーネントのuseStateで管理しているselectedSoulを更新する関数
  */
 
@@ -22,14 +22,14 @@ export default function CarryingSoulCardList({
     <>
       <div className="mx-auto w-full">
         <div className="flex flex-col gap-6 items-center">
-          {souls.map((soul: Soul) => (
+          {souls.map((soul) => (
             <SoulCard
               key={soul.id}
               soul={soul}
               handleCardClick={() => setSelectedSoul(soul)}
             >
               <div className="flex justify-between">
-                <p className="text-gray-700 text-md">by 名無しさん</p>
+                <p className="text-gray-700 text-md">by {soul.creator.name}</p>
                 <EmptyHeartButton />
               </div>
             </SoulCard>
