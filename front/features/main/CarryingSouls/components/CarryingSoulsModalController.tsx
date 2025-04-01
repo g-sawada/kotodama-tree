@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
@@ -12,7 +13,7 @@ import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
-import CarryingSoulCardList from "../CarryingSoulCardList";
+import CarryingSoulCardList from "./CarryingSoulCardList";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -30,6 +31,7 @@ export default function CarryingSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
+  
   // session情報を取得
   const session = useSession();
   if(!session.data?.user.userId) {
@@ -42,6 +44,7 @@ export default function CarryingSoulsModalController({
     setIsModalOpen(true);
     // モーダルを開いた時にユーザーが所持中のコトダマ一覧データを取得
     const souls: Soul[] = await getSoulsAction({ owner_id: userId });
+    console.log(souls)
     setSouls(souls);
   };
 

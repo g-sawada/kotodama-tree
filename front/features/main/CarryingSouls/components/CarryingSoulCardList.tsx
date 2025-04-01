@@ -1,7 +1,13 @@
-// import * as React from 'react' paramsの取得に必要？
+import { Soul } from "@/types/soul";
+
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
-import { Soul } from "@/types/soul";
+
+/**
+ * 手持ちコトダマ一覧を表示するコンポーネント
+ * @param souls {Soul[]} コトダマの配列
+ * @param setSelectedSoul {function} 親コンポーネントのuseStateで管理しているselectedSoulを更新する関数
+ */
 
 type Props = {
   souls: Soul[];
