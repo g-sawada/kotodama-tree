@@ -1,21 +1,22 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+
+import { Soul } from "@/types/soul";
+
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
-import { Soul } from "@/types/soul";
-import { getSoulsByOwnerIdAction } from "@/lib/actions/getSouls";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
-import CarryingSoulCardList from "../CarryingSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
-import { useRouter } from "next/navigation";
+
+import CarryingSoulCardList from "../CarryingSoulCardList";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
- *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
- *
- *
  */
 
 type Props = {
@@ -28,20 +29,20 @@ export default function CarryingSoulsModalController({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
-  const room_uuid = "room11"
   const router = useRouter();
+  // session情報を取得
+  const session = useSession();
+  if(!session.data?.user.userId) {
+    router.push("/login");
+  }
+  const userId = session.data?.user.userId;
 
   // モーダルの開閉制御
   const openModal = async () => {
     setIsModalOpen(true);
-    const user_uuid = "abc";
-    // コトダマ一覧データを取得し，stateにセット
-    try {
-      const souls: Soul[] = await getSoulsByOwnerIdAction(user_uuid);
-      setSouls(souls);
-    } catch (error) {
-      console.error(error);
-    }
+    // モーダルを開いた時にユーザーが所持中のコトダマ一覧データを取得
+    const souls: Soul[] = await getSoulsAction({ owner_id: userId });
+    setSouls(souls);
   };
 
   const closeModal = () => {

@@ -56,7 +56,7 @@ export default async function MainPage({ params }: { params: { roomId: string } 
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer isRoomOwner={isRoomOwner}/>
     </>
   )
 }
