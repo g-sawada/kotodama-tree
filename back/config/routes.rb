@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :souls, only: %i[index create destroy] do
         member do
           patch :harvest
+          patch :offer
         end
       end
     end

@@ -102,6 +102,36 @@ class Api::V1::SoulsController < ApplicationController
     end
   end
 
+  def offer
+    begin
+      @soul = Soul.find(params[:id])
+      user = User.find(params[:user_id])
+      room = Room.find(params[:room_id])
+      # last_visit_roomが現在訪れているroomのidと一致しない、または現在訪れているroomがユーザーの部屋でない場合は403を返す
+      if user.last_visit_room != room.id || user.room.id != room.id
+        return render json: { error: "アクセス権がありません" }, status: :forbidden
+      end
+      # soulのowner_idがuserでない場合は409(Conflict)を返す
+      if user.owner_souls.exclude?(@soul)
+        p @soul
+        return render json: { error: "データが一致しません" }, status: :conflict
+      end
+
+      result = ActiveRecord::Base.transaction do
+        @soul.owner_id = nil
+        @soul.captured_tree_id = user.tree.id
+        @soul.save!
+        @soul  # 成功時にsoulを返す
+      end
+
+      # 成功時のレスポンス
+      render json: { data: result }, status: :ok
+    # その他の予期しないエラー
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
+  end
+
   private
   def soul_params
     params.require(:soul).permit(:content, :creator_id)

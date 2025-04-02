@@ -1,7 +1,7 @@
 "use client"
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
-import { offerSoulAction } from "@/lib/actions/offerSoul";
+import { offerSoulAction } from "@/lib/actions/offerSoulAction";
 import { Soul } from "@/types/soul";
 
 type Props = {
