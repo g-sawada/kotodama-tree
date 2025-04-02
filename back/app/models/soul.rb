@@ -12,4 +12,13 @@ class Soul < ApplicationRecord
       validates :harvested_count
     end
   end
+
+  # 経験値算出時の係数（coefficient: COEF)を定数として定義
+  COEF_HARVESTED_COUNT = 3.freeze
+  COEF_FAVORITES_COUNT = 1.freeze
+
+  # 経験値算出メソッド
+  def exp
+    harvested_count * COEF_HARVESTED_COUNT + favorites.count * COEF_FAVORITES_COUNT
+  end
 end
