@@ -53,9 +53,9 @@ class Api::V1::SoulsController < ApplicationController
       if user.max_create_souls <= created_souls_count
         return render json: { error: "コトダマ作成数が上限に達しています" }, status: :conflict
       end
-      @soul = Soul.new(content: params[:soul][:content], creator_id: user.id, home_tree_id: user.tree.id, captured_tree_id:  user.tree.id)
-      if @soul.save
-        render json: { data: @soul }, status: :created
+      soul = Soul.new(content: params[:soul][:content], creator_id: user.id, home_tree_id: user.tree.id, captured_tree_id:  user.tree.id)
+      if soul.save
+        render json: { data: soul }, status: :created
       # saveに失敗した場合は422(Unprocessable Entity)を返す
       else
         return render json: { error: "コトダマを作成できませんでした" }, status: :unprocessable_entity
@@ -69,7 +69,7 @@ class Api::V1::SoulsController < ApplicationController
 
   def harvest
     begin
-      @soul = Soul.find(params[:id])
+      soul = Soul.find(params[:id])
       user = User.find(params[:user_id])
       room = Room.find(params[:room_id])
       tree = room.tree
@@ -78,7 +78,7 @@ class Api::V1::SoulsController < ApplicationController
         return render json: { error: "アクセス権がありません" }, status: :forbidden
       end
       # 現在訪れている部屋のキに対象のコトダマが捧げられていない場合は409(Conflict)を返す
-      if tree.captured_tree_souls.exclude?(@soul)
+      if tree.captured_tree_souls.exclude?(soul)
         return render json: { error: "データが一致しません" }, status: :conflict
       end
       # ユーザーの手持ちコトダマ数が上限値に達している場合は409(Conflict)を返す
@@ -87,11 +87,11 @@ class Api::V1::SoulsController < ApplicationController
       end
 
       result = ActiveRecord::Base.transaction do
-        @soul.owner_id = user.id
-        @soul.captured_tree_id = nil
-        @soul.harvested_count += 1
-        @soul.save!
-        @soul  # 成功時にsoulを返す
+        soul.owner_id = user.id
+        soul.captured_tree_id = nil
+        soul.harvested_count += 1
+        soul.save!
+        soul  # 成功時にsoulを返す
       end
 
       # 成功時のレスポンス
@@ -104,7 +104,7 @@ class Api::V1::SoulsController < ApplicationController
 
   def offer
     begin
-      @soul = Soul.find(params[:id])
+      soul = Soul.find(params[:id])
       user = User.find(params[:user_id])
       room = Room.find(params[:room_id])
       # last_visit_roomが現在訪れているroomのidと一致しない、または現在訪れているroomがユーザーの部屋でない場合は403を返す
@@ -112,16 +112,15 @@ class Api::V1::SoulsController < ApplicationController
         return render json: { error: "アクセス権がありません" }, status: :forbidden
       end
       # soulのowner_idがuserでない場合は409(Conflict)を返す
-      if user.owner_souls.exclude?(@soul)
-        p @soul
+      if user.owner_souls.exclude?(soul)
         return render json: { error: "データが一致しません" }, status: :conflict
       end
 
       result = ActiveRecord::Base.transaction do
-        @soul.owner_id = nil
-        @soul.captured_tree_id = user.tree.id
-        @soul.save!
-        @soul  # 成功時にsoulを返す
+        soul.owner_id = nil
+        soul.captured_tree_id = user.tree.id
+        soul.save!
+        soul  # 成功時にsoulを返す
       end
 
       # 成功時のレスポンス

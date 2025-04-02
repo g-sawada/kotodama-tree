@@ -21,15 +21,15 @@ export default async function offerSoulAction({soulId, roomId}: Props) {
   const room_id = "abc"
 
   const result = await offerSoul(soul_id, user_id, room_id);
-  console.log("result");
-  console.log(result);
+  // console.log("result");
+  // console.log(result);
 
   if (!result.isOk) {
-    console.error("エラーが発生しました");
+    // console.error("エラーが発生しました");
     redirect("/signup");
   }
 
-  console.log("奉納に成功しました");
-  await setFlash("success", "奉納に成功しました");
+  // console.log("コトダマを捧げました");
+  await setFlash("success", "コトダマを捧げました");
   redirect("/loggedIn");
 }
