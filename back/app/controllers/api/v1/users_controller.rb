@@ -9,11 +9,14 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users/:id
   def show
     begin
-      user = User.find(params[:id])
-      
-      return render json: { data: user.as_json(
-        except: [:provider, :provider_id]
-      )}, status: :ok
+      @user = User.find(params[:id])
+      @user_tree = @user.tree
+      @user_souls = @user.creator_souls
+      return render json: { 
+        data: @user.as_json(only: [:name, :level, :exp, :max_carry_souls, :max_create_souls]),
+              @user_tree.as_json(only: [:level, :exp, :image]),
+              @user_souls.as_json(only: [:harvested_count, :content])
+      }, status: :ok
 
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す
