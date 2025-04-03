@@ -1,15 +1,16 @@
 "use client"
+
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
-import { offerSoulAction } from "@/lib/actions/offerSoulAction";
+import { offerSoulAction } from "@/lib/actions/soul/offerSoulAction";
 import { Soul } from "@/types/soul";
 
 type Props = {
   souls: Soul[];
-  treeId: string;
+  roomId: string;
 };
 
-export default function OfferSoulCardList({ souls, treeId }: Props) {
+export default function OfferSoulCardList({ souls, roomId }: Props) {
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function OfferSoulCardList({ souls, treeId }: Props) {
             <SoulCard
               key={soul.id}
               soul={soul}
-              handleCardClick={() => offerSoulAction(soul.id, treeId)}
+              handleCardClick={() => offerSoulAction(soul.id, roomId)}
             >
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by 名無しさん</p>
