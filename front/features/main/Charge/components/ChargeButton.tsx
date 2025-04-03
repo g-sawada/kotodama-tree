@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 import ResizeModal from "@/components/ui/ResizeModal";
 
 type Props = {
-  treeId: string;
+  treeId: number;
   canCharge: boolean;
 };
 
@@ -35,12 +35,12 @@ export default function ChargeButton({treeId, canCharge}: Props) {
     <>
       {canCharge ? (
         <button onClick={() => openModal()}>
-          <Image src="charge.svg" alt="charge_icon" width={64} height={64} />
+          <Image src="/charge.svg" alt="charge_icon" width={64} height={64} />
         </button>
       ) : (
         <button disabled>
           <Image
-            src="charge_disabled.svg"
+            src="/charge_disabled.svg"
             alt="charge_icon"
             width={64}
             height={64}

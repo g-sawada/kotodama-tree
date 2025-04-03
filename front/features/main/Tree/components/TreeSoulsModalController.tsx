@@ -1,26 +1,27 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { Soul } from "@/types/soul";
+import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
+
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
-import { Soul } from "@/types/soul";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import Tree from "@/components/ui/Tree";
-import { getSoulsByCapturedTreeIdAction } from "@/lib/actions/getSouls";
-import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
+
+import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
- *
  * @param isRoomOwner ログイン中ユーザー本人の部屋にいる時のみtrue。デフォルトはfalse
  * @param treeId 滞在中のroomに紐づくtree_idを受け取る
- *
  */
 
 type Props = {
   isRoomOwner?: boolean;
-  treeId: string;
+  treeId: number;
 };
 
 export default function TreeSoulsModalController({
@@ -31,18 +32,13 @@ export default function TreeSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
-  const room_uuid = "room11"
 
   // モーダルの開閉制御
   const openModal = async () => {
     setIsModalOpen(true);
-    // コトダマ一覧データを取得し，stateにセット
-    try {
-      const souls: Soul[] = await getSoulsByCapturedTreeIdAction(treeId);
-      setSouls(souls);
-    } catch (error) {
-      console.error(error);
-    }
+    // モーダルを開いたときにキのコトダマ一覧を取得
+    const souls: Soul[] = await getSoulsAction({ captured_tree_id: treeId });
+    setSouls(souls);
   };
 
   const closeModal = () => {
@@ -69,8 +65,9 @@ export default function TreeSoulsModalController({
             {selectedSoul ? "コトダマ詳細" : "コトダマ一覧"}
           </h1>
           <div className="my-4">
-            {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
+
             {selectedSoul ? (
+              // 選択中のコトダマがあれば詳細画面を表示
               <>
                 <SoulDetailCard soul={selectedSoul}>
                   {isRoomOwner && (
@@ -79,7 +76,7 @@ export default function TreeSoulsModalController({
                     </p>
                   )}
                   <div className="flex justify-between">
-                    <p className="text-gray-700 text-md">by 名無しさん</p>
+                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
                     <EmptyHeartButton />
                   </div>
                 </SoulDetailCard>
@@ -101,10 +98,12 @@ export default function TreeSoulsModalController({
                 </div>
               </>
             ) : (
+            // 選択中のコトダマがなければ一覧を表示
               <>
                 <TreeSoulCardList
                   souls={souls}
                   setSelectedSoul={setSelectedSoul}
+                  isRoomOwner={isRoomOwner}
                 />
                 {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
                 {isRoomOwner && (
