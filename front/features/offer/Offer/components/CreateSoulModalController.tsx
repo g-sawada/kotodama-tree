@@ -20,6 +20,9 @@ export default function CreateSoulsModalController() {
   const [, setUser] = useState<User | null >(null);
   const [creatableCount, setCreatableCount] = useState(0);
 
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
+
   // 初回マウント時に必要なデータを取得
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +48,18 @@ export default function CreateSoulsModalController() {
     setIsModalOpen(false);
   };
 
-  const handleClick = () => {
-    console.log();
-  };
+  // フォームの値の変更を検知してstateにセット
+  const handleFormChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setContent(value);
+    if (value.length === 0) {
+      setError("コトダマは1文字以上入力してください");
+    } else if (value.length > 80) {
+      setError("コトダマは80文字以内で入力してください");
+    } else {
+      setError("");
+    }
+  }
 
   return (
     <>
@@ -64,21 +76,30 @@ export default function CreateSoulsModalController() {
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <h1 className="text-center text-xl font-bold">コトダマを創る</h1>
-          <form
-            action={createSoulAction}
-            className="my-8 flex flex-col items-center"
-          >
+          <form action={createSoulAction} className="my-8 flex flex-col items-center">
+
             <p>作成可能コトダマ数：あと{creatableCount}個</p>
+
             <textarea
               name="content"
-              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] overflow-y-auto my-4 h-20 max-w-80 p-2 resize-none"
+              value={content}
+              onChange={handleFormChange}
+              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] overflow-y-auto my-4 h-40 max-w-80 p-2 resize-none"
               placeholder="コトダマを入力してください"
             ></textarea>
-            <Button
-              text="コトダマを捧げる"
-              handleClick={() => handleClick()} // 関数設定は不要？
-              buttonType="ok"
-            />
+
+            <div className="min-h-10">
+              {error && <p className="text-red-500">{error}</p>}
+            </div>
+
+            <div className="mt-10">
+              <Button
+                text="コトダマを捧げる"
+                submit={true}
+                buttonType="ok"
+                isDisabled={!(error === "")}
+              />
+            </div>
           </form>
           <div className="flex justify-center my-4">
             <Button
