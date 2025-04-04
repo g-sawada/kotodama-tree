@@ -4,14 +4,14 @@ import SoulModalController from "@/features/profile/components/SoulModalControll
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
-import type { UserProfileResponse } from "@/lib/api/user/userProfile";
+import { UserProfileResponse } from "@/lib/api/user/userProfile";
 import { userProfileAction } from "@/lib/actions/user/userProfileAction";
 import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
 
 
 export default async function ProfilePage() {
   const userId = "cd2cd058-5ed9-46c0-8e1e-21718c230df4";
-  const { user, tree, souls }: UserProfileResponse = await userProfileAction(userId)
+  const { user, tree, souls, performances }: UserProfileResponse = await userProfileAction(userId)
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>
@@ -38,7 +38,7 @@ export default async function ProfilePage() {
             <SoulModalController souls={souls} />
           </div>
         </div>
-        <PerformanceModalController/>
+        <PerformanceModalController user={user} performances={performances}/>
     </div>
     </>
   )

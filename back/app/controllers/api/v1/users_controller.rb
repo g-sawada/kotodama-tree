@@ -123,10 +123,14 @@ class Api::V1::UsersController < ApplicationController
         data: {
           user: user.as_json(except: [:provider, :provider_id]),
           tree: user_tree,
-          souls: user_souls
+          souls: user_souls,
+          performances: {
+            souls_harvested: user.souls_harvested,
+            sum_of_likes: user.sum_of_likes
+          }
         }
       }, status: :ok
-  
+
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す
       return render json: { error: e.message }, status: :not_found

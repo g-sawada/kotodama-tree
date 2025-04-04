@@ -9,6 +9,6 @@ export const userProfileAction = async (userId: string) => {
     throw new Error(res.body.error || "ユーザー情報の取得に失敗しました");
   }
 
-  const { user, tree, souls } = res.body.data;
-  return { user, tree, souls };
+  const { user, tree, souls, performances } = res.body.data;
+  return { user, tree, souls, performances };
 }
