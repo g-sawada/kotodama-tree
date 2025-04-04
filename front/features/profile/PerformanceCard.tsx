@@ -4,7 +4,7 @@ export default function PerformanceCard() {
     <>
     <div className="text-center">
       <div className="pb-10">
-        testUser1さん
+        {user.name}さん
         <div>のこれまでのじっせき</div>
       </div>
       <div className="grid grid-cols-2 pb-10">

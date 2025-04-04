@@ -8,15 +8,15 @@ import { User } from "@/types/user";
 import { Tree } from "@/types/tree";
 import { Soul } from "@/types/soul";
 
-interface ShowUserResponse {
+export interface UserProfileResponse {
   user: User;
   tree: Tree;
   souls: Soul[];
 };
 
-export const showUser = async (
+export const userProfile = async (
   userId: string,
-): Promise<FetchResult<ShowUserResponse>> => {
+): Promise<FetchResult<UserProfileResponse>> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/users/${userId}/profile`,
@@ -29,6 +29,7 @@ export const showUser = async (
       }
     );
     const body = await res.json();
+    console.log("body:", body);
 
     if (!res.ok) {
       return {

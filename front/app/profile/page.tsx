@@ -4,19 +4,14 @@ import SoulModalController from "@/features/profile/components/SoulModalControll
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
-import { User } from '@/types/user';
-import { Soul } from '@/types/soul';
-import { Tree } from "@/types/tree";
-import { getUserBySoulCreatorIdAction, getUsersIdAction, getUserByTreeIdAction } from "@/lib/actions/getUsers";
+import type { UserProfileResponse } from "@/lib/api/user/userProfile";
+import { userProfileAction } from "@/lib/actions/user/userProfileAction";
 import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
 
 
 export default async function ProfilePage() {
-  const useruuId = "abc123";
-  const user: User = await getUsersIdAction(useruuId);
-  const souls: Soul[] = await getUserBySoulCreatorIdAction(useruuId);
-  const tree: Tree = await getUserByTreeIdAction(useruuId);
-
+  const userId = "cd2cd058-5ed9-46c0-8e1e-21718c230df4";
+  const { user, tree, souls }: UserProfileResponse = await userProfileAction(userId)
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>

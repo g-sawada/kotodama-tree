@@ -10,13 +10,10 @@ class Api::V1::UsersController < ApplicationController
   def show
     begin
       user = User.find(params[:id])
-      user_tree = user.tree
-      user_souls = user.creator_souls
-      return render json: { 
-        user: user.as_json(except: [:provider, :provider_id]),
-        tree: user_tree,
-        souls: user_souls
-      }, status: :ok
+      
+      return render json: { data: user.as_json(
+        except: [:provider, :provider_id]
+      )}, status: :ok
 
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す
@@ -112,6 +109,29 @@ class Api::V1::UsersController < ApplicationController
     
     # 予期しないエラー
     rescue StandardError => e
+      return render json: { error: e.message }, status: :internal_server_error
+    end
+  end
+
+  # GET api/v1/users/:id/profile
+  def profile
+    begin
+      user = User.find(params[:id])
+      user_tree = user.tree
+      user_souls = user.creator_souls
+      return render json: { 
+        data: {
+          user: user.as_json(except: [:provider, :provider_id]),
+          tree: user_tree,
+          souls: user_souls
+        }
+      }, status: :ok
+  
+    rescue ActiveRecord::RecordNotFound => e
+      # ユーザーが見つからない場合は404を返す
+      return render json: { error: e.message }, status: :not_found
+    rescue StandardError => e
+      # 予期しないエラー
       return render json: { error: e.message }, status: :internal_server_error
     end
   end
