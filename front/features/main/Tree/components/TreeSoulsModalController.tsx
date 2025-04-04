@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { Soul } from "@/types/soul";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
@@ -32,6 +32,8 @@ export default function TreeSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
+  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+  
 
   // モーダルの開閉制御
   const openModal = async () => {
@@ -110,7 +112,7 @@ export default function TreeSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push("/mock/offer")}
+                      handleClick={() => router.push(`/m/${roomId}/offer`)}
                       buttonType="ok"
                     />
                   </div>
