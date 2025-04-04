@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 
 import { User } from "@/types/user";
-import { createSoulAction } from "@/lib/actions/createSoul";
+
 import getUserAction from "@/lib/actions/user/getUserAction";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
+import { createSoulAction } from "@/lib/actions/soul/createSoulAction";
 
 /**
  * コトダマ作成用のモーダルコントローラー
@@ -97,7 +98,7 @@ export default function CreateSoulsModalController() {
                 text="コトダマを捧げる"
                 submit={true}
                 buttonType="ok"
-                isDisabled={!(error === "")}
+                isDisabled={!(content.length > 0 && content.length <= 80)}
               />
             </div>
           </form>
