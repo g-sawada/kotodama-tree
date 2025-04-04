@@ -58,10 +58,7 @@ export default async function OfferPage({ params }: { params: { roomId: string }
         </h1>
         <div className="w-full mx-auto flex flex-col items-center flex-none">
           <div className="my-2">
-            {/* <CreateSoulsModalController
-              treeId={treeId}
-              remainingCreatableCount={remainingCreatableCount}
-            /> */}
+            <CreateSoulsModalController />
           </div>
           <div className="mb-2">
             <Button

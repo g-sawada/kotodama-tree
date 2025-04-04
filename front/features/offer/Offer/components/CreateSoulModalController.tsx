@@ -1,25 +1,43 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+
+import { User } from "@/types/user";
+import { createSoulAction } from "@/lib/actions/createSoul";
+import getUserAction from "@/lib/actions/user/getUserAction";
+import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
+
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
-import { createSoulAction } from "@/lib/actions/createSoul";
 
 /**
  * コトダマ作成用のモーダルコントローラー
  *
- *
  */
 
-type Props = {
-  remainingCreatableCount: number;
-};
-export default function CreateSoulsModalController({
-  remainingCreatableCount,
-}: Props) {
+export default function CreateSoulsModalController() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [, setUser] = useState<User | null >(null);
+  const [creatableCount, setCreatableCount] = useState(0);
+
+  // 初回マウント時に必要なデータを取得
+  useEffect(() => {
+    const fetchData = async () => {
+      // ユーザー情報を取得してstateにセット
+      const fetchedUser = await getUserAction();
+      if(!fetchedUser) return;
+      setUser(fetchedUser);
+
+      // 作成可能コトダマ数を取得
+      const createdSols = await getSoulsAction({ creator_id: fetchedUser.id });
+      setCreatableCount(fetchedUser.max_create_souls - createdSols.length);
+    }
+
+    fetchData();
+  }, []);
 
   // モーダルの開閉制御
-  const openModal = () => {
+  const openModal = async () => {
     setIsModalOpen(true);
   };
 
@@ -33,13 +51,13 @@ export default function CreateSoulsModalController({
 
   return (
     <>
-      {remainingCreatableCount === 0 && <p>コトダマ作成上限に達しています</p>}
+      {creatableCount <= 0 && <p>コトダマ作成上限に達しています</p>}
       <div className="text-center">
         <Button
           text="新たにコトダマを創る"
           buttonType="ok"
           handleClick={() => openModal()}
-          isDisabled={remainingCreatableCount === 0} // 作成上限に達している場合はdisable
+          isDisabled={creatableCount <= 0} // 作成上限に達している場合はdisable
         />
       </div>
 
@@ -50,10 +68,10 @@ export default function CreateSoulsModalController({
             action={createSoulAction}
             className="my-8 flex flex-col items-center"
           >
-            <p>作成可能コトダマ数：あと{remainingCreatableCount}個</p>
+            <p>作成可能コトダマ数：あと{creatableCount}個</p>
             <textarea
               name="content"
-              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] h-[90%] overflow-y-auto my-4 h-20 max-w-80 p-2 resize-none"
+              className="bg-gray-900 border-white border-2 rounded-lg w-[90%] overflow-y-auto my-4 h-20 max-w-80 p-2 resize-none"
               placeholder="コトダマを入力してください"
             ></textarea>
             <Button
