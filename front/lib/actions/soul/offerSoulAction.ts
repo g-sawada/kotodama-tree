@@ -6,12 +6,7 @@ import { offerSoul } from "../../api/soul/offerSoul";
 import { auth } from "@/auth";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
-type Props = {
-  soulId: number;
-  roomId: string;
-}
-
-export default async function offerSoulAction({soulId, roomId}: Props) {
+export default async function offerSoulAction(soulId: number, roomId: string) {
   // sessionからuserIdを取得。取得できない場合はloginページにリダイレクト
   const session = await auth();
   if (!session || !session.user.userId) {

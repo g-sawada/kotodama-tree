@@ -2,7 +2,7 @@
 
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
-import { offerSoulAction } from "@/lib/actions/soul/offerSoulAction";
+import offerSoulAction from "@/lib/actions/soul/offerSoulAction";
 import { Soul } from "@/types/soul";
 
 type Props = {
