@@ -22,6 +22,6 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
 
   await setFlash("success", "コトダマを捧げました");
 
-  // TODO: 成功時はreturnしてクライアント側でアニメーション処理を実行予定
-  redirect(`/m/${roomId}/offer`);
+  // 仮実装としてメイン画面にリダイレクト。捧げページでアニメーションを実装予定
+  redirect(`/m/${roomId}`);
 }
