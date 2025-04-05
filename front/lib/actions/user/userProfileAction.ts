@@ -6,9 +6,9 @@ export const userProfileAction = async (userId: string) => {
   const res = await userProfile(userId);
 
   if (!res.isOk) {
-    throw new Error(res.body.error || "ユーザー情報の取得に失敗しました");
+    return { error: res.body.error }
   }
 
-  const { user, tree, souls, performances } = res.body.data;
-  return { user, tree, souls, performances };
+  const { user, tree, souls, performance } = res.body.data;
+  return { user, tree, souls, performance };
 }

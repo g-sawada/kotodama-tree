@@ -1,8 +1,12 @@
-import { UserProfileResponse } from "@/lib/api/user/userProfile";
+import { User } from "@/types/user";
+import { Performance } from "@/types/performance";
 
-type Props = UserProfileResponse;
+type Props = {
+  user: User;
+  performance: Performance;
+};
 
-export default function PerformanceCard({ user, performances }: Props) {
+export default function PerformanceCard({ user, performance }: Props) {
   return (
     <>
     <div className="text-center">
@@ -16,11 +20,11 @@ export default function PerformanceCard({ user, performances }: Props) {
       </div>
       <div className="grid grid-cols-2 pb-10">
         <div className="col-span-1">そうしゅうかく数</div>
-        <div className="col-span-1 ps-10">{performances.souls_harvested}</div>
+        <div className="col-span-1 ps-10">{performance.souls_harvested}</div>
       </div>
       <div className="grid grid-cols-2 pb-10">
         <div className="col-span-1">いいね数</div>
-        <div className="col-span-1 ps-10">{performances.sum_of_likes}</div>
+        <div className="col-span-1 ps-10">{performance.sum_of_likes}</div>
       </div>
       <div className="grid grid-cols-2 pb-10">
         <div className="col-span-1">ささげた回数</div>

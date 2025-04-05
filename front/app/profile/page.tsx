@@ -11,7 +11,7 @@ import PerformanceModalController from "@/features/profile/components/Performanc
 
 export default async function ProfilePage() {
   const userId = "cd2cd058-5ed9-46c0-8e1e-21718c230df4";
-  const { user, tree, souls, performances }: UserProfileResponse = await userProfileAction(userId)
+  const { user, tree, souls, performance }: UserProfileResponse = await userProfileAction(userId)
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>
@@ -38,7 +38,7 @@ export default async function ProfilePage() {
             <SoulModalController souls={souls} />
           </div>
         </div>
-        <PerformanceModalController user={user} performances={performances}/>
+        <PerformanceModalController user={user} performance={performance}/>
     </div>
     </>
   )
