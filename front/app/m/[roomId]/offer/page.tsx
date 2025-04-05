@@ -27,32 +27,40 @@ export default async function OfferPage({ params }: { params: { roomId: string }
   const userId = session.user.userId;
 
   // コトダマ作成モーダルで使用するユーザー情報を取得
-  const user = await getUserAction()
+  const user = await getUserAction();
   if (!user) {
-    setFlash("error", "ユーザー情報の取得に失敗しました");
     redirect("/login");
   }
-
-  // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
-  const createdSouls = await getSoulsAction({ creator_id: userId });
-  const creatableCount = user.max_create_souls - createdSouls.length;
 
   // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
   const { roomId: thisRoomId } = await params;
   const getRoomInfoResult = await getRoomInfo(thisRoomId);
 
-  if (!getRoomInfoResult.isOk) {
+  if (!getRoomInfoResult.isOk || !getRoomInfoResult.body.data) {
     // Not Foundエラーの場合，redirectToLastVisitRoomActionをコール
     if(getRoomInfoResult.status === 404) {
       redirectToLastVisitRoomAction({ errorMessage: "アクセスに失敗しました" });
       return;
     }
     // その他のエラーの場合トップページにリダイレクト
-    setFlash("error", "エラーが発生しました");
+    // BUG: use serverを宣言した関数内以外でsetFlashを実行するとエラーになる
+    // setFlash("error", "エラーが発生しました");
     redirect("/");
   }
+  const roomInfo = getRoomInfoResult.body.data
 
-  // 手持ちのコトダマを取得
+  // 部屋のuserIdと現在のuserIdが一致しない場合，アクセス権限がないのでリダイレクト
+  if (roomInfo.room.user_id !== userId) {
+    // BUG: use serverを宣言した関数内以外でsetFlashを実行するとエラーになる
+    // setFlash("error", "この部屋にアクセスする権限がありません");
+    redirect(`/m/${thisRoomId}`);
+  }
+
+  // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
+  const createdSouls = await getSoulsAction({ creator_id: userId });
+  const creatableCount = user.max_create_souls - createdSouls.length;
+
+  // ユーザーの手持ちのコトダマを取得
   const souls = await getSoulsAction({ owner_id: userId });
 
   // 戻るボタンのリダイレクト処理
