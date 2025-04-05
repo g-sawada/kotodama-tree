@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
+import getUserAction from "@/lib/actions/user/getUserAction";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -24,6 +25,17 @@ export default async function OfferPage({ params }: { params: { roomId: string }
     redirect("/login");
   }
   const userId = session.user.userId;
+
+  // コトダマ作成モーダルで使用するユーザー情報を取得
+  const user = await getUserAction()
+  if (!user) {
+    setFlash("error", "ユーザー情報の取得に失敗しました");
+    redirect("/login");
+  }
+
+  // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
+  const createdSouls = await getSoulsAction({ creator_id: userId });
+  const creatableCount = user.max_create_souls - createdSouls.length;
 
   // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
   const { roomId: thisRoomId } = await params;
@@ -58,7 +70,7 @@ export default async function OfferPage({ params }: { params: { roomId: string }
         </h1>
         <div className="w-full mx-auto flex flex-col items-center flex-none">
           <div className="my-2">
-            <CreateSoulsModalController />
+            <CreateSoulsModalController creatableCount={creatableCount}/>
           </div>
           <div className="mb-2">
             <Button

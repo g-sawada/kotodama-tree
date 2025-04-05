@@ -1,11 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { User } from "@/types/user";
-
-import getUserAction from "@/lib/actions/user/getUserAction";
-import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
+import { useState } from "react";
 
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
@@ -16,29 +11,11 @@ import { createSoulAction } from "@/lib/actions/soul/createSoulAction";
  *
  */
 
-export default function CreateSoulsModalController() {
+export default function CreateSoulsModalController({ creatableCount }: { creatableCount: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [, setUser] = useState<User | null >(null);
-  const [creatableCount, setCreatableCount] = useState(0);
 
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
-
-  // 初回マウント時に必要なデータを取得
-  useEffect(() => {
-    const fetchData = async () => {
-      // ユーザー情報を取得してstateにセット
-      const fetchedUser = await getUserAction();
-      if(!fetchedUser) return;
-      setUser(fetchedUser);
-
-      // 作成可能コトダマ数を取得
-      const createdSols = await getSoulsAction({ creator_id: fetchedUser.id });
-      setCreatableCount(fetchedUser.max_create_souls - createdSols.length);
-    }
-
-    fetchData();
-  }, []);
 
   // モーダルの開閉制御
   const openModal = async () => {
