@@ -1,15 +1,13 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
 import { setFlash } from "@/lib/api/flash/setFlash";
-import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
+import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
+import getUserAction from "@/lib/actions/user/getUserAction";
 
 import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
-import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
-import getUserAction from "@/lib/actions/user/getUserAction";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -37,20 +35,8 @@ export default async function OfferPage({ params }: { params: { roomId: string }
   const createdSouls = await getSoulsAction({ creator_id: userId });
   const creatableCount = user.max_create_souls - createdSouls.length;
 
-  // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
+  // URLパラメータからroomIdを取得
   const { roomId: thisRoomId } = await params;
-  const getRoomInfoResult = await getRoomInfo(thisRoomId);
-
-  if (!getRoomInfoResult.isOk) {
-    // Not Foundエラーの場合，redirectToLastVisitRoomActionをコール
-    if(getRoomInfoResult.status === 404) {
-      redirectToLastVisitRoomAction({ errorMessage: "アクセスに失敗しました" });
-      return;
-    }
-    // その他のエラーの場合トップページにリダイレクト
-    setFlash("error", "エラーが発生しました");
-    redirect("/");
-  }
 
   // 手持ちのコトダマを取得
   const souls = await getSoulsAction({ owner_id: userId });
