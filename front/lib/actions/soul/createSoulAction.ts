@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { createSoul } from "@/lib/api/soul/createSoul";
 import { redirect } from "next/navigation";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
-
+import { setFlash } from "@/lib/api/flash/setFlash";
 
 // 手持ちのコトダマ一覧を取得するアクション
 export async function createSoulAction(formData: FormData) {
@@ -27,6 +27,8 @@ export async function createSoulAction(formData: FormData) {
     redirectToLastVisitRoomAction({ errorMessage: result.body.error });
   }
 
+  await setFlash("success", "新しいコトダマを捧げました");
+  
   // 仮実装。捧げアニメーションのあと、メイン画面へ
   await redirectToLastVisitRoomAction()
 }
