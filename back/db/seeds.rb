@@ -14,9 +14,10 @@ def create_dummy_user(name)
 end
 
 def create_dummy_room(user)
-  Room.create!(
+  room = Room.create!(
     user_id: user.id
   )
+  user.update!(last_visit_room: room.id) # ユーザーのlast_visit_roomを更新
 end
 
 def create_dummy_tree(user)
@@ -32,8 +33,8 @@ def create_dummy_pathway(room_1, room_2)
   smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
 
   Pathway.create!(
-    figure_type: 1,
-    color: "#000000",
+    figure_type: rand(1..3), # 1から3のランダムな整数
+    color: ["#FFB6C1", "#FFD700", "#98FB98", "#ADD8E6", "#FF69B4", "#FF6347", "#E6E6FA", "#DDA0DD"].sample, # カラーをランダムに選択
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
   )
@@ -56,6 +57,7 @@ users = 5.times.map do |i|
 end
 
 # ユーザーごとに部屋とキを作成
+# ユーザーのlast_visit_roomを作成した部屋のidにする
 users.each do |user|
   create_dummy_room(user)
   create_dummy_tree(user)

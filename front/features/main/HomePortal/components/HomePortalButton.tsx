@@ -27,7 +27,7 @@ export default function HomePortalButton() {
   return (
     <>
       <button onClick={() => openModal()} className="text-sm">
-        <Image src="portal.svg" alt="portal_icon" width={64} height={64} />
+        <Image src="/portal.svg" alt="portal_icon" width={64} height={64} />
       </button>
       <div>
         <ResizeModal isOpen={isModalOpen}>
