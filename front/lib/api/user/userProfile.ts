@@ -9,7 +9,7 @@ import { Tree } from "@/types/tree";
 import { Soul } from "@/types/soul";
 import { Performance } from "@/types/performance";
 
-export interface UserProfileResponse {
+interface UserProfileResponse {
   user: User;
   tree: Tree;
   souls: Soul[];
