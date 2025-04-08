@@ -2,6 +2,14 @@ class Api::V1::PathwaysController < ApplicationController
   # POST /api/v1/pathways
   def create
     begin
+      # paramsがString型でない場合はエラー
+      if !(params[:room_1_id].is_a?(String)) || !(params[:room_2_id].is_a?(String))
+        return render json: { error: 'パラメータの型が一致していません' }, status: :unprocessable_entity
+      end
+      # 2つのroom_idが存在するか確認
+      if Room.find_by(id: params[:room_1_id]).nil? || Room.find_by(id: params[:room_2_id]).nil?
+        return render json: { error: 'パラメータが確認できませんでした' }, status: :bad_request
+      end
       # 重複排除のため，2つのroom_idをソートしてから保存
       smaller_room_id, larger_room_id = [params[:room_1_id], params[:room_2_id]].sort
 
@@ -15,8 +23,6 @@ class Api::V1::PathwaysController < ApplicationController
         render json: { data: result }, status: :ok
       else
         result = Pathway.create!(
-                  figure_type: rand(1..3), # 1から3のランダムな整数
-                  color: ["#FFB6C1", "#FFD700", "#98FB98", "#ADD8E6", "#FF69B4", "#FF6347", "#E6E6FA", "#DDA0DD"].sample, # カラーをランダムに選択
                   room_1_id: smaller_room_id,
                   room_2_id: larger_room_id
                 )
