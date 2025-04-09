@@ -122,10 +122,11 @@ class Api::V1::UsersController < ApplicationController
       return render json: { 
         data: {
           user: user.as_json(except: [:provider, :provider_id]),
-          tree: user_tree&.as_json
+          tree: user_tree,
           souls: user_souls
         }
       }, status: :ok
+      
 
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す

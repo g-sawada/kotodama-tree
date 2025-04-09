@@ -8,7 +8,7 @@ import { userProfile } from "@/lib/api/user/userProfile"
 
 
 export default async function ProfilePage() {
-  const userId = "cd2cd058-5ed9-46c0-8e1e-21718c230df4";
+  const userId = "258c331e-f006-4b7e-89bb-a3abb615962c";
   const result = await userProfile(userId)
 
   if (!result.isOk) {
