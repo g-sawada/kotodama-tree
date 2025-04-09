@@ -121,7 +121,7 @@ class Api::V1::UsersController < ApplicationController
       user_souls = user.creator_souls
 
       if user_tree.nil?
-        return render json: { error: "ツリーが存在しません" }, status: :not_found
+        return render json: { error: "キが存在しません" }, status: :not_found
       end
       
       return render json: { 
