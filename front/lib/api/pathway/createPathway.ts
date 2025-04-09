@@ -14,7 +14,7 @@ export const createPathway = async (
 ): Promise<FetchResult<Pathway>> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/pathways`,
+      `/pathways`,
       {
         method: "POST",
         headers: {

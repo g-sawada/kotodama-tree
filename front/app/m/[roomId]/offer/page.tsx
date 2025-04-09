@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
-import getUserAction from "@/lib/actions/user/getUserAction";
+import { getUser } from "@/lib/api/user/getUser";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -26,10 +26,7 @@ export default async function OfferPage({ params }: { params: { roomId: string }
   const userId = session.user.userId;
 
   // コトダマ作成モーダルで使用するユーザー情報を取得
-  const user = await getUserAction();
-  if (!user) {
-    redirect("/login");
-  }
+  const user = await getUser(userId);
 
   // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
   const { roomId: thisRoomId } = await params;

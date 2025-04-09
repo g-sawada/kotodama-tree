@@ -1,12 +1,18 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createSoul } from "@/lib/api/soul/createSoul";
 import { redirect } from "next/navigation";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 import { setFlash } from "@/lib/api/flash/setFlash";
+import { postFetch } from "@/lib/api/fetcher/postFetch";
+import { Soul } from "@/types/soul";
 
-// 手持ちのコトダマ一覧を取得するアクション
+/**
+ * API souls#createをコールする。ユーザーの作成実行により起動するため，サーバーアクションとして実装
+ * @param formData - 作成フォームのデータ
+ * @returns Promise<Soul[]>
+ */
+
 export async function createSoulAction(formData: FormData) {
   // セッションからユーザーIDを取得
   const session = await auth();
@@ -18,8 +24,18 @@ export async function createSoulAction(formData: FormData) {
   // フォームデータの入力を取得
   const content = formData.get("content") as string;
 
-  // コトダマ作成APIを実行
-  const result = await createSoul(content, userId);
+  // リクエストボディを作成
+  const reqBody = {
+    soul: {
+      content: content,
+      creator_id: userId,
+    },
+  }
+
+  const result = await postFetch<Soul>(
+    `/souls`,
+    reqBody
+  );
 
   if(!result.isOk) {
     // エラー処理未実装。userのlast_visit_roomにリダイレクトする共通処理を実装して実行

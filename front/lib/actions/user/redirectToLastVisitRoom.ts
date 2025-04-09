@@ -27,15 +27,10 @@ export default async function redirectToLastVisitRoomAction(
   const userId = session.user.userId;
   
   // ユーザー情報を取得
-  const result = await getUser(userId);
-
-  // エラーの場合またはlast_visit_roomがnullの場合はログインページへリダイレクト
-  if(!result.isOk || result.body.data.last_visit_room === null) {
-    redirect("/");
-  }
+  const user = await getUser(userId);
 
   // ユーザーのlast_visit_roomにリダイレクト
-  const lastVisitRoomId = result.body.data.last_visit_room;
+  const lastVisitRoomId = user.last_visit_room;
   if(param?.errorMessage) {
     const errorMessage = param.errorMessage;
     setFlash("error", errorMessage);

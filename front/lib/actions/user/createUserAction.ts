@@ -1,8 +1,15 @@
 "use server"
 
-import { setFlash } from "@/lib/api/flash/setFlash";
-import { createUser } from "@/lib/api/user/createUser";
 import { redirect } from "next/navigation";
+import { postFetch } from "@/lib/api/fetcher/postFetch";
+import { setFlash } from "@/lib/api/flash/setFlash";
+import { User } from "@/types/user";
+
+/**
+ * ユーザー新規登録ページのフォーム送信から起動し，API users#createをコールする。
+ * ユーザーの作成実行により起動するため，サーバーアクションとして実装
+ * @param formData - 作成フォームのデータ
+ */
 
 export default async function createUserAction(formData: FormData) {
   const name = formData.get("name") as string;
@@ -10,13 +17,22 @@ export default async function createUserAction(formData: FormData) {
   const provider_id = formData.get("provider_id") as string;
 
   if(!name) {
-    console.error("ユーザー名が入力されていません");
+    await setFlash("error", "ユーザー名を入力してください");
     redirect("/signup");
   }
 
-  const result = await createUser(name, provider, provider_id);
-  console.log("result");
-  console.log(result);
+  // リクエストボディを作成
+  const reqBody = {
+    name: name,
+    provider: provider,
+    provider_id: provider_id,
+  }
+
+  // APIをコール
+  const result = await postFetch<User>(
+    `/users`,
+    reqBody
+  )
   
   if (!result.isOk) {
     console.error("ユーザーの作成時にエラーが発生しました");

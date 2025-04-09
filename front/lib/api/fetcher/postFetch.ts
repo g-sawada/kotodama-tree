@@ -1,28 +1,20 @@
-/**
- * コトダマを捧げるAPIを呼び出す
- * @param soul_id 捧げる対象のコトダマid
- * @param user_id 捧げを実行するユーザーのid
- * @param room_id 捧げが実行される部屋のid
- * @returns FetchResult<Soul>
- */
-
 import { FetchResult } from "@/types/fetchResult";
-import { Soul } from "@/types/soul";
 
-export const offerSoul = async (
-  soul_id: number,
-  user_id: string,
-  room_id: string
-): Promise<FetchResult<Soul>> => {
+export const postFetch = async <T> (
+  url: string,
+  reqBody: object,
+  ): Promise<FetchResult<T>> => {
+  // ベースURLを作成
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}`;
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls/${soul_id}/offer`,
+    const res = await fetch(baseUrl + url, 
       {
-        method: "PATCH",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id: user_id, room_id: room_id }),
+        body: JSON.stringify(reqBody),
         cache: "no-cache",
       }
     );
@@ -43,6 +35,7 @@ export const offerSoul = async (
         body: { data: body.data, message: body.message },
       };
     }
+
   } catch {
     // ネットワークエラー等でresやjsonパースに異常が発生した場合
     return {
@@ -51,4 +44,4 @@ export const offerSoul = async (
       body: { error: "サーバー通信エラー" },
     };
   }
-};
+}
