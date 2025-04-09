@@ -28,10 +28,10 @@ export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSo
     throw new Error('getSouls: 最低1つのパラメータを指定してください');
   }
 
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls?${params.toString()}`;
-  
   // APIをコール
-  const result = await getFetch<Soul[]>(url);
+  const result = await getFetch<Soul[]>(
+    `/souls?${params.toString()}`
+  );
   
   // NOTE: コトダマ取得APIが失敗した場合の処理は議論の必要あり
   // 1. エラーページやトップページにリダイレクトするのか

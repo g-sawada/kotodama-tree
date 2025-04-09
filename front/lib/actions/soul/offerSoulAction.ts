@@ -29,7 +29,7 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
 
   // APIをコール
   const result = await patchFetch<Soul>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls/${soulId}/offer`,
+    `/souls/${soulId}/offer`,
     reqBody
   );
 

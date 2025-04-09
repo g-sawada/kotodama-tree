@@ -30,7 +30,7 @@ export default async function createUserAction(formData: FormData) {
 
   // APIをコール
   const result = await postFetch<User>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/users`,
+    `/users`,
     reqBody
   )
   

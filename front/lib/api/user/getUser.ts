@@ -13,7 +13,7 @@ export const getUser = async (
 ): Promise<User> => {
 
   const result = await getFetch<User>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/users/${userId}`,
+    `/users/${userId}`,
     )
 
   // 仮実装。ユーザー情報が取得できない場合はloginページにリダイレクト 

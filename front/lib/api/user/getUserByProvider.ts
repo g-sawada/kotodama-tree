@@ -14,7 +14,7 @@ export const getUserByProvider = async (
   provider_id: string
 ): Promise<FetchResult<UserId>> => {
   const result = await getFetch<UserId>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/users/find_by_provider?provider=${provider}&provider_id=${provider_id}`
+    `/users/find_by_provider?provider=${provider}&provider_id=${provider_id}`
   );
 
   return result;

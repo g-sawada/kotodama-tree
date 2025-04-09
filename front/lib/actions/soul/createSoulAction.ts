@@ -33,7 +33,7 @@ export async function createSoulAction(formData: FormData) {
   }
 
   const result = await postFetch<Soul>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls`,
+    `/souls`,
     reqBody
   );
 
