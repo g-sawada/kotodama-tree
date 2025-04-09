@@ -7,13 +7,11 @@ import { FetchResult } from "@/types/fetchResult";
 import { User } from "@/types/user";
 import { Tree } from "@/types/tree";
 import { Soul } from "@/types/soul";
-import { Performance } from "@/types/performance";
 
 interface UserProfileResponse {
   user: User;
   tree: Tree;
   souls: Soul[];
-  performance: Performance;
 };
 
 export const userProfile = async (

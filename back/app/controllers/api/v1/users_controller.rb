@@ -122,12 +122,8 @@ class Api::V1::UsersController < ApplicationController
       return render json: { 
         data: {
           user: user.as_json(except: [:provider, :provider_id]),
-          tree: user_tree&.as_json || {}, # treeが作成されていない場合に｛｝を返す
-          souls: user_souls || [], # soulsが作成されていない場合に[]を返す
-          performance: {
-            souls_harvested: user.souls_harvested,
-            sum_of_likes: user.sum_of_likes
-          }
+          tree: user_tree&.as_json
+          souls: user_souls
         }
       }, status: :ok
 

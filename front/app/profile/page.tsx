@@ -5,7 +5,6 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
 import { userProfile } from "@/lib/api/user/userProfile"
-import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
 
 
 export default async function ProfilePage() {
@@ -16,7 +15,7 @@ export default async function ProfilePage() {
     return <div>エラー: {result.body.error}</div>;
   }
 
-  const { user, tree, souls, performance } = result.body.data;
+  const { user, tree, souls } = result.body.data;
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>
@@ -43,7 +42,6 @@ export default async function ProfilePage() {
             <SoulModalController souls={souls} />
           </div>
         </div>
-        <PerformanceModalController user={user} performance={performance}/>
     </div>
     </>
   )

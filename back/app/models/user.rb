@@ -18,25 +18,6 @@ class User < ApplicationRecord
   # インスタンス作成時にデフォルト値を設定
   after_initialize :set_default_values
 
-  # そうしゅうかく数のロジック
-  def souls_harvested
-    return 0 if owner_souls.blank?
-
-    souls = owner_souls.select do |soul|
-      soul.creator_id != self.id
-    end
-
-    souls.count
-  end
-
-  # いいね数(いいねされた回数)のロジック
-  def sum_of_likes
-    return 0 if creator_souls.blank?
-    
-    creator_soul_ids = creator_souls.pluck(:id)
-    Favorite.where(soul_id: creator_soul_ids).count
-  end
-
   private
 
   def set_default_values
