@@ -31,7 +31,7 @@ export default async function userMoveAction(targetRoomId: string) {
   // ユーザー移動APIを実行
   // 成功時は移動先の部屋IDがdataで返る
   const result = await patchFetch<RoomId>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/users/${userId}/move`,
+    `/users/${userId}/move`,
     reqBody,
   )
 
