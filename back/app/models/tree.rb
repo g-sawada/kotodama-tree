@@ -23,7 +23,7 @@ class Tree < ApplicationRecord
                 ]
 
   # 現在のレベルを取得するメソッド
-  def get_current_level()
+  def current_level
     # 初期値を宣言
     level = 1
 
@@ -47,9 +47,9 @@ class Tree < ApplicationRecord
 
   # 経験値加算メソッド(レベル更新処理を含む)
   def add_exp(exp)
-    current_level = get_current_level()
+    current_level = self.current_level
     self.exp += exp
-    after_level = get_current_level()
+    after_level = self.current_level
 
     # 加算前と加算後のレベルを比較し，異なる場合はレベルを更新
     if current_level != after_level
