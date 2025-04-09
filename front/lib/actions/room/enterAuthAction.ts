@@ -1,10 +1,14 @@
 'use server'
 
 import { auth } from "@/auth";
-import { enterAuth } from "@/lib/api/room/enterAuth";
+import { postFetch } from "@/lib/api/fetcher/postFetch";
+import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
+
+interface EnterAuthResponse {
+  canEnter: boolean;
+}
 
 export default async function enterAuthAction(roomId: string) {
-
   const session = await auth();
   // エラー処理
   if(!session?.user?.userId) {
@@ -12,12 +16,22 @@ export default async function enterAuthAction(roomId: string) {
   }
   const userId = session.user.userId;
 
-  const result = await enterAuth(userId, roomId);
+  // リクエストボディを作成
+  const reqBody = {
+    user_id: userId,
+  };
+
+  const result = await postFetch<EnterAuthResponse>(
+    `/rooms/${roomId}/enter`,
+    reqBody,
+  )
+
+  // APIコールにエラーがあった場合
   if(!result.isOk) {
-    // エラー処理未実装。userのlast_visit_roomにリダイレクトする共通処理を実装して実行
-    console.log(result.body.error)
-    return
+    await redirectToLastVisitRoomAction({ errorMessage: result.body.error })
+    return;
   }
   
+  // 入室可否判定の結果を返却
   return result.body.data.canEnter;
 } 

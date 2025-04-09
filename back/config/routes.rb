@@ -24,6 +24,8 @@ Rails.application.routes.draw do
           patch :offer
         end
       end
+
+      resources :pathways, only: %i[create]
     end
   end
 end

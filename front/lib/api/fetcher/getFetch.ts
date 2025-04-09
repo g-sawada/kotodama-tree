@@ -1,31 +1,18 @@
-/**
- * コトダマを新規作成するAPIを呼び出す
- * @param content コトダマ本文
- * @param creator_id コトダマ作成者のuser_id
- * @returns FetchResult<Soul>
- */
-
 import { FetchResult } from "@/types/fetchResult";
-import { Soul } from "@/types/soul";
 
-export const createSoul = async (
-  content: string,
-  creator_id: string
-): Promise<FetchResult<Soul>> => {
+export const getFetch = async <T> (
+  url: string,
+  ): Promise<FetchResult<T>> => {
+  // ベースURLを作成
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}`;
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls`,
+    const res = await fetch(baseUrl + url, 
       {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          soul: {
-            content: content,
-            creator_id: creator_id,
-          },
-        }),
         cache: "no-cache",
       }
     );
@@ -46,6 +33,7 @@ export const createSoul = async (
         body: { data: body.data, message: body.message },
       };
     }
+
   } catch {
     // ネットワークエラー等でresやjsonパースに異常が発生した場合
     return {
@@ -54,4 +42,4 @@ export const createSoul = async (
       body: { error: "サーバー通信エラー" },
     };
   }
-};
+}

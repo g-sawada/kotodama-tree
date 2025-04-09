@@ -6,8 +6,8 @@ def create_dummy_user(name)
     name: name,
     level: 1,
     exp: 0,
-    max_create_souls: 3,
-    max_carry_souls: 3,
+    max_create_souls: 7,
+    max_carry_souls: 7,
     provider: "google",
     provider_id: Faker::Alphanumeric.alphanumeric(number: 10)
   )

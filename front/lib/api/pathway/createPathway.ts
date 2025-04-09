@@ -1,28 +1,29 @@
 /**
- * コトダマを捧げるAPIを呼び出す
- * @param soul_id 捧げる対象のコトダマid
- * @param user_id 捧げを実行するユーザーのid
- * @param room_id 捧げが実行される部屋のid
- * @returns FetchResult<Soul>
+ * 自分のホームへのポータルを作成するAPIを呼び出す
+ * @param room_1_id 現在訪れている部屋のroom_id
+ * @param room_2_id ユーザーのホームの部屋のroom_id
+ * @returns FetchResult<Pathway>
  */
 
 import { FetchResult } from "@/types/fetchResult";
-import { Soul } from "@/types/soul";
+import { Pathway } from "@/types/pathway";
 
-export const offerSoul = async (
-  soul_id: number,
-  user_id: string,
-  room_id: string
-): Promise<FetchResult<Soul>> => {
+export const createPathway = async (
+  room_1_id: string,
+  room_2_id: string
+): Promise<FetchResult<Pathway>> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls/${soul_id}/offer`,
+      `/pathways`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id: user_id, room_id: room_id }),
+        body: JSON.stringify({
+          room_1_id: room_1_id,
+          room_2_id: room_2_id,
+        }),
         cache: "no-cache",
       }
     );

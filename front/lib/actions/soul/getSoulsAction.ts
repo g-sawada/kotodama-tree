@@ -26,16 +26,7 @@ export default async function getSoulsAction({
   if(!owner_id && !creator_id && !captured_tree_id) {
     throw new Error('getSoulsAction: 最低1つのパラメータを指定してください');
   }
-
-  const result = await getSouls({ owner_id, creator_id, captured_tree_id });
   
-  // NOTE: コトダマ取得APIが失敗した場合の処理は議論の必要あり
-  // 1. エラーページやトップページにリダイレクトするのか
-  // 2. クライアント側までエラーを返し，フラッシュメッセージを表示させるのか
-  if (!result.isOk) {
-    throw new Error(`getSoulsAction: データの取得に失敗しました`);
-  }
-
-  const souls = result.body.data;
+  const souls = await getSouls({ owner_id, creator_id, captured_tree_id });
   return souls;
 } 

@@ -16,7 +16,8 @@
 type Props = {
   text: string;
   buttonType?: "default" | "ok" | "cancel" | "danger";
-  handleClick: () => void;
+  handleClick?: () => void;
+  submit?: boolean;
   inProgress?: boolean;
   isDisabled?: boolean;
 };
@@ -24,7 +25,8 @@ type Props = {
 export default function Button({
     text,
     buttonType="default",
-    handleClick,
+    handleClick=() => {},
+    submit=false,
     inProgress=false,
     isDisabled=false
   }: Props) {
@@ -44,6 +46,7 @@ export default function Button({
 
   return (
     <button
+      type={submit ? "submit" : "button"}
       onClick={handleClick}
       className={
         `px-4 py-2 font-bold border-2 border-white rounded transition

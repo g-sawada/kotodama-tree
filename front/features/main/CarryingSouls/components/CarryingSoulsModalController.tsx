@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -31,6 +31,7 @@ export default function CarryingSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
+  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
   
   // session情報を取得
   const session = useSession();
@@ -106,7 +107,7 @@ export default function CarryingSoulsModalController({
                   <div className="flex justify-center my-4">
                     <Button
                       text="コトダマを捧げる"
-                      handleClick={() => router.push("/mock/offer")}
+                      handleClick={() => router.push(`/m/${roomId}/offer`)}
                       buttonType="ok"
                     />
                   </div>
