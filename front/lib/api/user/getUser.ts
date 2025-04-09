@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 
 /**
  * userIdからユーザー情報を取得する
+ * @param userId ユーザーID
+ * @returns Promise<User> ユーザー情報
  */
 
 export const getUser = async (
