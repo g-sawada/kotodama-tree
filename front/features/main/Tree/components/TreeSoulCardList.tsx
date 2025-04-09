@@ -2,6 +2,7 @@
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import { Soul } from "@/types/soul";
+import { calculateSoulExp } from "@/lib/logic/calculateSoulExp";
 
 type Props = {
   souls: Soul[];
@@ -10,6 +11,13 @@ type Props = {
 };
 
 export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }: Props) {
+
+  if(isRoomOwner) {
+    // ユーザーのホームの部屋の場合，経験値を算出して表示する
+    souls.forEach((soul) =>  {
+      soul.exp = calculateSoulExp(soul);
+    })
+  }
 
   return (
     <>
