@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
-import { setFlash } from "@/lib/api/flash/setFlash";
 import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
 
 import Button from "@/components/ui/Button";
@@ -38,20 +37,19 @@ export default async function OfferPage({ params }: { params: { roomId: string }
 
   if (!getRoomInfoResult.isOk || !getRoomInfoResult.body.data) {
     // Not Foundエラーの場合，redirectToLastVisitRoomActionをコール
+    // BUG: SSRページからsetFlashを実行する関数を呼ぶとエラーになる
     if(getRoomInfoResult.status === 404) {
       redirectToLastVisitRoomAction({ errorMessage: "アクセスに失敗しました" });
       return;
     }
     // その他のエラーの場合トップページにリダイレクト
-    // BUG: use serverを宣言した関数内以外でsetFlashを実行するとエラーになる
-    // setFlash("error", "エラーが発生しました");
     redirect("/");
   }
   const roomInfo = getRoomInfoResult.body.data
 
   // 部屋のuserIdと現在のuserIdが一致しない場合，アクセス権限がないのでリダイレクト
   if (roomInfo.room.user_id !== userId) {
-    // BUG: use serverを宣言した関数内以外でsetFlashを実行するとエラーになる
+    // BUG: SSRページからsetFlashを実行する関数を呼ぶとエラーになる
     // setFlash("error", "この部屋にアクセスする権限がありません");
     redirect(`/m/${thisRoomId}`);
   }
