@@ -119,6 +119,11 @@ class Api::V1::UsersController < ApplicationController
       user = User.find(params[:id])
       user_tree = user.tree
       user_souls = user.creator_souls
+
+      if user_tree.nil?
+        return render json: { error: "ツリーが存在しません" }, status: :not_found
+      end
+      
       return render json: { 
         data: {
           user: user.as_json(except: [:provider, :provider_id]),
