@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Soul } from "@/types/soul";
+import { User } from "@/types/user";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 
 import Button from "@/components/ui/Button";
@@ -22,17 +23,22 @@ import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 type Props = {
   isRoomOwner?: boolean;
   treeId: number;
+  user: User;
 };
 
 export default function TreeSoulsModalController({
   isRoomOwner = false,
   treeId,
+  user
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
   const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+
+  // ユーザーのコトダマ収穫可否
+  const canHarvest = user.carrying_souls_count < user.max_carry_souls
   
 
   // モーダルの開閉制御
@@ -83,12 +89,20 @@ export default function TreeSoulsModalController({
                   </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (
-                  <div className="flex justify-center my-4">
-                    <Button
-                      text="しゅうかくする"
-                      handleClick={() => router.push("#")}
-                      buttonType="ok"
-                    />
+                  <div className="my-6">
+                    {!canHarvest && (
+                      <p className="flex justify-center text-sm text-gray-500">
+                        しゅうかく数上限に達しています
+                      </p>
+                    )}
+                    <div className="flex justify-center my-4 max-w-40 mx-auto">
+                      <Button
+                        text="しゅうかくする"
+                        handleClick={() => router.push("#")}
+                        isDisabled={!canHarvest}
+                        buttonType="ok"
+                      />
+                    </div>
                   </div>
                 )}
                 <div className="flex justify-center my-4">
