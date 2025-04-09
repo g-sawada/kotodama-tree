@@ -1,12 +1,12 @@
-import { FetchResult } from "@/types/fetchResult";
+import { getFetch } from "@/lib/api/fetcher/getFetch";
 import { Soul } from "@/types/soul";
 
 /**
- * API souls#indexをコールするfetch関数
+ * API souls#indexをコールする
  * @param owner_id コトダマの所有者のuser_id
  * @param creator_id コトダマの作成者のuser_id
  * @param captured_tree_id コトダマが捧げられているtreeのid
- * @returns FetchResult<Soul[]> | FetchResult<Error>
+ * @returns Promise<Soul[]>
  */
 
 interface getSoulsParams {
@@ -15,7 +15,7 @@ interface getSoulsParams {
   captured_tree_id?: number;
 }
 
-export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSoulsParams) : Promise<FetchResult<Soul[]>>=> {
+export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSoulsParams) : Promise<Soul[]>=> {
 
   // 引数からURLパラメータを生成
   const params = new URLSearchParams();
@@ -30,43 +30,19 @@ export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSo
 
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls?${params.toString()}`;
   
-  try {
-    const res = await fetch(url, 
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
-      }
-    );
-    const body = await res.json();
-
-    if (!res.ok) {
-      // エラーレスポンスが返ってきた場合
-      return {
-        status: res.status,
-        isOk: false,
-        body: { error: body.error },
-      };
-    } else {
-      // 正常系レスポンスが返ってきた場合
-      return {
-        status: res.status,
-        isOk: true,
-        body: { data: body.data, message: body.message },
-      };
-    }
-  } catch {
-    // ネットワークエラー等でresやjsonパースに異常が発生した場合
-    return {
-      status: 500,
-      isOk: false,
-      body: { error: "サーバー通信エラー" },
-    };
+  // APIをコール
+  const result = await getFetch<Soul[]>(url);
+  
+  // NOTE: コトダマ取得APIが失敗した場合の処理は議論の必要あり
+  // 1. エラーページやトップページにリダイレクトするのか
+  // 2. クライアント側までエラーを返し，フラッシュメッセージを表示させるのか
+  if (!result.isOk) {
+    throw new Error(`getSoulsAction: データの取得に失敗しました`);
   }
-}
 
+  const souls = result.body.data;
+  return souls;
+}
 
 // -----------  以下，mock画面開発用 不要になった時点で削除する ----------
 
