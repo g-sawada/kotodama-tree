@@ -13,6 +13,8 @@ import Tree from "@/components/ui/Tree";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
+import ResizeModal from "@/components/ui/ResizeModal";
+import SoulCard from "@/components/ui/SoulCard/SoulCard";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -32,6 +34,7 @@ export default function TreeSoulsModalController({
   user
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
@@ -52,6 +55,14 @@ export default function TreeSoulsModalController({
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedSoul(null); // 選択中のコトダマをリセット
+  };
+
+  const openConfirmModal = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const closeComfirmModal = () => {
+    setIsConfirmModalOpen(false);
   };
 
   const backToList = () => {
@@ -98,7 +109,7 @@ export default function TreeSoulsModalController({
                     <div className="flex justify-center my-4 max-w-40 mx-auto">
                       <Button
                         text="しゅうかくする"
-                        handleClick={() => router.push("#")}
+                        handleClick={() => openConfirmModal()}
                         isDisabled={!canHarvest}
                         buttonType="ok"
                       />
@@ -142,6 +153,29 @@ export default function TreeSoulsModalController({
             />
           </div>
         </FullSizeModal>
+        
+        {/* 確認モーダル */}
+        <ResizeModal isOpen={isConfirmModalOpen}>
+          <div className="my-4">
+            {!!selectedSoul &&
+              <SoulCard soul={selectedSoul}>
+                <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
+              </SoulCard>
+            }
+          </div>
+          <p className="my-2 flex justify-center">このコトダマをしゅうかくしますか？</p>
+          <div className="flex flex-justify-between gap-8 justify-center my-4">
+            <Button
+              text="キャンセル"
+              handleClick={() => closeComfirmModal()}
+              buttonType="cancel"
+            />
+            <Button
+              text="OK"
+              buttonType="ok"
+            />
+          </div>
+        </ResizeModal>
       </div>
     </>
   );
