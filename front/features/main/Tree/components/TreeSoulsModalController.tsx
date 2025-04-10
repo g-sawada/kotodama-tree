@@ -15,6 +15,7 @@ import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import ResizeModal from "@/components/ui/ResizeModal";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
+import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -38,7 +39,7 @@ export default function TreeSoulsModalController({
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
-  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+  const roomId = useParams().roomId as string;  // URLパラメータからroomIdを取得
 
   // ユーザーのコトダマ収穫可否
   const canHarvest = user.carrying_souls_count < user.max_carry_souls
@@ -68,6 +69,19 @@ export default function TreeSoulsModalController({
   const backToList = () => {
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
+
+  const handleHarvestSubmit = async (soulId: number, roomId: string) => {
+    const result = await harvestSoulAction(soulId, roomId)
+    if(result?.isOk) {
+      // 成功時はクライアント側で再読み込みを実行
+      window.location.reload();
+    }else{
+      // 仮実装。
+      // 0410現在，harvestSoulAction内でリダイレクト処理を行っているが，クライアント側にエラーを出力するようにしたい
+      console.log("エラーです。")
+    }
+  }
+
 
   return (
     <>
@@ -156,25 +170,28 @@ export default function TreeSoulsModalController({
         
         {/* 確認モーダル */}
         <ResizeModal isOpen={isConfirmModalOpen}>
-          <div className="my-4">
-            {!!selectedSoul &&
-              <SoulCard soul={selectedSoul}>
-                <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-              </SoulCard>
-            }
-          </div>
-          <p className="my-2 flex justify-center">このコトダマをしゅうかくしますか？</p>
-          <div className="flex flex-justify-between gap-8 justify-center my-4">
-            <Button
-              text="キャンセル"
-              handleClick={() => closeComfirmModal()}
-              buttonType="cancel"
-            />
-            <Button
-              text="OK"
-              buttonType="ok"
-            />
-          </div>
+          {!!selectedSoul &&
+            <>
+              <div className="my-4">
+                  <SoulCard soul={selectedSoul}>
+                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
+                  </SoulCard>
+              </div>
+              <p className="my-2 flex justify-center">このコトダマをしゅうかくしますか？</p>
+              <div className="flex flex-justify-between gap-8 justify-center my-4">
+                <Button
+                  text="キャンセル"
+                  handleClick={() => closeComfirmModal()}
+                  buttonType="cancel"
+                  />
+                <Button
+                  text="OK"
+                  buttonType="ok"
+                  handleClick={() => handleHarvestSubmit(selectedSoul?.id, roomId)}
+                />
+              </div>
+            </>
+          }
         </ResizeModal>
       </div>
     </>
