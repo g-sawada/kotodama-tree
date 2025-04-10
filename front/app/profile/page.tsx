@@ -4,19 +4,18 @@ import SoulModalController from "@/features/profile/components/SoulModalControll
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
-import { User } from '@/types/user';
-import { Soul } from '@/types/soul';
-import { Tree } from "@/types/tree";
-import { getUserBySoulCreatorIdAction, getUsersIdAction, getUserByTreeIdAction } from "@/lib/actions/getUsers";
-import PerformanceModalController from "@/features/profile/components/PerformanceModalController";
+import { userProfile } from "@/lib/api/user/userProfile"
 
 
 export default async function ProfilePage() {
-  const useruuId = "abc123";
-  const user: User = await getUsersIdAction(useruuId);
-  const souls: Soul[] = await getUserBySoulCreatorIdAction(useruuId);
-  const tree: Tree = await getUserByTreeIdAction(useruuId);
+  const userId = "258c331e-f006-4b7e-89bb-a3abb615962c";
+  const result = await userProfile(userId)
 
+  if (!result.isOk) {
+    return <div>エラー: {result.body.error}</div>;
+  }
+
+  const { user, tree, souls } = result.body.data;
   return (
     <>
     <h1 className="mt-4 text-center">マイページ</h1>
@@ -43,7 +42,6 @@ export default async function ProfilePage() {
             <SoulModalController souls={souls} />
           </div>
         </div>
-        <PerformanceModalController/>
     </div>
     </>
   )
