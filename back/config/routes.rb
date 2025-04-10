@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       end
 
       resources :souls, only: %i[index create destroy] do
+        resources :favorites, shallow: true, only: %i[create destroy]
         member do
           patch :harvest
           patch :offer
