@@ -22,7 +22,9 @@ class Api::V1::TreesController < ApplicationController
       end
 
       # 現在時刻がtreeのlast_charged_atから1時間以内の場合，403を返す
-      if tree.last_charged_at > Time.current - Tree::CHARGE_INTERVAL
+      # last_charged_atがnilの場合は初回チャージとしてチェック処理をスキップ
+      if tree.last_charged_at.present? &&
+          tree.last_charged_at > Time.current - Tree::CHARGE_INTERVAL
         return render json: { 
           error: "前回のチャージ実行から指定の時間が経過していません。last_charged_at: #{tree.last_charged_at}" 
           }, status: :forbidden
