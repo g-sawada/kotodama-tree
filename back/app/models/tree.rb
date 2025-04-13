@@ -22,6 +22,8 @@ class Tree < ApplicationRecord
                     340, 380, 420, 460, 500,
                 ]
 
+  CHARGE_INTERVAL = 1.hour.freeze
+
   # 現在のレベルを取得するメソッド
   def current_level
     # 初期値を宣言
