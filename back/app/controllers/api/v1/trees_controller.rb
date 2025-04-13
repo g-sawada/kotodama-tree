@@ -3,11 +3,11 @@ class Api::V1::TreesController < ApplicationController
   #@param user_id: 実行ユーザーのID
   def charge
     begin
-      tree = Tree.find(params[:id])
+      tree = Tree.find_by(id: params[:id])
       # treeが見つからない場合は404を返す
       return render json: { error: 'Tree not found' }, status: :not_found  if tree.nil?
 
-      user = User.find(params[:user_id])
+      user = User.find_by(id: params[:user_id])
       # ユーザーが見つからない場合は404を返す
       return render json: { error: 'User not found' }, status: :not_found  if user.nil?
 
