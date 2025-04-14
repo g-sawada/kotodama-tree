@@ -11,8 +11,7 @@ class Api::V1::RoomsController < ApplicationController
           data: { 
             room: room,
             pathways: pathways,
-            tree: { id: room.tree.id }
-            # NOTE: 0321 現時点では最小限のデータとしてidのみを返すようにしておく
+            tree: room.tree
             }
           },
           status: :ok
