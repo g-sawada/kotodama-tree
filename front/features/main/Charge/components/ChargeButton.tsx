@@ -45,14 +45,17 @@ export default function ChargeButton({ tree }: Props) {
           <Image src="/charge.svg" alt="charge_icon" width={64} height={64} />
         </button>
       ) : (
-        <button disabled>
-          <Image
-            src="/charge_disabled.svg"
-            alt="charge_icon"
-            width={64}
-            height={64}
-          />
-        </button>
+        <>
+          <button disabled>
+            <Image
+              src="/charge_disabled.svg"
+              alt="charge_icon"
+              width={64}
+              height={64}
+            />
+          </button>
+          <p className="text-sm text-gray-400">再チャージ準備中...</p>
+        </>
       )}
 
       <div>
