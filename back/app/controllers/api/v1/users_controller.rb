@@ -12,8 +12,11 @@ class Api::V1::UsersController < ApplicationController
       user = User.find(params[:id])
       
       return render json: { data: user.as_json(
-        except: [:provider, :provider_id]
-      )}, status: :ok
+          except: [:provider, :provider_id]
+        ).merge(
+          created_souls_count: user.creator_souls.count,
+          carrying_souls_count: user.owner_souls.count
+        )}, status: :ok
 
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す

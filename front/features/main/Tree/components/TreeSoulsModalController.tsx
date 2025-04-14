@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Soul } from "@/types/soul";
+import { User } from "@/types/user";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 
 import Button from "@/components/ui/Button";
@@ -12,6 +13,9 @@ import Tree from "@/components/ui/Tree";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
+import ResizeModal from "@/components/ui/ResizeModal";
+import SoulCard from "@/components/ui/SoulCard/SoulCard";
+import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -22,17 +26,23 @@ import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 type Props = {
   isRoomOwner?: boolean;
   treeId: number;
+  user: User;
 };
 
 export default function TreeSoulsModalController({
   isRoomOwner = false,
   treeId,
+  user
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
-  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+  const roomId = useParams().roomId as string;  // URLパラメータからroomIdを取得
+
+  // ユーザーのコトダマ収穫可否
+  const canHarvest = user.carrying_souls_count < user.max_carry_souls
   
 
   // モーダルの開閉制御
@@ -48,9 +58,30 @@ export default function TreeSoulsModalController({
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
+  const openConfirmModal = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const closeComfirmModal = () => {
+    setIsConfirmModalOpen(false);
+  };
+
   const backToList = () => {
     setSelectedSoul(null); // 選択中のコトダマをリセット
   };
+
+  const handleHarvestSubmit = async (soulId: number, roomId: string) => {
+    const result = await harvestSoulAction(soulId, roomId)
+    if(result?.isOk) {
+      // 成功時はクライアント側で再読み込みを実行
+      window.location.reload();
+    }else{
+      // 仮実装。
+      // 0410現在，harvestSoulAction内でリダイレクト処理を行っているが，クライアント側にエラーを出力するようにしたい
+      console.log("エラーです。")
+    }
+  }
+
 
   return (
     <>
@@ -83,12 +114,20 @@ export default function TreeSoulsModalController({
                   </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (
-                  <div className="flex justify-center my-4">
-                    <Button
-                      text="しゅうかくする"
-                      handleClick={() => router.push("#")}
-                      buttonType="ok"
-                    />
+                  <div className="my-6">
+                    {!canHarvest && (
+                      <p className="flex justify-center text-sm text-gray-500">
+                        しゅうかく数上限に達しています
+                      </p>
+                    )}
+                    <div className="flex justify-center my-4 max-w-40 mx-auto">
+                      <Button
+                        text="しゅうかくする"
+                        handleClick={() => openConfirmModal()}
+                        isDisabled={!canHarvest}
+                        buttonType="ok"
+                      />
+                    </div>
                   </div>
                 )}
                 <div className="flex justify-center my-4">
@@ -128,6 +167,32 @@ export default function TreeSoulsModalController({
             />
           </div>
         </FullSizeModal>
+        
+        {/* 確認モーダル */}
+        <ResizeModal isOpen={isConfirmModalOpen}>
+          {!!selectedSoul &&
+            <>
+              <div className="my-4">
+                  <SoulCard soul={selectedSoul}>
+                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
+                  </SoulCard>
+              </div>
+              <p className="my-2 flex justify-center">このコトダマをしゅうかくしますか？</p>
+              <div className="flex flex-justify-between gap-8 justify-center my-4">
+                <Button
+                  text="キャンセル"
+                  handleClick={() => closeComfirmModal()}
+                  buttonType="cancel"
+                  />
+                <Button
+                  text="OK"
+                  buttonType="ok"
+                  handleClick={() => handleHarvestSubmit(selectedSoul?.id, roomId)}
+                />
+              </div>
+            </>
+          }
+        </ResizeModal>
       </div>
     </>
   );
