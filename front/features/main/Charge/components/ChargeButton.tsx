@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import ResizeModal from "@/components/ui/ResizeModal";
 import { Tree } from "@/types/tree";
 import { CHARGE_INTERVAL } from "@/constants";
+import chargeAction from "@/lib/actions/tree/chargeAction";
 
 type Props = {
   tree: Tree;
@@ -13,7 +14,7 @@ type Props = {
 
 export default function ChargeButton({ tree }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-    
+
   // コトダマのチャージ可否判定
   const canCharge = (() =>  {
     if(!tree.last_charged_at) {
@@ -33,12 +34,9 @@ export default function ChargeButton({ tree }: Props) {
     setIsModalOpen(true);
   };
 
-  const handleClickCharge = () => {
-    try {
-      console.log("チャージ実行");
-    } catch (error) {
-      console.error(error);
-    }
+  const handleClickCharge = async () => {
+    await chargeAction(tree.id);
+    window.location.reload();
   };
   return (
     <>
