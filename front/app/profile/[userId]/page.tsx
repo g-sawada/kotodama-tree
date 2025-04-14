@@ -1,15 +1,22 @@
 import React from "react";
 import Image from "next/image";
+
 import SoulModalController from "@/features/profile/components/SoulModalController";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { ProgressBar } from 'primereact/progressbar';
 import { userProfile } from "@/lib/api/user/userProfile"
 
+/**
+ * プロフィール画面
+ * /profile/:userId のルーティングに対応
+ * @param userId - URLパラメータから取得したuserId
+ * 
+ */
 
-export default async function ProfilePage() {
-  const userId = "258c331e-f006-4b7e-89bb-a3abb615962c";
-  const result = await userProfile(userId)
+export default async function ProfilePage({ params }: { params: { userId: string } }) {
+  const { userId } = params;
+  const result = await userProfile(userId);
 
   if (!result.isOk) {
     return <div>エラー: {result.body.error}</div>;
