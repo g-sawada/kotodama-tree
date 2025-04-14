@@ -9,13 +9,14 @@ import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
-import Tree from "@/components/ui/Tree";
+import TreeImg from "@/components/ui/TreeImg";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import ResizeModal from "@/components/ui/ResizeModal";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
+import { Tree } from "@/types/tree";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -25,13 +26,13 @@ import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 
 type Props = {
   isRoomOwner?: boolean;
-  treeId: number;
+  tree: Tree;
   user: User;
 };
 
 export default function TreeSoulsModalController({
   isRoomOwner = false,
-  treeId,
+  tree,
   user
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function TreeSoulsModalController({
   const openModal = async () => {
     setIsModalOpen(true);
     // モーダルを開いたときにキのコトダマ一覧を取得
-    const souls: Soul[] = await getSoulsAction({ captured_tree_id: treeId });
+    const souls: Soul[] = await getSoulsAction({ captured_tree_id: tree.id });
     setSouls(souls);
   };
 
@@ -89,7 +90,7 @@ export default function TreeSoulsModalController({
         onClick={() => openModal()}
         className="flex flex-col items-center flex-1 py-4 my-4 md:my-0"
       >
-        <Tree />
+        <TreeImg />
       </button>
 
       <div>
