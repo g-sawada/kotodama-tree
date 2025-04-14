@@ -4,17 +4,26 @@ import { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import ResizeModal from "@/components/ui/ResizeModal";
+import { Tree } from "@/types/tree";
+import { CHARGE_INTERVAL } from "@/constants";
 
 type Props = {
-  treeId: number;
-  canCharge: boolean;
+  tree: Tree;
 };
 
-export default function ChargeButton({treeId, canCharge}: Props) {
+export default function ChargeButton({ tree }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+    
+  // コトダマのチャージ可否判定
+  const canCharge = (() =>  {
+    if(!tree.last_charged_at) {
+      return true; // last_charged_atがnullの場合はチャージ可能
+    }
+    const timeDiff = new Date().getTime() - new Date(tree.last_charged_at).getTime();
+    return timeDiff >= CHARGE_INTERVAL; // 定数で管理
+  })();
 
   // モーダルの開閉制御
-
   const closeModal = () => {
     setIsModalOpen(false);
   };

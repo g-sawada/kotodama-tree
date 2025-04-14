@@ -42,19 +42,16 @@ export default async function MainPage({ params }: { params: { roomId: string } 
   // 部屋のオーナーかどうかを判定
   const isRoomOwner = room.user_id === userId;
 
-  // 未実装。チャージを実行できるかのフラグ
-  const canCharge = true;
-
   return (
     <>
       <div>DEBUG: 確認用 {`room.id: ${room.id}, pathways.length: ${pathways.length}, tree.id: ${tree.id} `}</div>
       <div className="flex-auto">
         <div className="w-64 mx-auto flex flex-col items-center">
-          <TreeSoulsModalController treeId={tree.id} isRoomOwner={isRoomOwner} user={user}/>
+          <TreeSoulsModalController tree={tree} isRoomOwner={isRoomOwner} user={user}/>
           <PortalButtonComponent thisRoomId={thisRoomId} pathways={pathways} />
           <div className="text-center my-4 md:my-8">
           {isRoomOwner ? 
-            <ChargeButton treeId={tree.id} canCharge={canCharge}/> :
+            <ChargeButton tree={tree} /> :
             <HomePortalButton />}
           </div>
         </div>
