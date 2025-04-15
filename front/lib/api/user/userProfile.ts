@@ -5,13 +5,13 @@
 
 import { FetchResult } from "@/types/fetchResult";
 import { User } from "@/types/user";
-import { Tree } from "@/types/tree";
+import { TreeWithProgress } from "@/types/tree";
 import { Soul } from "@/types/soul";
 import { getFetch } from "../fetcher/getFetch";
 
 interface UserProfileResponse {
   user: User;
-  tree: Tree;
+  tree: TreeWithProgress;
   souls: Soul[];
 };
 

@@ -61,4 +61,17 @@ class Tree < ApplicationRecord
     self.save!
   end
 
+  # 次のレベルのexpを取得するメソッド
+  def next_exp
+    #levelがカンストした場合最後のlevelを取得する
+    LEVEL_TABLE[level + 1 ] || LEVEL_TABLE.last
+  end
+
+  # プログレスバーに表示する割合を計算するメソッド
+  def exp_progress_percent
+    #カンストした場合に100を返す
+    return 100 if level >= LEVEL_TABLE.size - 1
+    # rubyの仕様上、整数除算されるためexpをfloat型に、計算後に除算する
+    ((exp.to_f / next_exp) * 100).floor
+  end
 end
