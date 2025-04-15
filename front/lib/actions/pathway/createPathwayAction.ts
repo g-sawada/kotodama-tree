@@ -1,31 +1,41 @@
 "use server"
 
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { createPathway } from "@/lib/api/pathway/createPathway";
+import { setFlash } from "@/lib/api/flash/setFlash";
+import { getUser } from "@/lib/api/user/getUser";
+import { postFetch } from "@/lib/api/fetcher/postFetch";
+import { Pathway } from "@/types/pathway";
+import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
-type Props = {
-  room1Id: number; // 現在訪れている部屋のroom_id
-}
-
-export default async function createPathwayAction({room1Id}: Props) {
+export default async function createPathwayAction(visitRoomId: string) {
   // セッションからユーザーIDを取得、ホームの部屋のroom_idを取得
-  // const session = await auth();
-  // const user = await getUserInfo(session.userId);
-  // const room_2_id = user.room.id;
-  const room_1_id = "cdf" // propsで受け取ったroom1Idを利用予定
-  const room_2_id = "abc"
+  const session = await auth();
+  if (!session || !session.user.userId) {
+    redirect("/login");
+  }
+  const userId = session.user.userId;
 
-  const result = await createPathway(room_1_id, room_2_id);
-  console.log("result");
-  console.log(result);
-
-  if (!result.isOk) {
-    console.error("エラーが発生しました");
-    redirect("/signup");
+  // 最新のユーザー情報を取得
+  const user = await getUser(userId);
+  // 最終訪問部屋のidと現在の部屋のidが一致しない場合はエラー
+  if (user.last_visit_room !== visitRoomId) {
+    await setFlash("error", "アクセス権がありません");
+    redirectToLastVisitRoomAction();
   }
 
-  console.log("ホームへのポータルを作成しました");
-  await setFlash("success", "ホームへのポータルを作成しました");
-  redirect("/loggedIn");
+  // リクエストボディを作成
+  const reqBody = {
+    room_1_id: user.room_id,
+    room_2_id: visitRoomId,
+  };
+
+  // APIをコール
+  const result = await postFetch<Pathway>(
+    `/pathways`,
+    reqBody
+  );
+
+  // 結果はクライアントで処理
+  return result;
 } 
