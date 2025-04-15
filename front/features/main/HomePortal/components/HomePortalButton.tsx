@@ -86,6 +86,14 @@ export default function HomePortalButton({ thisRoomId }: Prop) {
               <br />
               よろしいですか？
             </p>
+            <div>
+              <p className="text-sm text-yellow-300">
+                ポータルは他のユーザーも使用できます。
+              </p>
+              <p className="text-sm text-yellow-300">
+                一度開いたポータルは、閉じることができません。
+              </p>
+            </div>
             <div className="flex justify-center my-4 gap-6">
               <Button
                 text="Cancel"
