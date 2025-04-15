@@ -15,7 +15,8 @@ class Api::V1::UsersController < ApplicationController
           except: [:provider, :provider_id]
         ).merge(
           created_souls_count: user.creator_souls.count,
-          carrying_souls_count: user.owner_souls.count
+          carrying_souls_count: user.owner_souls.count,
+          room_id: user.room.id,
         )}, status: :ok
 
     rescue ActiveRecord::RecordNotFound => e

@@ -8,6 +8,7 @@ export interface User {
   last_visit_room: string;
   created_souls_count: number;
   carrying_souls_count: number;
+  room_id: string;
   created_at: string;
   updated_at: string;
 }
