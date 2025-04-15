@@ -38,7 +38,7 @@ export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }
               
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by {soul.creator.name}</p>
-                <EmptyHeartButton />
+                {/* <EmptyHeartButton /> */}
               </div>
             </SoulCard>
           ))}

@@ -12,6 +12,7 @@ import Tree from "@/components/ui/Tree";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
+import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -79,7 +80,7 @@ export default function TreeSoulsModalController({
                   )}
                   <div className="flex justify-between">
                     <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-                    <EmptyHeartButton />
+                    <HeartButtonToggle soul={selectedSoul}/>
                   </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (

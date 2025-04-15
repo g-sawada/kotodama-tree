@@ -12,10 +12,14 @@ class Api::V1::FavoritesController < ApplicationController
     end
   end
 
+  # DELETE /api/v1/souls/:soul_id/favorites
   def destroy
     begin
       user = User.find(params[:user_id])
-      soul = user.favorites.find(params[:favorite_id]).soul
+      soul = Soul.find(params[:soul_id])
+      if user.favorites_souls.exclude?(soul)
+        return render json: { error: "データが一致しません" }, status: :conflict
+      end
       user.unfavorite(soul)
     # その他の予期しないエラー
     rescue StandardError => e
