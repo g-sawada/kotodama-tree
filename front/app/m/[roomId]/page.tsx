@@ -52,7 +52,7 @@ export default async function MainPage({ params }: { params: { roomId: string } 
           <div className="text-center my-4 md:my-8">
           {isRoomOwner ? 
             <ChargeButton tree={tree} /> :
-            <HomePortalButton />}
+            <HomePortalButton thisRoomId={room.id}/>}
           </div>
         </div>
       </div>
