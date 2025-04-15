@@ -36,9 +36,6 @@ export default async function createPathwayAction(visitRoomId: string) {
     reqBody
   );
 
-  console.log("this is server action : result");
-  console.log(result);
-
   // 結果はクライアントで処理
   return result;
 } 
