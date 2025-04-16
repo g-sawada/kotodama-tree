@@ -4,17 +4,27 @@ import { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import ResizeModal from "@/components/ui/ResizeModal";
+import { Tree } from "@/types/tree";
+import { CHARGE_INTERVAL } from "@/constants";
+import chargeAction from "@/lib/actions/tree/chargeAction";
 
 type Props = {
-  treeId: number;
-  canCharge: boolean;
+  tree: Tree;
 };
 
-export default function ChargeButton({treeId, canCharge}: Props) {
+export default function ChargeButton({ tree }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // モーダルの開閉制御
+  // コトダマのチャージ可否判定
+  const canCharge = (() =>  {
+    if(!tree.last_charged_at) {
+      return true; // last_charged_atがnullの場合はチャージ可能
+    }
+    const timeDiff = new Date().getTime() - new Date(tree.last_charged_at).getTime();
+    return timeDiff >= CHARGE_INTERVAL; // 定数で管理
+  })();
 
+  // モーダルの開閉制御
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -24,12 +34,9 @@ export default function ChargeButton({treeId, canCharge}: Props) {
     setIsModalOpen(true);
   };
 
-  const handleClickCharge = () => {
-    try {
-      console.log("チャージ実行");
-    } catch (error) {
-      console.error(error);
-    }
+  const handleClickCharge = async () => {
+    await chargeAction(tree.id);
+    window.location.reload();
   };
   return (
     <>
@@ -38,14 +45,17 @@ export default function ChargeButton({treeId, canCharge}: Props) {
           <Image src="/charge.svg" alt="charge_icon" width={64} height={64} />
         </button>
       ) : (
-        <button disabled>
-          <Image
-            src="/charge_disabled.svg"
-            alt="charge_icon"
-            width={64}
-            height={64}
-          />
-        </button>
+        <>
+          <button disabled>
+            <Image
+              src="/charge_disabled.svg"
+              alt="charge_icon"
+              width={64}
+              height={64}
+            />
+          </button>
+          <p className="text-sm text-gray-400">再チャージ準備中...</p>
+        </>
       )}
 
       <div>

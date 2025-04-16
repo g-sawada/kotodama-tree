@@ -12,8 +12,12 @@ class Api::V1::UsersController < ApplicationController
       user = User.find(params[:id])
       
       return render json: { data: user.as_json(
-        except: [:provider, :provider_id]
-      )}, status: :ok
+          except: [:provider, :provider_id]
+        ).merge(
+          created_souls_count: user.creator_souls.count,
+          carrying_souls_count: user.owner_souls.count,
+          room_id: user.room.id,
+        )}, status: :ok
 
     rescue ActiveRecord::RecordNotFound => e
       # ユーザーが見つからない場合は404を返す
@@ -109,6 +113,35 @@ class Api::V1::UsersController < ApplicationController
     
     # 予期しないエラー
     rescue StandardError => e
+      return render json: { error: e.message }, status: :internal_server_error
+    end
+  end
+
+  # GET api/v1/users/:id/profile
+  def profile
+    begin
+      user = User.find(params[:id])
+      user_tree = user.tree
+      user_souls = user.creator_souls
+
+      if user_tree.nil?
+        return render json: { error: "キが存在しません" }, status: :not_found
+      end
+      
+      return render json: { 
+        data: {
+          user: user.as_json(except: [:provider, :provider_id]),
+          tree: user_tree,
+          souls: user_souls
+        }
+      }, status: :ok
+      
+
+    rescue ActiveRecord::RecordNotFound => e
+      # ユーザーが見つからない場合は404を返す
+      return render json: { error: e.message }, status: :not_found
+    rescue StandardError => e
+      # 予期しないエラー
       return render json: { error: e.message }, status: :internal_server_error
     end
   end

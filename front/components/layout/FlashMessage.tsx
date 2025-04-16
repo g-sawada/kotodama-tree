@@ -61,7 +61,7 @@ export const FlashMessage = () => {
                         ${flash.type === "success" ? "bg-green-500" : "bg-red-500" }
                       `}>
         <div className="flex items-center justify-between gap-5">
-          <p className="text-sm">{flash.message}</p>
+          <p className="text-sm whitespace-pre-line">{flash.message}</p>
           <button className="shrink-0 text-sm" onClick={() => setFlash(null) }>閉じる</button>
         </div>
       </div>

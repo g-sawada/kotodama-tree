@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
+import { getUser } from "@/lib/api/user/getUser";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
 import { setFlash } from "@/lib/api/flash/setFlash";
 
@@ -18,6 +19,8 @@ export default async function MainPage({ params }: { params: { roomId: string } 
     redirect("/login");
   }
   const userId = session.user.userId;
+  // ユーザー情報を取得
+  const user = await getUser(userId);
 
   // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
   const { roomId: thisRoomId } = await params;
@@ -39,20 +42,17 @@ export default async function MainPage({ params }: { params: { roomId: string } 
   // 部屋のオーナーかどうかを判定
   const isRoomOwner = room.user_id === userId;
 
-  // 未実装。チャージを実行できるかのフラグ
-  const canCharge = true;
-
   return (
     <>
       <div>DEBUG: 確認用 {`room.id: ${room.id}, pathways.length: ${pathways.length}, tree.id: ${tree.id} `}</div>
       <div className="flex-auto">
         <div className="w-64 mx-auto flex flex-col items-center">
-          <TreeSoulsModalController treeId={tree.id} isRoomOwner={isRoomOwner} />
+          <TreeSoulsModalController tree={tree} isRoomOwner={isRoomOwner} user={user}/>
           <PortalButtonComponent thisRoomId={thisRoomId} pathways={pathways} />
           <div className="text-center my-4 md:my-8">
           {isRoomOwner ? 
-            <ChargeButton treeId={tree.id} canCharge={canCharge}/> :
-            <HomePortalButton />}
+            <ChargeButton tree={tree} /> :
+            <HomePortalButton thisRoomId={room.id}/>}
           </div>
         </div>
       </div>

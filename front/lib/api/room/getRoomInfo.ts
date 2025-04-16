@@ -9,11 +9,12 @@
 import { FetchResult } from "@/types/fetchResult";
 import { Pathway } from "@/types/pathway";
 import { Room } from "@/types/room";
+import { Tree } from "@/types/tree";
 
 interface RoomInfo {
   room: Room;
   pathways: Pathway[];
-  tree: { id: number }
+  tree: Tree;
 };
 
 export const getRoomInfo = async (

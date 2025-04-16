@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
         member do
           patch :move
+          get :profile
         end
       end
 
@@ -30,6 +31,12 @@ Rails.application.routes.draw do
       end
 
       resources :pathways, only: %i[create]
+
+      resources :trees, only: %i[] do
+        member do
+          patch :charge
+        end
+      end
     end
   end
 end
