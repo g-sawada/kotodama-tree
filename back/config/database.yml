@@ -90,3 +90,10 @@ production:
   database: app_production
   username: app
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+
+staging:
+  <<: *default
+  database: kotodama_stg_db
+  username: ktdm-stg-back-sysuser
+  password: <%= Rails.application.credentials.gcp[:db_password] %>
+  host: <%= Rails.application.credentials.gcp[:db_host_ip] %>
