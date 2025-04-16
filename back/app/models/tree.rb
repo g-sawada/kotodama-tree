@@ -64,7 +64,7 @@ class Tree < ApplicationRecord
   # プログレスバーに表示する割合を計算するメソッド
   def exp_progress_percent
     #カンストした場合に100を返す
-    return 100 if (level == LEVEL_TABLE.size) && (exp >= LEVEL_TABLE.last)
+    return 100 if level == LEVEL_TABLE.size
     # 現在のレベルになる基準のexpを取得（例：　expが12の場合10を取得する）
     level_min_exp = LEVEL_TABLE[level - 1]
     # 次のレベルになるためのexpを取得する（例：　expが12の場合20を取得する）
