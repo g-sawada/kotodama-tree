@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import FilledHeartButton from "@/components/ui/FilledHeartButton";
 import createFavoriteAction from "@/lib/actions/favorite/createFavoriteAction";
@@ -20,13 +20,6 @@ export default function HeartButtonToggle({ soul }: Props) {
 
   const toggleFavorite = async () => {
     if (favorite) {
-      // const favoriteId = soul.favorites.find(
-      //   (fav) => fav.user_id === user_id
-      // )?.id;
-      // if (!favoriteId) {
-      //   console.log("いいね解除でエラーが発生しました");
-      //   return;
-      // }
       await destroyFavoriteAction(soul.id);
     } else {
       await createFavoriteAction(soul.id);

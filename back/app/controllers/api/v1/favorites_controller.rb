@@ -3,6 +3,9 @@ class Api::V1::FavoritesController < ApplicationController
     begin
       soul = Soul.find(params[:soul_id])
       user = User.find(params[:user_id])
+      if user.favorites_souls.include?(soul)
+        return render json: { error: "すでにいいね済みです" }, status: :conflict
+      end
       user.favorite(soul)
       favorite = user.favorites.find_by(soul_id: soul.id)
       render json: { data: favorite }, status: :created
