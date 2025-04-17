@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { auth } from "@/auth";
 
 import SoulModalController from "@/features/profile/components/SoulModalController";
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -16,6 +17,12 @@ import { userProfile } from "@/lib/api/user/userProfile"
 
 export default async function ProfilePage({ params }: { params: { userId: string } }) {
   const { userId } = params;
+
+  const session = await auth();
+  const myUserId = session?.user?.userId;
+  /**isMyProfileにtrueかfalseを格納 */
+  const isMyProfile = userId === myUserId;
+
   const result = await userProfile(userId);
 
   if (!result.isOk) {
@@ -46,7 +53,7 @@ export default async function ProfilePage({ params }: { params: { userId: string
         <Image src="/soul.svg" width={90} height={90} alt="Soul Image" className="col-span-4"/>
         <div className="col-span-8">
           <div className="pb-3">コトダマ作成数 {souls.length} / {user.max_create_souls}</div>
-            <SoulModalController souls={souls} />
+            <SoulModalController souls={souls} isMyProfile={isMyProfile}/>
           </div>
         </div>
     </div>
