@@ -24,6 +24,7 @@ class Api::V1::FavoritesController < ApplicationController
         return render json: { error: "データが一致しません" }, status: :conflict
       end
       user.unfavorite(soul)
+      render json: { data: soul }, status: :ok
     # その他の予期しないエラー
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error

@@ -13,7 +13,7 @@ export default async function createFavoriteAction(soul_id: number) {
   // セッションからuser_idを取得
   // const session = await auth();
   // const user_id = session.userId;
-  const user_id = "20e38594-c420-424c-9e1a-456599049e09"
+  const user_id = "6aae335d-6f04-4a04-a0ed-d3877cc53d49"
 
 
   // リクエストボディを作成
@@ -27,8 +27,6 @@ export default async function createFavoriteAction(soul_id: number) {
     reqBody
   )
 
-  if (!result.isOk) {
-    console.error("いいね実行時にエラーが発生しました");
-  }
+  return result;
 
 }
