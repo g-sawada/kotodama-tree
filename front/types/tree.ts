@@ -9,3 +9,5 @@ export interface Tree {
   created_at: string;
   updated_at: string;
 }
+
+export type TreeWithProgress = Tree & { exp_progress_percent: number };

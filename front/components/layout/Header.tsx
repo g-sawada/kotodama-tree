@@ -1,8 +1,11 @@
 import DemoResizeModalController from "@/features/demo/components/DemoResizeModalController";
 import SignOutButton from "../ui/authButton/SignOutButton";
 import AuthInfo from "./AuthInfo";
+import { auth } from "@/auth";
 
 export default async function Header () {
+  const session = await auth();
+  const userId = session?.user?.userId;
 
   return (
     <nav className="flex justify-between w-full border-b px-6">
@@ -12,7 +15,7 @@ export default async function Header () {
       <div className="flex items-center justify-center h-16 gap-4">
         <AuthInfo />
         <DemoResizeModalController />
-        <a href="mypage" className="text-sm">マイページ</a>
+        <a href={`/profile/${userId}`} className="text-sm">マイページ</a>
         <a href="/login" className="text-sm">遊び方</a>
         <SignOutButton />
       </div>

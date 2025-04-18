@@ -131,7 +131,7 @@ class Api::V1::UsersController < ApplicationController
       return render json: { 
         data: {
           user: user.as_json(except: [:provider, :provider_id]),
-          tree: user_tree,
+          tree: user_tree.as_json.merge(exp_progress_percent: user_tree.exp_progress_percent),
           souls: user_souls
         }
       }, status: :ok
