@@ -15,7 +15,6 @@ import ResizeModal from "@/components/ui/ResizeModal";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 import { Tree } from "@/types/tree";
-import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 
 /**
@@ -111,7 +110,6 @@ export default function TreeSoulsModalController({
                   )}
                   <div className="flex justify-between">
                     <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-                    <HeartButtonToggle soul={selectedSoul}/>
                   </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (

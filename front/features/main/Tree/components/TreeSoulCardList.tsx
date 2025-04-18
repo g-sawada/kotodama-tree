@@ -1,8 +1,8 @@
 // import * as React from 'react' paramsの取得に必要？
-import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import { Soul } from "@/types/soul";
 import { calculateSoulExp } from "@/lib/logic/calculateSoulExp";
+import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 type Props = {
   souls: Soul[];
@@ -38,7 +38,7 @@ export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }
               
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by {soul.creator.name}</p>
-                {/* <EmptyHeartButton /> */}
+                <HeartButtonToggle soul={soul} />
               </div>
             </SoulCard>
           ))}

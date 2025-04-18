@@ -12,7 +12,6 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import CarryingSoulCardList from "./CarryingSoulCardList";
-import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 /**
  * 手持ちのコトダマ一覧用のモーダルコントローラー
@@ -84,7 +83,6 @@ export default function CarryingSoulsModalController({
                 <SoulDetailCard soul={selectedSoul}>
                   <div className="flex justify-between">
                     <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-                    <HeartButtonToggle soul={selectedSoul}/>
                   </div>
                 </SoulDetailCard>
                 <div className="flex justify-center my-4">
