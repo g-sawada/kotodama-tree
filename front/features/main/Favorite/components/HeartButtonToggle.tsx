@@ -18,7 +18,8 @@ export default function HeartButtonToggle({ soul }: Props) {
 
   const [favorite, setFavorite] = useState(isFavorite);
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
     if (favorite) {
       await destroyFavoriteAction(soul.id);
     } else {
