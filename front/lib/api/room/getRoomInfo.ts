@@ -22,7 +22,7 @@ export const getRoomInfo = async (
 ): Promise<FetchResult<RoomInfo>> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/rooms/${roomId}`,
+      `${process.env.API_URL}/api/${process.env.API_VERSION}/rooms/${roomId}`,
       {
         method: "GET",
         headers: {

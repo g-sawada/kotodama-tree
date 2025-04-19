@@ -90,3 +90,12 @@ production:
   database: app_production
   username: app
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+
+staging:
+  <<: *default
+  database: kotodama_stg_db
+  username: ktdm-stg-back-sysuser
+  password: <%= Rails.application.credentials.dig(:gcp, :db_password) || 'password' %>
+  host: <%= Rails.application.credentials.dig(:gcp, :db_host_ip) || 'localhost' %>
+
+# NOTE: credentails.gcp[:db_password] のように記述すると，gcpを作成していない開発環境でエラーが発生するため，存在しない場合にnilを返してデフォルト値を設定するように記述する。（環境にかかわらず，database.yml内は全て読み込まれる）

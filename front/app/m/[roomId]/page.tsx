@@ -12,7 +12,13 @@ import PortalButtonComponent from "@/features/main/Portal/components/PortalButto
 import ChargeButton from "@/features/main/Charge/components/ChargeButton";
 import HomePortalButton from "@/features/main/HomePortal/components/HomePortalButton";
 
-export default async function MainPage({ params }: { params: { roomId: string } }) {
+type Props = {
+  params: Promise<{
+    roomId: string;
+  }>;
+};
+
+export default async function MainPage({ params }: Props) {
   // sessionからuserIdを取得。取得できない場合はloginページにリダイレクト
   const session = await auth();
   if (!session || !session.user.userId) {
