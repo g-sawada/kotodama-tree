@@ -48,7 +48,7 @@ export const getSouls = async ({ owner_id, creator_id, captured_tree_id }: getSo
 
 
 export const getSoulsByOwnerId = async (owner_id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls?owner_id=${owner_id}`, {
+  const res = await fetch(`${process.env.API_URL}/api/${process.env.API_VERSION}/souls?owner_id=${owner_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export const getSoulsByOwnerId = async (owner_id: string) => {
 }
 
 export const getSoulsByCreatorId = async (creator_id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls?creator_id=${creator_id}`, {
+  const res = await fetch(`${process.env.API_URL}/api/${process.env.API_VERSION}/souls?creator_id=${creator_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export const getSoulsByCreatorId = async (creator_id: string) => {
 }
 
 export const getSoulsByCapturedTreeId = async (captured_tree_id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls?captured_tree_id=${captured_tree_id}`, {
+  const res = await fetch(`${process.env.API_URL}/api/${process.env.API_VERSION}/souls?captured_tree_id=${captured_tree_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

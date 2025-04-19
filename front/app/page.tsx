@@ -20,6 +20,19 @@ export default async function Home() {
     redirect("/mock")
   }
 
+  // 外部接続テスト
+  const trafficTest = async () =>  {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+    console.log("response");
+    console.log(response);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const body =  await response.json();
+    return body
+  }
+
+  const test = await trafficTest();
 
   return (
     <>
@@ -43,6 +56,14 @@ export default async function Home() {
         <SignInButton provider="google"/>
         <SignInButton provider="twitter"/>
       </div>
+
+      <div className="flex flex-col justify-center items-center my-4">
+        <div>環境変数チェック</div>
+        <p className="text-sm">API_URL: {process.env.API_URL}</p>
+        <p className="text-sm">AUTH_GOOGLE_ID: {process.env.AUTH_GOOGLE_ID}</p>
+      </div>
+
+      <pre className="flex justify-center text-sm">{JSON.stringify(test.title, null, 2)}</pre>
 
       <div className="flex justify-center items-center my-10">
         <DemoModalController />

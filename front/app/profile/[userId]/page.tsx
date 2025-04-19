@@ -15,8 +15,14 @@ import { userProfile } from "@/lib/api/user/userProfile"
  * 
  */
 
-export default async function ProfilePage({ params }: { params: { userId: string } }) {
-  const { userId } = params;
+type Props = {
+  params: Promise<{
+    userId: string;
+  }>;
+};
+
+export default async function ProfilePage({ params }: Props) {
+  const { userId } = await params;
   const result = await userProfile(userId);
 
   if (!result.isOk) {

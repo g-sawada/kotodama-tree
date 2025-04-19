@@ -7,11 +7,17 @@ import EnterAuth from "@/features/main/EnterAuth/EnterAuth";
  * @prop { params: { roomId: string } }
  */
 
-export default async function MainLayout({ children, params }
-  : { children: React.ReactNode, params: { roomId: string };
-}) {
-  const { roomId } = await params;
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{
+    roomId: string;
+  }>;
+};
 
+export default async function MainLayout({ children, params }
+  : Props) {
+  const { roomId } = await params;
+  
   return (
     <>
       <EnterAuth thisRoomId={roomId}>
