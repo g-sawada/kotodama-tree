@@ -17,7 +17,13 @@ import { getUser } from "@/lib/api/user/getUser";
  * 
  */
 
-export default async function OfferPage({ params }: { params: { roomId: string } }) {
+type Props = {
+  params: Promise<{
+    roomId: string;
+  }>;
+};
+
+export default async function OfferPage({ params }: Props) {
   // sessionからuserIdを取得。取得できない場合はloginページにリダイレクト
   const session = await auth();
   if (!session || !session.user.userId) {
