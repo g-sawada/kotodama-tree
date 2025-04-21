@@ -1,5 +1,5 @@
 class Api::V1::SystemController < ApplicationController
-  # POST /api/v1/reset
+  # POST /api/v1/system/reset
   def reset
     result = WorldResetter.call
     render json: { result: result }, status: :ok
