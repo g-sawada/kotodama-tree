@@ -31,7 +31,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
   const closeListModal = () => setIsListModalOpen(false);
 
   const openSoulModal = (soul: Soul) => {
-    const deletable = soul.owner_id === user.id || soul.captured_tree_id === tree.id;
+    const deletable = isMyProfile && (soul.owner_id === user.id || soul.captured_tree_id === tree.id);
     setIsDeletable(deletable);
     setSelectedSoul(soul);
     setIsSoulModalOpen(true);
@@ -75,7 +75,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
               </p>
             </div>
           </SoulCard>
-          <div className="flex justify-center my-4">
+          <div className="flex justify-center my-4 gap-8">
             { isMyProfile === true && (
             <Button
               text={inProgress ? "削除中…" : "削除"}
@@ -91,7 +91,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
               buttonType="cancel"
             />
           </div>
-            { isDeletable === false && (
+            { !isDeletable && (
               <div className="text-xs text-red-700">
                 ＊手元にコトダマが戻るまで削除できません
               </div>

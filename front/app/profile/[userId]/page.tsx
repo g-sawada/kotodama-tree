@@ -31,10 +31,10 @@ export default async function ProfilePage({ params }: Props) {
 
   const { user, tree, souls } = result.body.data;
   const session = await auth();
-  const myUserId = session?.user?.userId;
+  const currentUserId = session?.user?.userId;
 
   /**isMyProfileにtrueかfalseを格納 */
-  const isMyProfile = userId === myUserId;
+  const isMyProfile = userId === currentUserId;
 
   return (
     <>
