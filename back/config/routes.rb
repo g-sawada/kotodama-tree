@@ -32,6 +32,8 @@ Rails.application.routes.draw do
           patch :charge
         end
       end
+
+      post 'system/reset', to: 'system#reset'
     end
   end
 end
