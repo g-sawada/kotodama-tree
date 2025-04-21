@@ -51,8 +51,8 @@ def create_dummy_soul(creator_id, owner_id, home_tree_id, captured_tree_id)
   )
 end
 
-# ユーザーを5人作成
-users = 5.times.map do |i|
+# ユーザーをN人作成
+users = 100.times.map do |i|
   create_dummy_user("だみーゆーざー #{i + 1}")
 end
 
