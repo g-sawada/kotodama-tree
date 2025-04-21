@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
 import { Favorite } from "@/types/favorite";
+import { redirect } from "next/navigation";
 
 /**
  * コトダマカードの空のいいねボタンから起動し，API favorites#createをコールする。
@@ -13,7 +14,10 @@ import { Favorite } from "@/types/favorite";
 export default async function createFavoriteAction(soul_id: number) {
   // セッションからuser_idを取得
   const session = await auth();
-  const user_id = session.userId;
+  if(!session?.user?.userId) {
+    redirect("/login");
+  }
+  const user_id = session.user.userId;
 
   // リクエストボディを作成
   const reqBody = {

@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { deleteFetch } from "@/lib/api/fetcher/deleteFetch";
 import { Favorite } from "@/types/favorite";
+import { redirect } from "next/navigation";
 
 /**
  * コトダマカードのいいね済みボタンから起動し，API favorites#destroyをコールする。
@@ -12,7 +13,10 @@ import { Favorite } from "@/types/favorite";
 export default async function destroyFavoriteAction(soul_id: number) {
   // セッションからuser_idを取得
   const session = await auth();
-  const user_id = session.userId;
+  if(!session?.user?.userId) {
+    redirect("/login");
+  }
+  const user_id = session.user.userId;
 
   // リクエストボディを作成
   const reqBody = {
