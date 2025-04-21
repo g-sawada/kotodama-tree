@@ -24,7 +24,7 @@ export function PI_Triangle({ color }: Props) {
         </feComponentTransfer>
 
         <feFlood x="2" y="2" width="1" height="1" />
-        <feComposite in2="" width="4" height="4" />
+        <feComposite in2="" width="2" height="2" />
         <feTile />
 
         <feComposite in="color" in2="" operator="in" />
@@ -55,7 +55,7 @@ export function PI_Star({ color }: Props) {
         </feComponentTransfer>
 
         <feFlood x="2" y="2" width="1" height="1" />
-        <feComposite in2="" width="4" height="4" />
+        <feComposite in2="" width="2" height="2" />
         <feTile />
 
         <feComposite in="color" in2="" operator="in" />
@@ -86,7 +86,7 @@ export function PI_Pentagon({ color }: Props) {
         </feComponentTransfer>
 
         <feFlood x="2" y="2" width="1" height="1" />
-        <feComposite in2="" width="4" height="4" />
+        <feComposite in2="" width="2" height="2" />
         <feTile />
 
         <feComposite in="color" in2="" operator="in" />
