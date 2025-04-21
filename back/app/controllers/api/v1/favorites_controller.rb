@@ -1,9 +1,12 @@
 class Api::V1::FavoritesController < ApplicationController
   def create
     begin
-      soul = Soul.find(params[:soul_id])
+      soul = Soul.find_by(id: params[:soul_id])
+      if soul.nil?
+        return render json: { error: "コトダマが存在しません" }, status: :not_found
+      end
       user = User.find(params[:user_id])
-      if user.favorites_souls.include?(soul)
+      if user.favorite?(soul)
         return render json: { error: "すでにいいね済みです" }, status: :conflict
       end
       user.favorite(soul)
@@ -20,7 +23,7 @@ class Api::V1::FavoritesController < ApplicationController
     begin
       user = User.find(params[:user_id])
       soul = Soul.find(params[:soul_id])
-      if user.favorites_souls.exclude?(soul)
+      if !user.favorite?(soul)
         return render json: { error: "データが一致しません" }, status: :conflict
       end
       user.unfavorite(soul)

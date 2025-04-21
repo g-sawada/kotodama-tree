@@ -1,5 +1,6 @@
 "use server"
 
+import { auth } from "@/auth";
 import { deleteFetch } from "@/lib/api/fetcher/deleteFetch";
 import { Favorite } from "@/types/favorite";
 
@@ -10,9 +11,8 @@ import { Favorite } from "@/types/favorite";
 
 export default async function destroyFavoriteAction(soul_id: number) {
   // セッションからuser_idを取得
-  // const session = await auth();
-  // const user_id = session.userId;
-  const user_id = "6aae335d-6f04-4a04-a0ed-d3877cc53d49"
+  const session = await auth();
+  const user_id = session.userId;
 
   // リクエストボディを作成
   const reqBody = {
