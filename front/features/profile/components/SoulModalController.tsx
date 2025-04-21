@@ -24,9 +24,6 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
   const [inProgress, setInProgress] = useState(false);
   const [isDeletable, setIsDeletable] = useState<boolean | null>(null);
 
-
-  const router = useRouter();
-
   const openListModal = () => setIsListModalOpen(true);
   const closeListModal = () => setIsListModalOpen(false);
 
@@ -92,7 +89,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
             />
           </div>
             { !isDeletable && (
-              <div className="text-xs text-red-700">
+              <div className="flex justify-center text-xs text-red-700">
                 ＊手元にコトダマが戻るまで削除できません
               </div>
             )}
