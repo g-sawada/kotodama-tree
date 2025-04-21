@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ENV["FRONT_URL"]
+    origins ENV["FRONT_URL"] || 'http://localhost:4000'  # デプロイエラー回避のため、デフォルト値を設定
 
     resource "*",
       headers: :any,

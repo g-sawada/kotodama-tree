@@ -5,7 +5,7 @@ export const postFetch = async <T> (
   reqBody: object,
   ): Promise<FetchResult<T>> => {
   // ベースURLを作成
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}`;
+  const baseUrl = `${process.env.API_URL}/api/${process.env.API_VERSION}`;
 
   try {
     const res = await fetch(baseUrl + url, 

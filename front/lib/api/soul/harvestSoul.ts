@@ -16,7 +16,7 @@ export const harvestSoul = async (
 ): Promise<FetchResult<Soul>> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/souls/${soul_id}/harvest`,
+      `${process.env.API_URL}/api/${process.env.API_VERSION}/souls/${soul_id}/harvest`,
       {
         method: "POST",
         headers: {
