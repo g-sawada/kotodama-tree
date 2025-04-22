@@ -2,6 +2,7 @@
 
 import enterAuthAction from "@/lib/actions/room/enterAuthAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
+import { setFlash } from "@/lib/api/flash/setFlash";
 import { useEffect, useState } from "react";
 
 /**
@@ -25,14 +26,14 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
     enterAuthAction(thisRoomId).then((canEnter) => {
       if(!canEnter) {
         // 入室できない場合
-        redirectToLastVisitRoomAction(
-          { errorMessage: "アクセス権限がありません" }
-        );
+        setFlash("error", "アクセスできません。 \n 最後に訪れた場所を読み込みました。");
+        redirectToLastVisitRoomAction();
         return;
       }
-      // 入室できる場合
+      // 入室できる場合は，ローディングを解除してchildrenを表示する
       setIsChecked(true);
     });
+  // thisRoomIdを監視し，変更の度に入室チェックを行う
   }, [thisRoomId]);
 
   return (
