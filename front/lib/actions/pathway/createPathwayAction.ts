@@ -17,10 +17,16 @@ export default async function createPathwayAction(visitRoomId: string) {
   const userId = session.user.userId;
 
   // 最新のユーザー情報を取得
-  const user = await getUser(userId);
+  const getUserResult = await getUser(userId);
+  if (!getUserResult.isOk) {
+    await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。");
+    redirect("/login");
+  }
+  const user = getUserResult.body.data;
+  
   // 最終訪問部屋のidと現在の部屋のidが一致しない場合はエラー
   if (user.last_visit_room !== visitRoomId) {
-    await setFlash("error", "アクセス権がありません");
+    await setFlash("error", "アクセス権がありません。\n 最後に訪れた場所を読み込みました。");
     redirectToLastVisitRoomAction();
   }
 
