@@ -40,22 +40,8 @@ export default async function OfferPage({ params }: Props) {
   }
   const user = getUserResult.body.data
 
-  // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
+  // URLパラメータからroomIdを取得
   const { roomId: thisRoomId } = await params;
-  // ⭐️ 捧げ部屋への入室認証は，専用layoutから呼び出すクライアントコンポーネントで行うように変更する
-  // const getRoomInfoResult = await getRoomInfo(thisRoomId);
-
-  // if (!getRoomInfoResult.isOk) {
-  //   return <ErrorPage />
-  // }
-  // const roomInfo = getRoomInfoResult.body.data
-
-  // // 部屋のuserIdと現在のuserIdが一致しない場合，アクセス権限がないのでリダイレクト
-  // if (roomInfo.room.user_id !== userId) {
-  //   // BUG: SSRページからsetFlashを実行する関数を呼ぶとエラーになる
-  //   // setFlash("error", "この部屋にアクセスする権限がありません");
-  //   redirect(`/m/${thisRoomId}`);
-  // }
 
   // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
   // ⭐️ getSoulsActionではなくgetSoulsを使用。戻り値がエラーの場合はエラーメッセージを表示する
