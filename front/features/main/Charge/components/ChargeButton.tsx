@@ -16,11 +16,12 @@ export default function ChargeButton({ tree }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // コトダマのチャージ可否判定
-  const canCharge = (() =>  {
-    if(!tree.last_charged_at) {
+  const canCharge = (() => {
+    if (!tree.last_charged_at) {
       return true; // last_charged_atがnullの場合はチャージ可能
     }
-    const timeDiff = new Date().getTime() - new Date(tree.last_charged_at).getTime();
+    const timeDiff =
+      new Date().getTime() - new Date(tree.last_charged_at).getTime();
     return timeDiff >= CHARGE_INTERVAL; // 定数で管理
   })();
 
@@ -42,13 +43,13 @@ export default function ChargeButton({ tree }: Props) {
     <>
       {canCharge ? (
         <button onClick={() => openModal()}>
-          <Image src="/charge.svg" alt="charge_icon" width={64} height={64} />
+          <Image src="/charge.png" alt="charge_icon" width={64} height={64} />
         </button>
       ) : (
         <>
           <button disabled>
             <Image
-              src="/charge_disabled.svg"
+              src="/charge_disabled.png"
               alt="charge_icon"
               width={64}
               height={64}
