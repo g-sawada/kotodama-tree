@@ -7,15 +7,7 @@
  */
 
 import { FetchResult } from "@/types/fetchResult";
-import { Pathway } from "@/types/pathway";
-import { Room } from "@/types/room";
-import { Tree } from "@/types/tree";
-
-interface RoomInfo {
-  room: Room;
-  pathways: Pathway[];
-  tree: Tree;
-};
+import { RoomInfo } from "@/types/room";
 
 export const getRoomInfo = async (
   roomId: string,
