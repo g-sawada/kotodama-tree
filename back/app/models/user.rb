@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :owner_souls, class_name: 'Soul', foreign_key: 'owner_id'
   has_many :creator_souls, class_name: 'Soul', foreign_key: 'creator_id', dependent: :destroy
   has_many :favorites
+  has_many :favorites_souls, through: :favorites, source: :soul
   has_one :tree, dependent: :destroy
   has_one :room
 
@@ -27,6 +28,18 @@ class User < ApplicationRecord
     Favorite.where(soul_id: creator_soul_ids).count
   end
 =end
+
+  def favorite(soul)
+    favorites_souls << soul
+  end
+
+  def unfavorite(soul)
+    favorites_souls.delete(soul)
+  end
+
+  def favorite?(soul)
+    favorites_souls.include?(soul)
+  end
 
   private
 

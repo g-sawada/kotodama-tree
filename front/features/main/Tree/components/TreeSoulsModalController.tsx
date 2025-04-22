@@ -10,13 +10,12 @@ import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import TreeImg from "@/components/ui/TreeImg";
-import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
-
 import TreeSoulCardList from "@/features/main/Tree/components/TreeSoulCardList";
 import ResizeModal from "@/components/ui/ResizeModal";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 import { Tree } from "@/types/tree";
+
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -111,7 +110,6 @@ export default function TreeSoulsModalController({
                   )}
                   <div className="flex justify-between">
                     <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-                    <EmptyHeartButton />
                   </div>
                 </SoulDetailCard>
                 {!isRoomOwner && (
