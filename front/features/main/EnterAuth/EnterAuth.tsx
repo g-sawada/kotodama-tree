@@ -33,9 +33,10 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
           redirectToLastVisitRoomAction();
           return;
         })
+      } else {
+        // 入室できる場合は，ローディングを解除してchildrenを表示する
+        setIsChecked(true);
       }
-      // 入室できる場合は，ローディングを解除してchildrenを表示する
-      setIsChecked(true);
     });
   // thisRoomIdを監視し，変更の度に入室チェックを行う
   }, [thisRoomId]);
