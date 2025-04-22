@@ -6,6 +6,7 @@ import { Soul } from "@/types/soul";
 import { User } from "@/types/user";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 
+import { useFlash } from "@/components/layout/FlashMessage";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
@@ -15,7 +16,6 @@ import ResizeModal from "@/components/ui/ResizeModal";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
 import { Tree } from "@/types/tree";
-
 
 /**
  * キのコトダマ一覧用のモーダルコントローラー
@@ -40,16 +40,22 @@ export default function TreeSoulsModalController({
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
   const roomId = useParams().roomId as string;  // URLパラメータからroomIdを取得
+  const { setFlash } = useFlash();
 
   // ユーザーのコトダマ収穫可否
   const canHarvest = user.carrying_souls_count < user.max_carry_souls
   
-
   // モーダルの開閉制御
   const openModal = async () => {
     setIsModalOpen(true);
     // モーダルを開いたときにキのコトダマ一覧を取得
-    const souls: Soul[] = await getSoulsAction({ captured_tree_id: tree.id });
+    const getSoulsResult = await getSoulsAction({ captured_tree_id: tree.id });
+    if (!getSoulsResult.isOk) {
+      // エラー処理
+      setFlash({ type: "error", message: "コトダマの取得に失敗しました。 \n ページを再読み込みして下さい。" });
+      return;
+    }
+    const souls = getSoulsResult.body.data;
     setSouls(souls);
   };
 

@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
-import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import { getUser } from "@/lib/api/user/getUser";
 import ErrorPage from "@/components/layout/ErrorPage";
+import { getSouls } from "@/lib/api/soul/getSouls";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -43,14 +43,21 @@ export default async function OfferPage({ params }: Props) {
   // URLパラメータからroomIdを取得
   const { roomId: thisRoomId } = await params;
 
-  // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
-  // ⭐️ getSoulsActionではなくgetSoulsを使用。戻り値がエラーの場合はエラーメッセージを表示する
-  const createdSouls = await getSoulsAction({ creator_id: userId });
+  // ユーザーの作成済みコトダマを取得
+  const getCreatedSoulsResult = await getSouls( { creator_id: userId });
+  if (!getCreatedSoulsResult.isOk) {
+    return <ErrorPage />
+  }
+  const createdSouls = getCreatedSoulsResult.body.data;
+  // 作成済みコトダマの数とユーザー毎に設定される作成上限数から，残りの作成可能数を算出
   const creatableCount = user.max_create_souls - createdSouls.length;
 
   // ユーザーの手持ちのコトダマを取得
-  // ⭐️ getSoulsActionではなくgetSoulsを使用。戻り値がエラーの場合はエラーメッセージを表示する
-  const carryingSouls = await getSoulsAction({ owner_id: userId });
+  const getCarryingSoulsResult = await getSouls({ owner_id: userId });
+  if (!getCarryingSoulsResult.isOk) {
+    return <ErrorPage />
+  }
+  const carryingSouls = getCarryingSoulsResult.body.data;
 
   // 戻るボタンのリダイレクト処理
   const backToMainPage = async () => {

@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 
 import { Soul } from "@/types/soul";
 
+import { useFlash } from "@/components/layout/FlashMessage";
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
@@ -30,6 +31,7 @@ export default function CarryingSoulsModalController({
   const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
   const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+  const { setFlash } = useFlash();
   
   // session情報を取得
   const session = useSession();
@@ -42,7 +44,13 @@ export default function CarryingSoulsModalController({
   const openModal = async () => {
     setIsModalOpen(true);
     // モーダルを開いた時にユーザーが所持中のコトダマ一覧データを取得
-    const souls: Soul[] = await getSoulsAction({ owner_id: userId });
+    const getSoulsResult = await getSoulsAction({ owner_id: userId });
+    if (!getSoulsResult.isOk) {
+      // エラー処理
+      setFlash({ type: "error", message: "コトダマの取得に失敗しました。 \n ページを再読み込みして下さい。" });
+      return;
+    }
+    const souls = getSoulsResult.body.data;
     setSouls(souls);
   };
 
