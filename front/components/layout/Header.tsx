@@ -15,7 +15,9 @@ export default async function Header () {
       <div className="flex items-center justify-center h-16 gap-4">
         <AuthInfo />
         <DemoResizeModalController />
+        { userId && ( /**ログインしていない場合は非表示に */
         <a href={`/profile/${userId}`} className="text-sm">マイページ</a>
+        )}
         <a href="/login" className="text-sm">遊び方</a>
         <SignOutButton />
       </div>
