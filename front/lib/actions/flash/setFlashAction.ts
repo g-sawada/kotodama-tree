@@ -9,7 +9,7 @@ import { FlashContent } from "@/types/flashContent";
  * 必ずサーバーアクションから実行する
  */
 
-export const setFlash = async (
+export const setFlashAction = async (
   type: "error" | "success" | "info" | "warning",
   message: string
 ) => {

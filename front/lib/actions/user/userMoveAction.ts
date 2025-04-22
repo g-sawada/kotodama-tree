@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import { redirect } from "next/navigation";
 import { patchFetch } from "@/lib/api/fetcher/patchFetch";
 import redirectToLastVisitRoomAction from "./redirectToLastVisitRoom";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 
 /**
  * ユーザーの部屋移動処理を実行するサーバーアクション
@@ -20,7 +20,7 @@ export default async function userMoveAction(targetRoomId: string) {
   const session = await auth();
   // 取得できない場合はエラーとしてリダイレクト
   if (!session || !session.user.userId) {
-    await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
     redirect("/login");
   }
   const userId = session.user.userId;
@@ -49,12 +49,12 @@ export default async function userMoveAction(targetRoomId: string) {
   if(!result.isOk) {
     if(result.status === 403) {
       // アクセス権無し(403 Forbidden)
-      await setFlash("error", "移動に失敗しました。\n 最後に訪れた場所を読み込みました。")
+      await setFlashAction("error", "移動に失敗しました。\n 最後に訪れた場所を読み込みました。")
       // ユーザーのlast_visit_roomにリダイレクト
       await redirectToLastVisitRoomAction(); 
     } else {
       // その他のエラー
-      await setFlash("error", "予期しないエラーが発生しました。")
+      await setFlashAction("error", "予期しないエラーが発生しました。")
       redirect("/");
     }
   } else {

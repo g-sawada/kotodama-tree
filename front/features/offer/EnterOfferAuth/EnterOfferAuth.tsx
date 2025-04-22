@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 import getRoomInfoAction from "@/lib/actions/room/getRoomInfoAction";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 
 import { RoomInfo } from "@/types/room";
 
@@ -38,9 +38,12 @@ export default function EnterOfferAuth({ thisRoomId, children }: EnterAuthProps)
       // room情報のuser_idとsessionのuserIdが一致するか確認
       if(room.user_id !== userId) {
         // 一致しない場合は，入室不可のためリダイレクト
-        setFlash("error", "アクセスできません。 \n 最後に訪れた部屋を読み込みました。").then(() =>  {
+        setFlashAction(
+          "error",
+          "アクセスできません。 \n 最後に訪れた部屋を読み込みました。"
+        ).then(() => {
           redirect(`/m/${thisRoomId}`);
-          // NOTE: setFlashが非同期処理のため，thenを使ってPromiseを待つようにする
+          // NOTE: setFlashActionが非同期処理のため，thenを使ってPromiseを待つようにする
         });
       } else {
         // 一致する場合はローディングを解除し，childrenを表示する

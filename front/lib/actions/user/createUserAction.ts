@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { User } from "@/types/user";
 
 /**
@@ -17,7 +17,7 @@ export default async function createUserAction(formData: FormData) {
   const provider_id = formData.get("provider_id") as string;
 
   if(!name) {
-    await setFlash("error", "ユーザー名を入力してください");
+    await setFlashAction("error", "ユーザー名を入力してください");
     redirect("/signup");
   }
 
@@ -40,6 +40,6 @@ export default async function createUserAction(formData: FormData) {
   }
 
   console.log("ユーザーの作成に成功しました");
-  await setFlash("success", "ユーザーの作成に成功しました");
+  await setFlashAction("success", "ユーザーの作成に成功しました");
   redirect("/loggedIn");
 } 

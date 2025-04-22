@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { redirect } from "next/navigation";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
@@ -14,7 +14,7 @@ export default async function enterAuthAction(roomId: string) {
   const session = await auth();
   // 取得できない場合はエラーとしてリダイレクト
   if(!session?.user?.userId) {
-    await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
     redirect("/login");
   }
   const userId = session.user.userId;
@@ -43,18 +43,18 @@ export default async function enterAuthAction(roomId: string) {
     if(result.status === 404) {
       // ユーザーが存在しない(404 Not Found)
       if(result.body.error === "user not found") {
-        await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+        await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
         redirect("/login");
       }
       // 部屋が存在しない(404 Not Found)
       if(result.body.error === "room not found") {
-        await setFlash("error", "アクセスできません。\n 最後に訪れた場所を読み込みました。");
+        await setFlashAction("error", "アクセスできません。\n 最後に訪れた場所を読み込みました。");
         await redirectToLastVisitRoomAction();
         return;
       }
     } else {
       // その他のエラー
-      await setFlash("error", "予期しないエラーが発生しました。")
+      await setFlashAction("error", "予期しないエラーが発生しました。")
       redirect("/");
     }
   } else {

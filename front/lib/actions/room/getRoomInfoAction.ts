@@ -1,6 +1,6 @@
 "use server"
 
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
@@ -16,7 +16,7 @@ import { RoomInfo } from "@/types/room";
 export default async function getRoomInfoAction(room_id: string): Promise<RoomInfo | undefined> {
   const result = await getRoomInfo(room_id);
   if (!result.isOk) {
-    await setFlash("error", "データを取得できませんでした。 \n 最後に訪れた場所を読み込みました。");
+    await setFlashAction("error", "データを取得できませんでした。 \n 最後に訪れた場所を読み込みました。");
     await redirectToLastVisitRoomAction();
     return;
   }

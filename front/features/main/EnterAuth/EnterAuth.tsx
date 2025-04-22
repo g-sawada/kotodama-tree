@@ -2,7 +2,7 @@
 
 import enterAuthAction from "@/lib/actions/room/enterAuthAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { useEffect, useState } from "react";
 
 /**
@@ -26,9 +26,13 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
     enterAuthAction(thisRoomId).then((canEnter) => {
       if(!canEnter) {
         // 入室できない場合
-        setFlash("error", "アクセスできません。 \n 最後に訪れた場所を読み込みました。");
-        redirectToLastVisitRoomAction();
-        return;
+        setFlashAction(
+          "error",
+          "アクセスできません。 \n 最後に訪れた場所を読み込みました。"
+        ).then(() =>  {
+          redirectToLastVisitRoomAction();
+          return;
+        })
       }
       // 入室できる場合は，ローディングを解除してchildrenを表示する
       setIsChecked(true);

@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { patchFetch } from "@/lib/api/fetcher/patchFetch";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { Soul } from "@/types/soul";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
@@ -37,7 +37,7 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
     redirectToLastVisitRoomAction({ errorMessage: result.body.error });
   }
 
-  await setFlash("success", "コトダマを捧げました");
+  await setFlashAction("success", "コトダマを捧げました");
 
   // 仮実装としてメイン画面にリダイレクト。捧げページでアニメーションを実装予定
   redirect(`/m/${roomId}`);

@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
 import { Soul } from "@/types/soul";
 
@@ -43,7 +43,7 @@ export async function createSoulAction(formData: FormData) {
     redirectToLastVisitRoomAction({ errorMessage: result.body.error });
   }
 
-  await setFlash("success", "新しいコトダマを捧げました");
+  await setFlashAction("success", "新しいコトダマを捧げました");
   
   // 仮実装。捧げアニメーションのあと、メイン画面へ
   await redirectToLastVisitRoomAction()

@@ -1,7 +1,7 @@
 'use server'
 
 import { auth } from "@/auth";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { getUser } from "@/lib/api/user/getUser";
 import { redirect } from "next/navigation";
 
@@ -24,7 +24,7 @@ export default async function redirectToLastVisitRoomAction(
   const session = await auth();
   // sessionが取得できない場合はログインページへリダイレクト
   if (!session || !session.user.userId) {
-    await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
     return redirect("/login");
   }
   const userId = session.user.userId;
@@ -32,7 +32,7 @@ export default async function redirectToLastVisitRoomAction(
   // ユーザー情報を取得
   const getUserResult = await getUser(userId);
   if (!getUserResult.isOk) {
-    await setFlash("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
     return redirect("/login");
   }
   const user = getUserResult.body.data;
@@ -43,7 +43,7 @@ export default async function redirectToLastVisitRoomAction(
   // ⭐️ paramでエラーメッセージを受け取らないようにする
   if(param?.errorMessage) {
     const errorMessage = param.errorMessage;
-    setFlash("error", errorMessage);
+    setFlashAction("error", errorMessage);
   }
 
   redirect(`/m/${lastVisitRoomId}`);

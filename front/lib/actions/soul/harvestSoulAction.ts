@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { patchFetch } from "@/lib/api/fetcher/patchFetch";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { Soul } from "@/types/soul";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
@@ -38,7 +38,7 @@ export default async function harvestSoulAction(soulId: number, roomId: string) 
     return;
   }
 
-  await setFlash("success", "コトダマを収穫しました");
+  await setFlashAction("success", "コトダマを収穫しました");
 
   return result
 }
