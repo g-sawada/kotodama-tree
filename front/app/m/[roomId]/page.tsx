@@ -1,10 +1,7 @@
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
 import { getUser } from "@/lib/api/user/getUser";
-import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
-import { setFlash } from "@/lib/api/flash/setFlash";
 
 import Footer from "@/components/layout/Footer";
 import TreeSoulsModalController from "@/features/main/Tree/components/TreeSoulsModalController";
@@ -23,8 +20,9 @@ export default async function MainPage({ params }: Props) {
   /**
    * 必要データの取得とエラー処理
    * - sessionからuserIdを取得
-   * - userIdからユーザー情報を取得
-   * - URLパラメータからroomIdを取得
+   * - userIdで API users#showをコールし，ユーザー情報を取得
+   * - URLパラメータからthisRoomIdを取得
+   * - thisRoomIdで API rooms#showをコールし，部屋情報を取得
    * いずれかがエラーの場合，エラーページを表示する
    */
   const session = await auth();
