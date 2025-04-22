@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import FilledHeartButton from "@/components/ui/FilledHeartButton";
@@ -20,18 +20,17 @@ export default function HeartButtonToggle({ soul }: Props) {
   const [favorite, setFavorite] = useState(isFavorite);
 
   const toggleFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    if (favorite) {
-      await destroyFavoriteAction(soul.id);
-    } else {
-      await createFavoriteAction(soul.id);
+    e.stopPropagation();
+    const result = favorite
+      ? await destroyFavoriteAction(soul.id)
+      : await createFavoriteAction(soul.id);
+    if (result.isOk) {
+      setFavorite(!favorite);
     }
-    setFavorite(!favorite);
   };
   return (
     <button onClick={toggleFavorite}>
-      {favorite ? <FilledHeartButton/> : <EmptyHeartButton />}
+      {favorite ? <FilledHeartButton /> : <EmptyHeartButton />}
     </button>
-    
   );
 }
