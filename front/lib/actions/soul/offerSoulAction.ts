@@ -27,18 +27,46 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
     room_id: roomId,
   };
 
-  // APIをコール
+  /**
+   * コトダマ捧げ API souls#offer を実行
+   * @param soulId - 捧げるコトダマのID
+   * @param user_id - ログインユーザーID
+   * @param room_id - ユーザーの現在地の部屋ID
+   * 
+   * 正常系
+   * - コトダマ捧げ処理を実行 (200 OK)
+   *   @returns data :Soul  捧げたコトダマ
+   * 異常系
+   * - ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)
+   * - ユーザーの手持ちコトダマに対象のsoulがない (409 Conflict)
+   * - その他のエラー (500 Internal Server Error)
+   */
   const result = await patchFetch<Soul>(
     `/souls/${soulId}/offer`,
     reqBody
   );
 
   if (!result.isOk) {
-    redirectToLastVisitRoomAction({ errorMessage: result.body.error });
+    if (result.status === 403) {
+      // ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)　
+      await setFlashAction("error", "コトダマを捧げられません。\n 最後に訪れた場所を読み込みました。");
+      await redirectToLastVisitRoomAction();
+      return;
+    } else if (result.status === 409) {
+      // ユーザーの手持ちコトダマに対象のsoulがない (409 Conflict)
+      /**
+       * redirectToLastVisitRoomActionを使用すると，同じ部屋へリダイレクトしようとして
+       * ページのリロードが発生しないため，クライアントで処理
+       */
+      await setFlashAction("error", "コトダマを捧げられませんでした。");
+      return result;
+    } else {
+      // その他のエラー
+      await setFlashAction("error", "予期しないエラーが発生しました。");
+      redirect("/");
+    }
   }
 
   await setFlashAction("success", "コトダマを捧げました");
-
-  // 仮実装としてメイン画面にリダイレクト。捧げページでアニメーションを実装予定
-  redirect(`/m/${roomId}`);
+  return result;
 }
