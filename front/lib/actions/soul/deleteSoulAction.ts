@@ -4,9 +4,10 @@ import { deleteSoul } from "@/lib/api/soul/deleteSoul";
 
 
 export const deleteSoulAction = async (
-  soulId: number
+  soulId: number,
+  userId: string
 ) => {
-  const result = await deleteSoul(soulId); //API呼び出し
+  const result = await deleteSoul(soulId, userId); //API呼び出し
 
   if (result.isOk) {
     console.log("削除成功：", result.body.message);

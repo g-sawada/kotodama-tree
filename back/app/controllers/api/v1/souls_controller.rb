@@ -132,15 +132,16 @@ class Api::V1::SoulsController < ApplicationController
   end
 
   # DELETE /api/v1/souls/:id
-  def destory
+  def destroy
     begin
       soul = Soul.find(params[:id])
+      user = User.find(params[:user_id])
 
-      unless soul.creator_id == current_user.id
+      unless soul.creator_id == user.id
         return render json: { error: "削除できるのは作成者のみです" }, status: :forbidden
       end
 
-      if soul.captured_tree_id == current_user.tree.id || soul.owner_id == current_user.id
+      if soul.captured_tree_id == user.tree.id || soul.owner_id == user.id
         soul.destroy!
         render json: { message: "削除しました" }, status: :ok
       else

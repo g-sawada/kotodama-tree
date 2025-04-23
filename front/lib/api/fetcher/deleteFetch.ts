@@ -11,7 +11,7 @@ export const deleteFetch = async <T> (
       {
         method: "DELETE",
         headers: {
-          "Content-Type": "aplication/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(reqBody),
         cache: "no-cache",
