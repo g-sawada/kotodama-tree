@@ -42,6 +42,11 @@ class Api::V1::RoomsController < ApplicationController
         return render json: { error: 'room not found' }, status: :not_found
       end
 
+      # userのlast_visit_roomがnilの場合，ユーザーのroom.idで更新する
+      if user.last_visit_room.nil?
+        user.update!(last_visit_room: user.room.id)
+      end
+
       # userのlast_visit_roomがtarget_room.idと一致するかをチェック
       can_enter = user.last_visit_room == target_room.id
 

@@ -46,5 +46,10 @@ export default async function redirectToLastVisitRoomAction(
     setFlashAction("error", errorMessage);
   }
 
+  // last_visit_roomがnullの場合，初回登録時または世界リセット時のため，ユーザーのホームにリダイレクトする
+  if (lastVisitRoomId === null) {
+    redirect(`/m/${user.room_id}`)
+  }
+
   redirect(`/m/${lastVisitRoomId}`);
 }
