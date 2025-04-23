@@ -38,8 +38,8 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
         setIsChecked(true);
       }
     });
-  // thisRoomIdを監視し，変更の度に入室チェックを行う
-  }, [thisRoomId]);
+  // NOTE: 依存配列にthisRoomIdを指定すると，Cloud Run上でuseEffectが適切に動作しなくなったため，第二引数を指定しない
+  });
 
   return (
     <>
