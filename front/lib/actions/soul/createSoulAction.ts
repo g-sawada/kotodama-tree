@@ -16,7 +16,8 @@ import { Soul } from "@/types/soul";
 export async function createSoulAction(formData: FormData) {
   // セッションからユーザーIDを取得
   const session = await auth();
-  if (!session || !session.user.userId) {
+  if(!session?.user?.userId) {
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
     redirect("/login");
   }
   const userId = session.user.userId;
@@ -32,19 +33,39 @@ export async function createSoulAction(formData: FormData) {
     },
   }
 
+  /**
+   * コトダマ作成 API souls#create を実行
+   * @param content - コトダマ本文
+   * @param creator_id - ログインユーザーID
+   * 
+   * 正常系
+   * - 新しいコトダマを作成 (201 Created)
+   *   @returns data :Soul  作成したコトダマ
+   * 異常系
+   * - ユーザーのlast_visit_roomがユーザー自身のroomでない (403 Forbidden)
+   * - ユーザーのコトダマ作成上限数を超えている (409 Conflict)
+   * - soul.saveに失敗 (422 Unprocessable Entity)
+   * - その他のエラー (500 Internal Server Error)
+   */
+
   const result = await postFetch<Soul>(
     `/souls`,
     reqBody
   );
 
   if(!result.isOk) {
-    // エラー処理未実装。userのlast_visit_roomにリダイレクトする共通処理を実装して実行
-    console.error("コトダマの作成時にエラーが発生しました");
-    redirectToLastVisitRoomAction({ errorMessage: result.body.error });
+    if(result.status ===  403 || result.status === 409 || result.status === 422) {
+      await setFlashAction("error", "コトダマの作成に失敗しました。");
+      await redirectToLastVisitRoomAction();
+      return;
+    } else {
+      // その他のエラー
+      await setFlashAction("error", "予期しないエラーが発生しました。");
+      redirect("/");
+    }
   }
 
-  await setFlashAction("success", "新しいコトダマを捧げました");
-  
-  // 仮実装。捧げアニメーションのあと、メイン画面へ
-  await redirectToLastVisitRoomAction()
+  await setFlashAction("success", "新しいコトダマを捧げました。");
+  // TODO: アニメーションの実装
+  await redirectToLastVisitRoomAction();
 }

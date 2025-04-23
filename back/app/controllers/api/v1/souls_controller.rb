@@ -54,6 +54,8 @@ class Api::V1::SoulsController < ApplicationController
         return render json: { error: "コトダマ作成数が上限に達しています" }, status: :conflict
       end
       soul = Soul.new(content: params[:soul][:content], creator_id: user.id, home_tree_id: user.tree.id, captured_tree_id:  user.tree.id)
+      
+      # 新規soulを作成。作成したsoulを返す (201 Created)
       if soul.save
         render json: { data: soul }, status: :created
       # saveに失敗した場合は422(Unprocessable Entity)を返す
