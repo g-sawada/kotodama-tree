@@ -82,9 +82,8 @@ export default function TreeSoulsModalController({
       // 成功時はクライアント側で再読み込みを実行
       window.location.reload();
     }else{
-      // 仮実装。
-      // 0410現在，harvestSoulAction内でリダイレクト処理を行っているが，クライアント側にエラーを出力するようにしたい
-      console.log("エラーです。")
+      // 0425 失敗時もクライアント側で再読み込みを実行する暫定対応
+      window.location.reload();
     }
   }
 
