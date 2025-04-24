@@ -50,7 +50,7 @@ export default async function MainPage({ params }: Props) {
 
   return (
     <>
-      <div className="flex-auto max-w-sm mx-auto p-4">
+      <div className="max-w-sm mx-auto p-4">
         <h1 className="text-center text-xl">{roomOwnerName}さんのコトダマのキ</h1>
         </div>
         <div className="w-64 mx-auto flex flex-col items-center">
