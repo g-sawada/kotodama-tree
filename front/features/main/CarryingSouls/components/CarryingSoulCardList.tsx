@@ -1,7 +1,6 @@
 import { Soul } from "@/types/soul";
-
-import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
+import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 /**
  * 手持ちコトダマ一覧を表示するコンポーネント
@@ -30,7 +29,7 @@ export default function CarryingSoulCardList({
             >
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by {soul.creator.name}</p>
-                <EmptyHeartButton />
+                <HeartButtonToggle soul={soul} />
               </div>
             </SoulCard>
           ))}
