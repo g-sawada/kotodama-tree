@@ -8,7 +8,7 @@ export const deleteFetch = async <T> (
   const baseUrl = `${process.env.API_URL}/api/${process.env.API_VERSION}`;
 
   try {
-    const res = await fetch(baseUrl + url,
+    const res = await fetch(baseUrl + url, 
       {
         method: "DELETE",
         headers: {
