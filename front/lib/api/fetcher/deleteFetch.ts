@@ -3,7 +3,7 @@ import { FetchResult } from "@/types/fetchResult";
 export const deleteFetch = async <T> (
   url: string,
   reqBody: object,
-): Promise<FetchResult<T>> => {
+  ): Promise<FetchResult<T>> => {
   // ベースURLを作成
   const baseUrl = `${process.env.API_URL}/api/${process.env.API_VERSION}`;
 
