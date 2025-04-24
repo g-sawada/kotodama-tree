@@ -44,14 +44,14 @@ export default async function MainPage({ params }: Props) {
   }
 
   // APIのレスポンスからroom，pathways, treeを取得
-  const { room, pathways, tree } = getRoomInfoResult.body.data;
+  const { room, pathways, tree, roomOwnerName } = getRoomInfoResult.body.data;
   // 部屋のオーナーかどうかを判定
   const isRoomOwner = room.user_id === userId;
 
   return (
     <>
       <div className="flex-auto max-w-sm mx-auto p-4">
-        <h1 className="text-center text-xl">{user.name}さんのコトダマのキ</h1>
+        <h1 className="text-center text-xl">{roomOwnerName}さんのコトダマのキ</h1>
         </div>
         <div className="w-64 mx-auto flex flex-col items-center">
           <TreeSoulsModalController

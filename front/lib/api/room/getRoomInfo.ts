@@ -15,6 +15,7 @@ interface RoomInfo {
   room: Room;
   pathways: Pathway[];
   tree: Tree;
+  roomOwnerName: string;
 };
 
 export const getRoomInfo = async (
