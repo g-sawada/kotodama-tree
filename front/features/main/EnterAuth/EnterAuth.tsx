@@ -37,7 +37,6 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
 
   return (
     <>
-      <div>{`thisRoomId: ${thisRoomId}`}</div>
       {/* 仮実装。今後ローディングアニメーションに置き換える */}
       {isChecked ? children : <div>入室チェック中...</div>}
     </>

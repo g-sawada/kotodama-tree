@@ -11,7 +11,8 @@ class Api::V1::RoomsController < ApplicationController
           data: { 
             room: room,
             pathways: pathways,
-            tree: room.tree
+            tree: room.tree,
+            roomOwnerName: room.user.name
             }
           },
           status: :ok
