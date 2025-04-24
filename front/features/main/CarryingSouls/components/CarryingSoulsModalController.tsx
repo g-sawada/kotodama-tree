@@ -27,13 +27,12 @@ export default function CarryingSoulsModalController({
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
-  const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
   const router = useRouter();
-  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
-  
+  const roomId = useParams().roomId; // URLパラメータからroomIdを取得
+
   // session情報を取得
   const session = useSession();
-  if(!session.data?.user.userId) {
+  if (!session.data?.user.userId) {
     router.push("/login");
   }
   const userId = session.data?.user.userId;
@@ -48,11 +47,6 @@ export default function CarryingSoulsModalController({
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedSoul(null); // 選択中のコトダマをリセット
-  };
-
-  const backToList = () => {
-    setSelectedSoul(null); // 選択中のコトダマをリセット
   };
 
   return (
@@ -74,43 +68,20 @@ export default function CarryingSoulsModalController({
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <h1 className="text-center text-xl font-bold">
-            {selectedSoul ? "コトダマ詳細" : "手持ちのコトダマ一覧"}
+            手持ちのコトダマ一覧
           </h1>
           <div className="my-4">
-            {/* 選択中のコトダマがあれば詳細，なければ一覧 */}
-            {selectedSoul ? (
-              <>
-                <SoulDetailCard soul={selectedSoul}>
-                  <div className="flex justify-between">
-                    <p className="text-gray-700 text-md">by {selectedSoul.creator.name}</p>
-                  </div>
-                </SoulDetailCard>
-                <div className="flex justify-center my-4">
-                  <Button
-                    text="一覧にもどる"
-                    handleClick={backToList}
-                    buttonType="cancel"
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <CarryingSoulCardList
-                  souls={souls}
-                  setSelectedSoul={setSelectedSoul}
+            {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
+            {isRoomOwner && (
+              <div className="flex justify-center my-4">
+                <Button
+                  text="コトダマを捧げる"
+                  handleClick={() => router.push(`/m/${roomId}/offer`)}
+                  buttonType="ok"
                 />
-                {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
-                {isRoomOwner && (
-                  <div className="flex justify-center my-4">
-                    <Button
-                      text="コトダマを捧げる"
-                      handleClick={() => router.push(`/m/${roomId}/offer`)}
-                      buttonType="ok"
-                    />
-                  </div>
-                )}
-              </>
+              </div>
             )}
+            <CarryingSoulCardList souls={souls} />
           </div>
           <div className="flex justify-center my-4">
             <Button
