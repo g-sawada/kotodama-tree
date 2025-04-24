@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-
 import { Soul } from "@/types/soul";
 import { User } from "@/types/user";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
-
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import TreeImg from "@/components/ui/TreeImg";

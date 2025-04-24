@@ -5,12 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-
 import { Soul } from "@/types/soul";
-
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
-import SoulDetailCard from "@/components/ui/SoulCard/SoulDetailCard";
 import CarryingSoulCardList from "./CarryingSoulCardList";
 
 /**
