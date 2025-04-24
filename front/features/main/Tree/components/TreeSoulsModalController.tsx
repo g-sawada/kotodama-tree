@@ -65,8 +65,8 @@ export default function TreeSoulsModalController({
             <p className="text-center mt-2">タップしてしゅうかく</p>
           )}
           {!isRoomOwner && !canHarvest && (
-            <p className="text-center mt-2">
-              手持ちコトダマが上限値のためしゅうかくできません
+            <p className="text-center text-yellow-300 mt-2">
+              手持ちがいっぱいのため，しゅうかくできません
             </p>
           )}
           </>)
