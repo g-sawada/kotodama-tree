@@ -27,13 +27,13 @@ export default async function MainPage({ params }: Props) {
    */
   const session = await auth();
   if (!session || !session.user.userId) {
-    return <ErrorPage />
+    return <ErrorPage />;
   }
   const userId = session?.user.userId;
   // ユーザー情報を取得
   const getUserResult = await getUser(userId);
   if (!getUserResult.isOk) {
-    return <ErrorPage />
+    return <ErrorPage />;
   }
   const user = getUserResult.body.data;
 
@@ -41,7 +41,7 @@ export default async function MainPage({ params }: Props) {
   const { roomId: thisRoomId } = await params;
   const getRoomInfoResult = await getRoomInfo(thisRoomId);
   if (!getRoomInfoResult.isOk) {
-    return <ErrorPage />
+    return <ErrorPage />;
   }
 
   // APIのレスポンスからroom，pathways, treeを取得
@@ -51,8 +51,11 @@ export default async function MainPage({ params }: Props) {
 
   return (
     <>
-      <div className="max-w-sm mx-auto p-4">
-        <h1 className="text-center text-xl">{roomOwnerName}さんのコトダマのキ</h1>
+      <div className="overflow-y-auto flex-1">
+        <div className="max-w-sm mx-auto p-4">
+          <h1 className="text-center text-xl">
+            {roomOwnerName}さんのコトダマのキ
+          </h1>
         </div>
         <div className="w-64 mx-auto flex flex-col items-center">
           <TreeSoulsModalController
@@ -69,7 +72,7 @@ export default async function MainPage({ params }: Props) {
             <HomePortalButton thisRoomId={room.id} />
           )}
         </div>
-      
+      </div>
       <Footer isRoomOwner={isRoomOwner} />
     </>
   );

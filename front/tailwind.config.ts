@@ -14,7 +14,6 @@ export default {
         md: "744px",  // タブレット, スマートフォン横
         lg: "960px",  // タブレット, スマートフォン横
         xl: "1280px",  // ノートPC, タブレット横
-        full: { raw: '(min-height: 700px)' } // スマホの横向きで要素が切れてしまう問題に対処。メイン画面の高さの合計を設定
       },
       colors: {
         background: "var(--background)",
