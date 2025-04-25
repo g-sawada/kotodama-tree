@@ -19,6 +19,15 @@ class User < ApplicationRecord
   # インスタンス作成時にデフォルト値を設定
   after_initialize :set_default_values
   
+  # レベルの経験値しきい値を定義するテーブル。index+1がレベルに対応
+  LEVEL_TABLE = [ 0,   10,   20,   30,   50,  
+                  70,  100,  130,  160,  200
+                ]
+  # コトダマ作成数の上限を定義するテーブル。index+1がレベルに対応
+  MAX_CREATE_SOULS_TABLE = [ 3, 4, 5, 5, 6, 6, 6, 7, 7, 8]
+  # コトダマ所持数の上限を定義するテーブル。index+1がレベルに対応
+  MAX_CARRY_SOULS_TABLE  = [ 2, 2, 2, 3, 3, 3, 4, 4, 4, 5]
+
 =begin
   # いいね数(いいねされた回数)のロジック
   def sum_of_likes
@@ -44,7 +53,7 @@ class User < ApplicationRecord
   private
 
   def set_default_values
-    self.max_create_souls ||= 3
-    self.max_carry_souls  ||= 3
+    self.max_create_souls ||= MAX_CREATE_SOULS_TABLE.first
+    self.max_carry_souls  ||= MAX_CARRY_SOULS_TABLE.first
   end
 end
