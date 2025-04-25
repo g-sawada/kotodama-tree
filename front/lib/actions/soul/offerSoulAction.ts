@@ -37,6 +37,7 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
    * - コトダマ捧げ処理を実行 (200 OK)
    *   @returns data :Soul  捧げたコトダマ
    * 異常系
+   * - 処理対象のコトダマが存在しない (404 Not Found)
    * - ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)
    * - ユーザーの手持ちコトダマに対象のsoulがない (409 Conflict)
    * - その他のエラー (500 Internal Server Error)
@@ -47,8 +48,9 @@ export default async function offerSoulAction(soulId: number, roomId: string) {
   );
 
   if (!result.isOk) {
-    if (result.status === 403) {
+    if (result.status === 403 || result.status === 404) {
       // ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)　
+      // または処理対象のコトダマが存在しない (404 Not Found)
       await setFlashAction("error", "コトダマを捧げられません。\n 最後に訪れた場所を読み込みました。");
       await redirectToLastVisitRoomAction();
       return;
