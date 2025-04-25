@@ -50,13 +50,12 @@ export default async function harvestSoulAction(soulId: number, roomId: string) 
   );
 
   if (!result.isOk) {
-    if(result.status ===  403 || result.status === 404) {
+    if(result.status ===  403) {
       // ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)　
-      // または処理対象のコトダマが存在しない (404 Not Found)
       await setFlashAction("error", "コトダマのしゅうかくに失敗しました。\n 最後に訪れた場所を読み込みました。");
       await redirectToLastVisitRoomAction();
       return;
-    }else if (result.status === 409 || result.status === 422) {
+    }else if (result.status === 409 || result.status === 422 || result.status === 404) {
       /**
        * redirectToLastVisitRoomActionを使用すると，同じ部屋へリダイレクトしようとして
        * ページのリロードが発生しないため，クライアントで処理
