@@ -52,7 +52,6 @@ class Tree < ApplicationRecord
     current_level = self.level
     self.exp += exp
     after_level = self.current_level
-    puts "current_level: #{current_level}, after_level: #{after_level}"
 
     # 加算前と加算後のレベルを比較し，異なる場合はレベルを更新
     if current_level != after_level
