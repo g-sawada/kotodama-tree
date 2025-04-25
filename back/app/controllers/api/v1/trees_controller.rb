@@ -32,8 +32,8 @@ class Api::V1::TreesController < ApplicationController
       
       # treeに捧げられている全soulsの経験値を合計
       total_exp = tree.captured_tree_souls.sum{ |soul| soul.exp() }
-      # 経験値加算前のレベルを取得
-      level_before = tree.current_level
+      # 経験値加算前のレベルをDBから取得
+      level_before = tree.level
 
       # トランザクション処理でtreeの経験値を加算 & last_charged_atを更新
       result = ActiveRecord::Base.transaction do
