@@ -45,25 +45,32 @@ export default async function MainPage({ params }: Props) {
   }
 
   // APIのレスポンスからroom，pathways, treeを取得
-  const { room, pathways, tree } = getRoomInfoResult.body.data
+  const { room, pathways, tree, roomOwnerName } = getRoomInfoResult.body.data;
   // 部屋のオーナーかどうかを判定
   const isRoomOwner = room.user_id === userId;
 
   return (
     <>
-      <div>DEBUG: 確認用 {`room.id: ${room.id}, pathways.length: ${pathways.length}, tree.id: ${tree.id} `}</div>
-      <div className="flex-auto">
-        <div className="w-64 mx-auto flex flex-col items-center">
-          <TreeSoulsModalController tree={tree} isRoomOwner={isRoomOwner} user={user}/>
-          <PortalButtonComponent thisRoomId={thisRoomId} pathways={pathways} />
-          <div className="text-center my-4 md:my-8">
-          {isRoomOwner ? 
-            <ChargeButton tree={tree} /> :
-            <HomePortalButton thisRoomId={room.id}/>}
-          </div>
+      <div className="max-w-sm mx-auto p-4">
+        <h1 className="text-center text-xl">{roomOwnerName}さんのコトダマのキ</h1>
         </div>
-      </div>
-      <Footer isRoomOwner={isRoomOwner}/>
+        <div className="w-64 mx-auto flex flex-col items-center">
+          <TreeSoulsModalController
+            tree={tree}
+            isRoomOwner={isRoomOwner}
+            user={user}
+          />
+        </div>
+        <PortalButtonComponent thisRoomId={thisRoomId} pathways={pathways} />
+        <div className="text-center my-4 md:my-8">
+          {isRoomOwner ? (
+            <ChargeButton tree={tree} />
+          ) : (
+            <HomePortalButton thisRoomId={room.id} />
+          )}
+        </div>
+      
+      <Footer isRoomOwner={isRoomOwner} />
     </>
-  )
+  );
 }

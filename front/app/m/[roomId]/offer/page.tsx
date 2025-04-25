@@ -12,7 +12,7 @@ import { getSouls } from "@/lib/api/soul/getSouls";
  * コトダマ捧げページコンポーネント
  * /m/:roomId/offer のルーティングに対応
  * @param roomId - URLパラメータから取得したroomId
- * 
+ *
  */
 
 type Props = {
@@ -67,26 +67,23 @@ export default async function OfferPage({ params }: Props) {
 
   return (
     <>
-      <div>DEBUG: {`room.id: ${thisRoomId}`}, {`userId: ${userId}`}</div>
-      <div className="flex-auto p-6 flex flex-col items-center space-between">
-        <h1 className="text-2xl text-center my-4 flex-none">
-          捧げるコトダマを選んでください
-        </h1>
-        <div className="w-full mx-auto flex flex-col items-center flex-none">
-          <div className="my-2">
-            <CreateSoulsModalController creatableCount={creatableCount}/>
-          </div>
-          <div className="mb-2">
-            <Button
-              text="もどる"
-              handleClick={backToMainPage}
-              buttonType="cancel"
-            />
-          </div>
+      <h1 className="text-2xl text-center my-4 flex-none">
+        捧げるコトダマを選んでください
+      </h1>
+      <div className="w-full mx-auto flex flex-col items-center flex-none">
+        <div className="my-2">
+          <CreateSoulsModalController creatableCount={creatableCount} />
         </div>
-        <div className="w-full grow overflow-y-auto">
-          <OfferSoulCardList souls={carryingSouls} roomId={thisRoomId} />
+        <div className="mb-2">
+          <Button
+            text="もどる"
+            handleClick={backToMainPage}
+            buttonType="cancel"
+          />
         </div>
+      </div>
+      <div className="m-6 overflow-y-auto">
+        <OfferSoulCardList souls={carryingSouls} roomId={thisRoomId} />
       </div>
     </>
   );

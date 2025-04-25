@@ -133,6 +133,29 @@ class Api::V1::SoulsController < ApplicationController
     end
   end
 
+  # DELETE /api/v1/souls/:id
+  def destroy
+    begin
+      soul = Soul.find(params[:id])
+      user = User.find(params[:user_id])
+
+      unless soul.creator_id == user.id
+        return render json: { error: "削除できるのは作成者のみです" }, status: :forbidden
+      end
+
+      if soul.captured_tree_id == user.tree.id || soul.owner_id == user.id
+        soul.destroy!
+        render json: { message: "削除しました" }, status: :ok
+      else
+        render json: { error: "このコトダマは手元にないため削除できません" }, status: :forbidden
+      end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "指定されたコトダマが見つかりません" }, status: :not_found
+      rescue StandardError => e
+        render json: { error: e.message }, status: :internal_server_error
+      end
+  end
+
   private
   def soul_params
     params.require(:soul).permit(:content, :creator_id)

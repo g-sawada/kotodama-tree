@@ -11,9 +11,11 @@
 }
 .embla__viewport {
   overflow: hidden;
+  width: 60%;
 }
 .embla__container {
   display: flex;
+  justify-content: space-around;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
 }

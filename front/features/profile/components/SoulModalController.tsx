@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useFlash } from "@/components/layout/FlashMessage";
+
 import Button from "@/components/ui/Button";
 import FullSizeModal from "@/components/ui/FullSizeModal";
 import ResizeModal from "@/components/ui/ResizeModal";
@@ -9,6 +11,7 @@ import { Tree } from "@/types/tree";
 import { Soul } from "@/types/soul";
 import SoulCardList from "../SoulCardList";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
+import { deleteSoulAction } from "@/lib/actions/soul/deleteSoulAction";
 
 type Props = {
   user: User;
@@ -39,9 +42,30 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
     setIsSoulModalOpen(false);
   };
 
+  const { setFlash } = useFlash();
+  const router = useRouter();
+
   const deleteClick = async () => {
+    if (!selectedSoul) return;
+
+    const confirmed = window.confirm("このコトダマを削除してもよろしいですか？");
+    if (!confirmed) return;
+
     setInProgress(true); // 押した瞬間ローディング状態に
-    //-------削除処理実装-------//
+
+    const res = await deleteSoulAction(selectedSoul.id, user.id);
+
+
+    if (res.isOk) {
+      setFlash({ type: "warning", message: "コトダマを削除しました"});
+      // コトダマ詳細を閉じる
+      closeSoulModal();
+      router.refresh();
+    } else {
+      setFlash({ type: "error", message: "削除できませんでした"});
+    }
+
+    setInProgress(false);
   };
 
   return (

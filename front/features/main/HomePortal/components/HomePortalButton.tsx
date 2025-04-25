@@ -75,7 +75,7 @@ export default function HomePortalButton({ thisRoomId }: Prop) {
   return (
     <>
       <button onClick={() => openModal()} className="text-sm">
-        <Image src="/portal.svg" alt="portal_icon" width={64} height={64} />
+        <Image src="/portal.png" alt="portal_icon" width={64} height={64} />
       </button>
       <div>
         {/* 確認モーダル */}

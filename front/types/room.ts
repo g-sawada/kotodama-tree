@@ -13,4 +13,5 @@ export interface RoomInfo {
   room: Room;
   pathways: Pathway[];
   tree: Tree;
+  roomOwnerName: string;
 };
