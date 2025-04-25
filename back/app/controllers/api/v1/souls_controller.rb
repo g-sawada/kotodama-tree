@@ -149,11 +149,11 @@ class Api::V1::SoulsController < ApplicationController
       else
         render json: { error: "このコトダマは手元にないため削除できません" }, status: :forbidden
       end
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "指定されたコトダマが見つかりません" }, status: :not_found
-      rescue StandardError => e
-        render json: { error: e.message }, status: :internal_server_error
-      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "指定されたコトダマが見つかりません" }, status: :not_found
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
   end
 
   private
