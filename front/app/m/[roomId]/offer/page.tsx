@@ -1,14 +1,12 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
-import { getRoomInfo } from "@/lib/api/room/getRoomInfo";
-
 import Button from "@/components/ui/Button";
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
-import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import { getUser } from "@/lib/api/user/getUser";
+import ErrorPage from "@/components/layout/ErrorPage";
+import { getSouls } from "@/lib/api/soul/getSouls";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -24,45 +22,42 @@ type Props = {
 };
 
 export default async function OfferPage({ params }: Props) {
-  // sessionからuserIdを取得。取得できない場合はloginページにリダイレクト
+  /**
+   * 必要データの取得とエラー処理
+   * - sessionからuserIdを取得
+   * - userIdからユーザー情報を取得
+   * いずれかがエラーの場合，エラーページを表示する
+   */
   const session = await auth();
   if (!session || !session.user.userId) {
-    redirect("/login");
+    return <ErrorPage />
   }
   const userId = session.user.userId;
+  // ユーザー情報を取得
+  const getUserResult = await getUser(userId);
+  if (!getUserResult.isOk) {
+    return <ErrorPage />
+  }
+  const user = getUserResult.body.data
 
-  // コトダマ作成モーダルで使用するユーザー情報を取得
-  const user = await getUser(userId);
-
-  // URLパラメータからroomIdを取得。API rooms#showをコールして部屋情報を取得
+  // URLパラメータからroomIdを取得
   const { roomId: thisRoomId } = await params;
-  const getRoomInfoResult = await getRoomInfo(thisRoomId);
 
-  if (!getRoomInfoResult.isOk || !getRoomInfoResult.body.data) {
-    // Not Foundエラーの場合，redirectToLastVisitRoomActionをコール
-    // BUG: SSRページからsetFlashを実行する関数を呼ぶとエラーになる
-    if (getRoomInfoResult.status === 404) {
-      redirectToLastVisitRoomAction({ errorMessage: "アクセスに失敗しました" });
-      return;
-    }
-    // その他のエラーの場合トップページにリダイレクト
-    redirect("/");
+  // ユーザーの作成済みコトダマを取得
+  const getCreatedSoulsResult = await getSouls( { creator_id: userId });
+  if (!getCreatedSoulsResult.isOk) {
+    return <ErrorPage />
   }
-  const roomInfo = getRoomInfoResult.body.data;
-
-  // 部屋のuserIdと現在のuserIdが一致しない場合，アクセス権限がないのでリダイレクト
-  if (roomInfo.room.user_id !== userId) {
-    // BUG: SSRページからsetFlashを実行する関数を呼ぶとエラーになる
-    // setFlash("error", "この部屋にアクセスする権限がありません");
-    redirect(`/m/${thisRoomId}`);
-  }
-
-  // ユーザーの作成済みコトダマと作成上限数から，残りの作成可能数を算出
-  const createdSouls = await getSoulsAction({ creator_id: userId });
+  const createdSouls = getCreatedSoulsResult.body.data;
+  // 作成済みコトダマの数とユーザー毎に設定される作成上限数から，残りの作成可能数を算出
   const creatableCount = user.max_create_souls - createdSouls.length;
 
   // ユーザーの手持ちのコトダマを取得
-  const souls = await getSoulsAction({ owner_id: userId });
+  const getCarryingSoulsResult = await getSouls({ owner_id: userId });
+  if (!getCarryingSoulsResult.isOk) {
+    return <ErrorPage />
+  }
+  const carryingSouls = getCarryingSoulsResult.body.data;
 
   // 戻るボタンのリダイレクト処理
   const backToMainPage = async () => {
@@ -88,7 +83,7 @@ export default async function OfferPage({ params }: Props) {
         </div>
       </div>
       <div className="m-6 overflow-y-auto">
-        <OfferSoulCardList souls={souls} roomId={thisRoomId} />
+        <OfferSoulCardList souls={carryingSouls} roomId={thisRoomId} />
       </div>
     </>
   );

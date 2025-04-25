@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+
+import getSoulsAction from "@/lib/actions/soul/getSoulsAction";
 import { Soul } from "@/types/soul";
+
 import Button from "@/components/ui/Button";
+import { useFlash } from "@/components/layout/FlashMessage";
 import FullSizeModal from "@/components/ui/FullSizeModal";
+
 import CarryingSoulCardList from "./CarryingSoulCardList";
 
 /**
@@ -25,7 +29,8 @@ export default function CarryingSoulsModalController({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [souls, setSouls] = useState<Soul[]>([]);
   const router = useRouter();
-  const roomId = useParams().roomId; // URLパラメータからroomIdを取得
+  const roomId = useParams().roomId;  // URLパラメータからroomIdを取得
+  const { setFlash } = useFlash();
 
   // session情報を取得
   const session = useSession();
@@ -38,7 +43,13 @@ export default function CarryingSoulsModalController({
   const openModal = async () => {
     setIsModalOpen(true);
     // モーダルを開いた時にユーザーが所持中のコトダマ一覧データを取得
-    const souls: Soul[] = await getSoulsAction({ owner_id: userId });
+    const getSoulsResult = await getSoulsAction({ owner_id: userId });
+    if (!getSoulsResult.isOk) {
+      // エラー処理
+      setFlash({ type: "error", message: "コトダマの取得に失敗しました。 \n ページを再読み込みして下さい。" });
+      return;
+    }
+    const souls = getSoulsResult.body.data;
     setSouls(souls);
   };
 

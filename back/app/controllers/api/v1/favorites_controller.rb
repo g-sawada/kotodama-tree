@@ -7,7 +7,7 @@ class Api::V1::FavoritesController < ApplicationController
       end
       user = User.find(params[:user_id])
       if user.favorite?(soul)
-        return render json: { error: "すでにいいね済みです" }, status: :conflict
+        return render json: { error: "すでにお気に入り済みです" }, status: :conflict
       end
       user.favorite(soul)
       favorite = user.favorites.find_by(soul_id: soul.id)

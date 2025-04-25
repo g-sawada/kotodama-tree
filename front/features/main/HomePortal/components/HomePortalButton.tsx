@@ -37,7 +37,7 @@ export default function HomePortalButton({ thisRoomId }: Prop) {
   const handleClickMakePortal = async (thisRoomId: string) => {
     // ポータル作成アクションを実行, 結果をクライアントで処理
     const result = await createPathwayAction(thisRoomId);
-    if(!result.isOk) {
+    if(!result || !result.isOk) {
       // エラー時
       setFlash({ type: "error", message: "ポータルの作成に失敗しました" });
       closeModal();

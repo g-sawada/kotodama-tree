@@ -3,8 +3,8 @@ import Button from "@/components/ui/Button";
 import DemoModalController from "@/features/demo/components/DemoModalController";
 import SignInButton from "@/components/ui/authButton/SignInButton";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
+import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
 
 export default async function Home() {
   const session = await auth();
@@ -14,10 +14,9 @@ export default async function Home() {
     "use server";
     console.log("ボタンがクリックされました");
     // フラッシュメッセージ用データをcookieに保存
-    setFlash("success", "処理成功");
-
-    console.log("mockページにリダイレクトします");
-    redirect("/mock")
+    await setFlashAction("success", "TEST: 最後に訪れた場所 または ユーザーのホームに移動");
+    await redirectToLastVisitRoomAction()
+    return;
   }
 
   // 外部接続テスト
@@ -39,7 +38,7 @@ export default async function Home() {
       <div className="text-4xl text-center">ここはHomeページです</div>
       <div className="flex max-w-32 mx-auto justify-center items-center h-40 gap-4">
         <Button 
-          text="ボタン"
+          text="はじめる"
           buttonType="ok"
           handleClick={handleButtonClick}
           // inProgress={true}

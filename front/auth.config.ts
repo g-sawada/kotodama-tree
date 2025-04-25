@@ -5,7 +5,7 @@ import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
 import { getUserByProvider } from "./lib/api/user/getUserByProvider";
 import { redirect } from "next/navigation";
-import { setFlash } from "./lib/api/flash/setFlash";
+import { setFlashAction } from "./lib/actions/flash/setFlashAction";
 
 // tokenとsessionにカスタムデータを追加するための型拡張
 declare module "next-auth" {
@@ -64,7 +64,7 @@ export const authConfig: NextAuthConfig = {
         // isOkがfalseの場合はErrorResponse
         if (!result.isOk) {
           console.log("ユーザーの情報取得時にエラーが発生しました");
-          await setFlash("error", "ユーザー情報の取得に失敗しました");
+          await setFlashAction("error", "ユーザー情報の取得に失敗しました");
           redirect("/login");
         }
 

@@ -8,7 +8,7 @@ import { getSouls } from "@/lib/api/soul/getSouls";
  * @param owner_id コトダマの所有者のuser_id
  * @param creator_id コトダマの作成者のuser_id
  * @param captured_tree_id コトダマが捧げられているtreeのid
- * @returns Soul[]
+ * @returns FetchResult<Soul[]>
  */
 
 interface getSoulsParams {
@@ -27,6 +27,6 @@ export default async function getSoulsAction({
     throw new Error('getSoulsAction: 最低1つのパラメータを指定してください');
   }
   
-  const souls = await getSouls({ owner_id, creator_id, captured_tree_id });
-  return souls;
+  const result = await getSouls({ owner_id, creator_id, captured_tree_id });
+  return result;
 } 
