@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_26_145855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
     t.index ["room_2_id"], name: "index_pathways_on_room_2_id"
   end
 
+  create_table "reset_schedules", force: :cascade do |t|
+    t.integer "status", null: false
+    t.string "token"
+    t.datetime "scheduled_start_time"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rooms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,10 +58,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
     t.integer "harvested_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "creator_id", null: false
-    t.bigint "captured_tree_id"
-    t.bigint "home_tree_id"
     t.uuid "owner_id"
+    t.uuid "creator_id", null: false
+    t.bigint "home_tree_id"
+    t.bigint "captured_tree_id"
     t.index ["captured_tree_id"], name: "index_souls_on_captured_tree_id"
     t.index ["creator_id"], name: "index_souls_on_creator_id"
     t.index ["home_tree_id"], name: "index_souls_on_home_tree_id"
