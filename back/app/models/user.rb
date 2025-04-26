@@ -50,10 +50,48 @@ class User < ApplicationRecord
     favorites_souls.include?(soul)
   end
 
+  # 経験値加算処理
+  # NOTE: WorldResetterから呼び出される前提で，メソッド内で更新は行わない
+  def add_exp(exp)
+    current_level = self.level
+    self.exp += exp
+    after_level = self.current_level
+    # 加算前と加算後のレベルを比較し，異なる場合はレベル・ステータスを更新
+    if current_level != after_level
+      self.level = after_level
+      # コトダマ作成数の上限を更新
+      self.max_create_souls = MAX_CREATE_SOULS_TABLE[after_level - 1]
+      # コトダマ所持数の上限を更新
+      self.max_carry_souls = MAX_CARRY_SOULS_TABLE[after_level - 1]
+    end
+    self  # attributeを上書きしたインスタンス自身を返すのみ
+  end
+  
   private
-
+  
   def set_default_values
     self.max_create_souls ||= MAX_CREATE_SOULS_TABLE.first
     self.max_carry_souls  ||= MAX_CARRY_SOULS_TABLE.first
   end
+
+  # 現在のレベルを取得するメソッド
+  def current_level
+    # 初期値を宣言
+    level = 1
+    # レベルテーブルでループ。現在の経験値と比較し，breakするまで続ける
+    LEVEL_TABLE.each_with_index do |_, index|
+      # 配列の最後の要素まで到達した場合，最大レベルを返してbreak
+      if LEVEL_TABLE[index + 1].nil?
+        level = index + 1   # indexは0から始まるので+1
+        break
+      end
+      # 現在の経験値(exp)が,テーブルの次のindexの値より小さい場合，現在のindex+1を返してbreak
+      if LEVEL_TABLE[index + 1] > self.exp
+        level = index + 1   # indexは0から始まるので+1
+        break
+      end
+    end
+    return level
+  end
+
 end
