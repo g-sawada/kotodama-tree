@@ -10,8 +10,8 @@ RSpec.describe User, type: :model do
         expect(subject).to be_invalid 
       end
 
-      it '21文字以上の場合は無効' do
-        subject.name = 'a' * 21
+      it '11文字以上の場合は無効' do
+        subject.name = 'a' * 11
         expect(subject).to be_invalid
       end
     end
@@ -85,6 +85,17 @@ RSpec.describe User, type: :model do
       it '空の場合は無効' do
         subject.provider_id = ''
         expect(subject).to be_invalid
+      end
+    end
+
+    context 'system_userに関するバリデーション' do
+      it '空の場合は無効' do
+        subject.system_user = ''
+        expect(subject).to be_invalid
+      end
+    
+      it '範囲外の値(0, 1以外)の場合はArgumentErrorが発生し、generalになること' do
+        expect { subject.system_user = 3 }.to raise_error(ArgumentError)
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_26_083702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,10 +48,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
     t.integer "harvested_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "creator_id", null: false
-    t.bigint "captured_tree_id"
-    t.bigint "home_tree_id"
     t.uuid "owner_id"
+    t.uuid "creator_id", null: false
+    t.bigint "home_tree_id"
+    t.bigint "captured_tree_id"
     t.index ["captured_tree_id"], name: "index_souls_on_captured_tree_id"
     t.index ["creator_id"], name: "index_souls_on_creator_id"
     t.index ["home_tree_id"], name: "index_souls_on_home_tree_id"
@@ -82,7 +82,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_25_031212) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "last_visit_room"
+    t.integer "system_user", default: 0, null: false
     t.index ["provider", "provider_id"], name: "index_users_on_provider_and_provider_id", unique: true
+    t.check_constraint "\"system_user\" = ANY (ARRAY[0, 1])", name: "system_user_check"
   end
 
   add_foreign_key "favorites", "souls"
