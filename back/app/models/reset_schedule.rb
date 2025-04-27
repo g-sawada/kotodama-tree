@@ -1,5 +1,5 @@
 class ResetSchedule < ApplicationRecord
-  enum status: {
+  enum :status, {
     not_started: 0,
     preparing: 1,
     running: 2,
