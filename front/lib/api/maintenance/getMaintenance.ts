@@ -2,8 +2,13 @@ import { FetchResult } from "@/types/fetchResult";
 
 interface Maintenance {
   isMaintenance: boolean;
-  nextResetStartAt: string | null
+  nextResetStartAt: string | null;
 }
+
+// キャッシュ期間
+const CACHE_REVALIDATE_SECONDS = 1 * 60;
+// キャッシュタグ
+export const MAINTENANCE_CACHE_TAG = 'maintenance';
 
 export const getMaintenance = async (): Promise<FetchResult<Maintenance>> => {
   const url = `${process.env.API_URL}/api/${process.env.API_VERSION}/system/maintenance`;
@@ -15,7 +20,11 @@ export const getMaintenance = async (): Promise<FetchResult<Maintenance>> => {
         headers: {
           "Content-Type": "application/json",
         },
-        cache: "no-cache",
+        // Data Cache: 指定した時間キャッシュし、タグを付ける
+        next: {
+          revalidate: CACHE_REVALIDATE_SECONDS,
+          tags: [MAINTENANCE_CACHE_TAG],
+        },
       }
     );
     const body = await res.json();
