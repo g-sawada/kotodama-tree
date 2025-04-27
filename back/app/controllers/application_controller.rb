@@ -17,16 +17,14 @@ class ApplicationController < ActionController::API
     # ステータスが success（3）の場合はスルーする
     return if latest_schedule.status == 'success'
 
+    # 以下は全てメンテナンス中のため503エラーを返す
     # ステータスが not_started（0）かつ scheduled_start_timeが現在時刻よりも前の場合
     if latest_schedule.status == 'not_started' && latest_schedule.scheduled_start_time < Time.current
       # ステータスを preparing（1）に更新
       latest_schedule.update!(status: 1)
       Rails.logger.info "[INFO] リセット実行スケジュールのステータスを preparing に更新しました。"
-      # 503エラーを返す
-      return render json: { error: "メンテナンス中です。" }, status: :service_unavailable
     end 
     
-    # 以下は全てメンテナンス中のため503エラーを返す
     return render json: { error: "メンテナンス中です。" }, status: :service_unavailable
   end
 end
