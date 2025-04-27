@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
     end
 
     # ステータスが not_started（0）かつ scheduled_start_timeが現在時刻よりも後の場合はスルーする
-    return if latest_schedule.status == 0 && latest_schedule.scheduled_start_time > Time.current
+    return if latest_schedule.status == 'not_started' && latest_schedule.scheduled_start_time > Time.current
     # ステータスが success（3）の場合はスルーする
     return if latest_schedule.status == 'success'
 
