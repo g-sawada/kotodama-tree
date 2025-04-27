@@ -1,9 +1,11 @@
 import { auth } from "@/auth";
+import { getMaintenance } from "./lib/api/maintenance/getMaintenance";
 
 // ログインページ，新規登録ページのパス
 const LOGIN_PATH = '/login';
 const SIGN_UP_PATH = '/signup';
 const REDIRECT_PATH_AFTER_LOGIN = '/loggedIn';
+const MAINTENANCE_PATH = '/maintenance';
 
 // auth関数をmiddlewareとして使用
 export default auth( async (req) => {
@@ -16,6 +18,18 @@ export default auth( async (req) => {
   const hasUuid = !!req.auth?.user.userId;    // 登録済を判定
   const isLoginRoute = nextUrl.pathname ===  LOGIN_PATH;
   const isSignUpRoute = nextUrl.pathname ===  SIGN_UP_PATH;
+
+  // メンテナンス情報のチェック
+  const result = await getMaintenance();
+  if (!result.isOk) {
+    console.log(`[ERROR] メンテナンス情報の取得に失敗しました :${result.body.error}`);
+    return Response.redirect(new URL('/', nextUrl));
+  }
+  // メンテナンス中の場合はメンテナンス中ページにリダイレクト
+  const isMaintenance = result.body.data.isMaintenance;
+  if(isMaintenance) {
+    return Response.redirect(new URL(MAINTENANCE_PATH, nextUrl));
+  }
 
   // ログインページにアクセスした場合
   if (isLoginRoute) {
