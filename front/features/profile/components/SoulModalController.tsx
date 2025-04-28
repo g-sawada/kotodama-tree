@@ -90,7 +90,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
               buttonType="cancel"
             />
           </div>
-            { !isDeletable && (
+            { isMyProfile && !isDeletable && (
               <div className="flex justify-center text-xs text-red-700">
                 ＊手元にコトダマが戻るまで削除できません
               </div>
