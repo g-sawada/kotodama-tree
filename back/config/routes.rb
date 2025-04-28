@@ -19,6 +19,11 @@ Rails.application.routes.draw do
       end
 
       resources :souls, only: %i[index create destroy] do
+        resources :favorites, only: %i[create] do
+          collection do
+            delete :destroy # いいね解除時にフロント側でfavorite_idが取得できないため、souls/:soul_id/favoritesをエンドポイントとしています
+          end
+        end
         member do
           patch :harvest
           patch :offer
@@ -32,6 +37,8 @@ Rails.application.routes.draw do
           patch :charge
         end
       end
+
+      post 'system/reset', to: 'system#reset'
     end
   end
 end

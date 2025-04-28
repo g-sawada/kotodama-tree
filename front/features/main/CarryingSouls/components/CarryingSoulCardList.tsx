@@ -1,22 +1,18 @@
 import { Soul } from "@/types/soul";
-
-import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
+import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
 
 /**
  * 手持ちコトダマ一覧を表示するコンポーネント
  * @param souls {SoulResponse[]]} コトダマの配列
- * @param setSelectedSoul {function} 親コンポーネントのuseStateで管理しているselectedSoulを更新する関数
  */
 
 type Props = {
   souls: Soul[];
-  setSelectedSoul: (soul: Soul) => void;
 };
 
 export default function CarryingSoulCardList({
-  souls,
-  setSelectedSoul,
+  souls
 }: Props) {
   return (
     <>
@@ -26,11 +22,10 @@ export default function CarryingSoulCardList({
             <SoulCard
               key={soul.id}
               soul={soul}
-              handleCardClick={() => setSelectedSoul(soul)}
             >
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by {soul.creator.name}</p>
-                <EmptyHeartButton />
+                <HeartButtonToggle soul={soul} />
               </div>
             </SoulCard>
           ))}

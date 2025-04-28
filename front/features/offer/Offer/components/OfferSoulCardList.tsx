@@ -12,8 +12,14 @@ type Props = {
 
 export default function OfferSoulCardList({ souls, roomId }: Props) {
 
-  const handleClick = (soul: number, roomId: string) =>  {
-    offerSoulAction(soul, roomId);
+  const handleClick = async (soul: number, roomId: string) =>  {
+    const result = await offerSoulAction(soul, roomId);
+    if(result?.isOk) {
+      // 0425 成功時・失敗時ともにクライアント側で再読み込みを実行する暫定対応
+      window.location.reload();
+    }else{
+      window.location.reload();
+    }
   }
 
   return (

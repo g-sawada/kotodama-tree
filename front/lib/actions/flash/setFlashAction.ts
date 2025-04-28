@@ -1,13 +1,15 @@
+'use server'
+
+import { cookies } from "next/headers";
 import { FlashContent } from "@/types/flashContent";
 
 /**
- * cookieにflashをセットするfetcher
+ * cookieにflashをセットする
  * サーバー側でflashメッセージをセットするために使用
+ * 必ずサーバーアクションから実行する
  */
 
-import { cookies } from "next/headers";
-
-export const setFlash = async (
+export const setFlashAction = async (
   type: "error" | "success" | "info" | "warning",
   message: string
 ) => {

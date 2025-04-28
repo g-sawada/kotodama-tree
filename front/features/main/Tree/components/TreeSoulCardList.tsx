@@ -1,23 +1,53 @@
-// import * as React from 'react' paramsの取得に必要？
-import EmptyHeartButton from "@/components/ui/EmptyHeartButton";
+"use client";
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import SoulCard from "@/components/ui/SoulCard/SoulCard";
 import { Soul } from "@/types/soul";
 import { calculateSoulExp } from "@/lib/logic/calculateSoulExp";
+import HeartButtonToggle from "../../Favorite/components/HeartButtonToggle";
+import ResizeModal from "@/components/ui/ResizeModal";
+import harvestSoulAction from "@/lib/actions/soul/harvestSoulAction";
+import Button from "@/components/ui/Button";
 
 type Props = {
   souls: Soul[];
-  setSelectedSoul: (soul: Soul) => void;
   isRoomOwner: boolean;
+  canHarvest: boolean;
 };
 
-export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }: Props) {
+export default function TreeSoulCardList({
+  souls,
+  isRoomOwner,
+  canHarvest,
+}: Props) {
+  const roomId = useParams().roomId as string; // URLパラメータからroomIdを取得
+  const [selectedSoul, setSelectedSoul] = useState<Soul | null>(null);
 
-  if(isRoomOwner) {
+  const openConfirmModal = (soul: Soul) => {
+    setSelectedSoul(soul);
+  };
+
+  const closeConfirmModal = () => {
+    setSelectedSoul(null);
+  };
+
+  if (isRoomOwner) {
     // ユーザーのホームの部屋の場合，経験値を算出して表示する
-    souls.forEach((soul) =>  {
+    souls.forEach((soul) => {
       soul.exp = calculateSoulExp(soul);
-    })
+    });
   }
+  const handleHarvestSubmit = async (soulId: number, roomId: string) => {
+    const result = await harvestSoulAction(soulId, roomId);
+    if (result?.isOk) {
+      // 成功時はクライアント側で再読み込みを実行
+      window.location.reload();
+    } else {
+      // 0425 失敗時もクライアント側で再読み込みを実行する暫定対応
+      window.location.reload();
+    }
+  };
 
   return (
     <>
@@ -27,7 +57,9 @@ export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }
             <SoulCard
               key={soul.id}
               soul={soul}
-              handleCardClick={() => setSelectedSoul(soul)}
+              {...(!isRoomOwner && canHarvest
+                ? { handleCardClick: () => openConfirmModal(soul) }
+                : {})}
             >
               {/* ユーザーのホームのキの場合のみ，expを表示 */}
               {isRoomOwner && (
@@ -35,13 +67,44 @@ export default function TreeSoulCardList({ souls, setSelectedSoul, isRoomOwner }
                   exp: {soul.exp}
                 </p>
               )}
-              
+
               <div className="flex justify-between">
                 <p className="text-gray-700 text-md">by {soul.creator.name}</p>
-                <EmptyHeartButton />
+                <HeartButtonToggle soul={soul} />
               </div>
             </SoulCard>
           ))}
+          {/* 確認モーダル */}
+          <ResizeModal isOpen={!!selectedSoul}>
+            {selectedSoul && (
+              <>
+                <div className="my-4">
+                  <SoulCard soul={selectedSoul}>
+                    <p className="text-gray-700 text-md">
+                      by {selectedSoul.creator.name}
+                    </p>
+                  </SoulCard>
+                </div>
+                <p className="my-2 flex justify-center">
+                  このコトダマをしゅうかくしますか？
+                </p>
+                <div className="flex flex-justify-between gap-8 justify-center my-4">
+                  <Button
+                    text="キャンセル"
+                    handleClick={() => closeConfirmModal()}
+                    buttonType="cancel"
+                  />
+                  <Button
+                    text="OK"
+                    buttonType="ok"
+                    handleClick={() =>
+                      handleHarvestSubmit(selectedSoul.id, roomId)
+                    }
+                  />
+                </div>
+              </>
+            )}
+          </ResizeModal>
         </div>
       </div>
     </>

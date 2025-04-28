@@ -54,6 +54,8 @@ class Api::V1::SoulsController < ApplicationController
         return render json: { error: "コトダマ作成数が上限に達しています" }, status: :conflict
       end
       soul = Soul.new(content: params[:soul][:content], creator_id: user.id, home_tree_id: user.tree.id, captured_tree_id:  user.tree.id)
+      
+      # 新規soulを作成。作成したsoulを返す (201 Created)
       if soul.save
         render json: { data: soul }, status: :created
       # saveに失敗した場合は422(Unprocessable Entity)を返す
@@ -126,6 +128,29 @@ class Api::V1::SoulsController < ApplicationController
       # 成功時のレスポンス
       render json: { data: result }, status: :ok
     # その他の予期しないエラー
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
+  end
+
+  # DELETE /api/v1/souls/:id
+  def destroy
+    begin
+      soul = Soul.find(params[:id])
+      user = User.find(params[:user_id])
+
+      unless soul.creator_id == user.id
+        return render json: { error: "削除できるのは作成者のみです" }, status: :forbidden
+      end
+
+      if soul.captured_tree_id == user.tree.id || soul.owner_id == user.id
+        soul.destroy!
+        render json: { message: "削除しました" }, status: :ok
+      else
+        render json: { error: "このコトダマは手元にないため削除できません" }, status: :forbidden
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "指定されたコトダマが見つかりません" }, status: :not_found
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
     end

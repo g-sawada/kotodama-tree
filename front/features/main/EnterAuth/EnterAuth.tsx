@@ -2,6 +2,7 @@
 
 import enterAuthAction from "@/lib/actions/room/enterAuthAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { useEffect, useState } from "react";
 
 /**
@@ -25,19 +26,23 @@ export default function EnterAuth({ thisRoomId, children }: EnterAuthProps) {
     enterAuthAction(thisRoomId).then((canEnter) => {
       if(!canEnter) {
         // 入室できない場合
-        redirectToLastVisitRoomAction(
-          { errorMessage: "アクセス権限がありません" }
-        );
-        return;
+        setFlashAction(
+          "error",
+          "アクセスできません。 \n 最後に訪れた場所を読み込みました。"
+        ).then(() =>  {
+          redirectToLastVisitRoomAction();
+          return;
+        })
+      } else {
+        // 入室できる場合は，ローディングを解除してchildrenを表示する
+        setIsChecked(true);
       }
-      // 入室できる場合
-      setIsChecked(true);
     });
-  }, [thisRoomId]);
+  // NOTE: 依存配列にthisRoomIdを指定すると，Cloud Run上でuseEffectが適切に動作しなくなったため，第二引数を指定しない
+  });
 
   return (
     <>
-      <div>{`thisRoomId: ${thisRoomId}`}</div>
       {/* 仮実装。今後ローディングアニメーションに置き換える */}
       {isChecked ? children : <div>入室チェック中...</div>}
     </>

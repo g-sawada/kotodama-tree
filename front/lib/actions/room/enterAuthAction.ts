@@ -2,6 +2,8 @@
 
 import { auth } from "@/auth";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
+import { redirect } from "next/navigation";
 import redirectToLastVisitRoomAction from "../user/redirectToLastVisitRoom";
 
 interface EnterAuthResponse {
@@ -10,9 +12,10 @@ interface EnterAuthResponse {
 
 export default async function enterAuthAction(roomId: string) {
   const session = await auth();
-  // エラー処理
+  // 取得できない場合はエラーとしてリダイレクト
   if(!session?.user?.userId) {
-    return
+    await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+    redirect("/login");
   }
   const userId = session.user.userId;
 
@@ -21,17 +24,41 @@ export default async function enterAuthAction(roomId: string) {
     user_id: userId,
   };
 
+  /**
+   * 部屋入室認証 API rooms#enter を実行
+   * 
+   * 正常系
+   * - ログインユーザーのlast_visit_roomがパラメータの部屋IDと一致するかどうかを判定する (200 OK)
+   *   @returns data.canEnter :boolean    入室可否
+   * 異常系
+   * - ユーザーまたは部屋が存在しない(404 Not Found)
+   * - その他のエラー(500 Internal Server Error)
+   */
   const result = await postFetch<EnterAuthResponse>(
     `/rooms/${roomId}/enter`,
     reqBody,
   )
 
-  // APIコールにエラーがあった場合
   if(!result.isOk) {
-    await redirectToLastVisitRoomAction({ errorMessage: result.body.error })
-    return;
+    if(result.status === 404) {
+      // ユーザーが存在しない(404 Not Found)
+      if(result.body.error === "user not found") {
+        await setFlashAction("error", "ユーザー情報の取得に失敗しました。\n 再ログインして下さい。")
+        redirect("/login");
+      }
+      // 部屋が存在しない(404 Not Found)
+      if(result.body.error === "room not found") {
+        await setFlashAction("error", "アクセスできません。\n 最後に訪れた場所を読み込みました。");
+        await redirectToLastVisitRoomAction();
+        return;
+      }
+    } else {
+      // その他のエラー
+      await setFlashAction("error", "予期しないエラーが発生しました。")
+      redirect("/");
+    }
+  } else {
+    // 入室可否判定の結果を返却
+    return result.body.data.canEnter;
   }
-  
-  // 入室可否判定の結果を返却
-  return result.body.data.canEnter;
 } 

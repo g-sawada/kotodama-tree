@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { Tree } from "@/types/tree";
 import { patchFetch } from "@/lib/api/fetcher/patchFetch";
-import { setFlash } from "@/lib/api/flash/setFlash";
+import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 
 /**
  * API trees#chargeをコールする。ユーザーの作成実行により起動するため，サーバーアクションとして実装
@@ -37,7 +37,7 @@ export default async function chargeAction(treeId: number) {
   );
 
   if (!result.isOk) {
-    await setFlash("error", "チャージに失敗しました");
+    await setFlashAction("error", "チャージに失敗しました");
     return result;
   }
 
@@ -46,6 +46,6 @@ export default async function chargeAction(treeId: number) {
     successMsg += `\nキのレベルが${result.body.data.tree.level}になりました。`;
   }
 
-  await setFlash("success", successMsg);
+  await setFlashAction("success", successMsg);
   return result;
 }

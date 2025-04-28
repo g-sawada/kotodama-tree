@@ -1,28 +1,20 @@
-/**
- * コトダマをしゅうかくするAPIを呼び出す
- * @param soul_id しゅうかく対象のコトダマid
- * @param user_id しゅうかくを実行するユーザーのid
- * @param room_id しゅうかくが実行される部屋のid
- * @returns FetchResult<Soul>
- */
-
 import { FetchResult } from "@/types/fetchResult";
-import { Soul } from "@/types/soul";
 
-export const harvestSoul = async (
-  soul_id: number,
-  user_id: string,
-  room_id: string
-): Promise<FetchResult<Soul>> => {
+export const deleteFetch = async <T> (
+  url: string,
+  reqBody: object,
+  ): Promise<FetchResult<T>> => {
+  // ベースURLを作成
+  const baseUrl = `${process.env.API_URL}/api/${process.env.API_VERSION}`;
+
   try {
-    const res = await fetch(
-      `${process.env.API_URL}/api/${process.env.API_VERSION}/souls/${soul_id}/harvest`,
+    const res = await fetch(baseUrl + url, 
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id: user_id, room_id: room_id }),
+        body: JSON.stringify(reqBody),
         cache: "no-cache",
       }
     );
@@ -43,6 +35,7 @@ export const harvestSoul = async (
         body: { data: body.data, message: body.message },
       };
     }
+
   } catch {
     // ネットワークエラー等でresやjsonパースに異常が発生した場合
     return {
@@ -51,4 +44,5 @@ export const harvestSoul = async (
       body: { error: "サーバー通信エラー" },
     };
   }
-};
+}
+
