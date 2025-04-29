@@ -90,6 +90,11 @@ class Api::V1::UsersController < ApplicationController
       target_room = Room.find(params[:room_id])
       user = User.find(params[:id])
 
+      # userのlast_visit_roomがnilの場合，ユーザーのroom.idで更新する(初回登録，または世界リセットの直後)
+      if user.last_visit_room.nil?
+        user.update!(last_visit_room: user.room.id)
+      end
+
       # 既にuserのlast_visit_roomがtarget_room.idと一致している場合は何もしない
       if user.last_visit_room == target_room.id
         return render json: { data: { room_id: target_room.id }, message: "移動済みです" }, status: :ok

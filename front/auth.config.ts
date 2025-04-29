@@ -69,18 +69,15 @@ export const authConfig: NextAuthConfig = {
         }
 
         const userData = result.body.data;
-        console.log(`userData: ${userData}`);
 
-        // userDataがnullの場合は新規ユーザーとして扱うため，tokenにproviderとprovider_idを追加
+        // userDataがnullの場合は新規ユーザーとして扱う
         if (userData === null) {
-          console.log("新規ユーザーが認証されました" );
           token.provider = account.provider;
           token.provider_id = account.providerAccountId
           return token;
         
         } else {
           // userが取得できた場合(=登録処理完了済み）userIdをtokenに追加
-          console.log("既存ユーザーが認証されました");
           token.userId = userData.id;
           return token;
         }
@@ -88,10 +85,7 @@ export const authConfig: NextAuthConfig = {
       
       // 認証済かつ未登録の場合 
       if (!!token.provider && !!token.provider_id) {
-        console.log("tokenにproviderとprovider_idが存在。userIdを取得します");
         const result = await getUserByProvider(token.provider, token.provider_id);
-        console.log(result);
-        
         // isOkがfalseの場合はErrorResponse
         if (!result.isOk) {
           console.log("ユーザーの情報取得時にエラーが発生しました");
@@ -99,11 +93,8 @@ export const authConfig: NextAuthConfig = {
         }
 
         const userData = result.body.data;
-        console.log(`userData: ${userData}`);
-        console.log('!!userData', !!userData);
         // userが取得できた場合(=登録処理完了済み）uuidをtokenに追加
         if (!!userData) {
-          console.log("既存ユーザーが認証されました")
           token.userId = userData.id;
           // provider, provider_idは不要のため削除
           token.provider = "";
