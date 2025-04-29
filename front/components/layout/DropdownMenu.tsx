@@ -5,15 +5,22 @@ import Link from 'next/link';
 import SignOutButton from '../ui/authButton/SignOutButton';
 import ResizeModal from '../ui/ResizeModal';
 import ResetTimer from './ResetTimer';
+import Button from '../ui/Button';
 
 export default function Dropdown({ userId }: { userId: string | null }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [resetTimerOpen, setResetTimerOpen] = useState<boolean>(false);
 
 	const openMenu = ()  =>  {
 		setIsOpen(true);
 	}
 	const closeMenu =  () => {
 		setIsOpen(false);
+	}
+
+	const openTimer = () => {
+		closeMenu();
+		setResetTimerOpen(true)
 	}
 
 	const transClass = isOpen ? "flex" : "hidden";
@@ -31,6 +38,7 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 					{ userId ? (
 						<>
 							<Link href={`/profile/${userId}`} onClick={closeMenu} className=''>マイページ</Link>
+							<button onClick={openTimer}>リセット残り時間</button>
 							<Link href={'#'} onClick={closeMenu} className=''>遊び方</Link>
 							<Link href={'/'} onClick={closeMenu} className=''>タイトルへ</Link>
 							<Link href={'#'} onClick={closeMenu} className=''>お問い合わせ</Link>
@@ -46,13 +54,18 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 				</div>
 			</div>
 
-			<ResizeModal isOpen={true}>
-				<p className='flex justify-center text-xl'>
-					世界のリセットまで
-				</p>
-				<p className='text-4xl'>
-					<ResetTimer	timestamp={new Date('2025-04-30 00:00:00').toISOString()}/>
-				</p>
+			<ResizeModal isOpen={resetTimerOpen}>
+				<div className='flex flex-col items-center gap-6'>
+					<p className='text-xl'>
+						世界のリセットまで
+					</p>
+					<div className='text-4xl'>
+						<ResetTimer	timestamp={new Date('2025-04-30 00:00:00').toISOString()}/>
+					</div>
+					<div>
+						<Button text={'閉じる'} buttonType='cancel' handleClick={() => setResetTimerOpen(false)}/>
+					</div>
+				</div>
 			</ResizeModal>
 
 			{/* メニュー外をクリックして閉じるための透過スクリーン */}
