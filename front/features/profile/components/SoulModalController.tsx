@@ -114,17 +114,17 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
             )}
             <ResizeModal isOpen={isModalOpen}>
               <div className="p-6">
-                <p className="text-lg mb-6 text-white text-center">本当に削除してもいいですか？</p>
+                <p className="text-lg mb-6 text-yellow-300 text-center">本当に削除してもいいですか？</p>
                 <div className="flex justify-center gap-4 mt-4">
                   <Button
-                    text="はい"
-                    handleClick={handleSubmit}
-                    buttonType="ok"
-                  />
-                  <Button
-                    text="いいえ"
+                    text="Cancel"
                     handleClick={closeModal}
                     buttonType="cancel"
+                  />
+                  <Button
+                    text="OK"
+                    handleClick={handleSubmit}
+                    buttonType="ok"
                   />
                 </div>
               </div>

@@ -85,14 +85,14 @@ export default function SignupForm() {
             <p className="text-lg mb-6 text-white text-center">この名前で登録しますか？</p>
             <div className="flex justify-center gap-4 mt-4">
               <Button
-                text="はい"
-                handleClick={handleSubmit}
-                buttonType="ok"
-              />
-              <Button
-                text="いいえ"
+                text="Cancel"
                 handleClick={closeModal}
                 buttonType="cancel"
+              />
+              <Button
+                text="OK"
+                handleClick={handleSubmit}
+                buttonType="ok"
               />
             </div>
           </div>
