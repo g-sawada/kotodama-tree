@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link';
 import SignOutButton from '../ui/authButton/SignOutButton';
+import ResizeModal from '../ui/ResizeModal';
+import ResetTimer from './ResetTimer';
 
 export default function Dropdown({ userId }: { userId: string | null }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -41,18 +43,18 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 							<Link href={'#'} onClick={closeMenu} className=''>お問い合わせ</Link>
 						</>
 					)}
-						{/* {
-								menuItems.map(item =>
-										<Link
-												key={item.route}
-												className="hover:bg-zinc-300 hover:text-zinc-500 px-4 py-1"
-												href={item?.route || ''}
-												onClick={toggle}
-										>{item.title}</Link>
-								)
-						} */}
 				</div>
 			</div>
+
+			<ResizeModal isOpen={true}>
+				<p className='flex justify-center text-xl'>
+					世界のリセットまで
+				</p>
+				<p className='text-4xl'>
+					<ResetTimer	timestamp={new Date('2025-04-30 00:00:00').toISOString()}/>
+				</p>
+			</ResizeModal>
+
 			{/* メニュー外をクリックして閉じるための透過スクリーン */}
 			{ isOpen ?
 				<div

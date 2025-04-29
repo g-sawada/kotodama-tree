@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
 import { invalidateCache } from "@/lib/actions/maintenance/invalidateCache";
+import ResetTimer from "@/components/layout/ResetTimer";
 
 export default async function Home() {
   const session = await auth();
@@ -37,7 +38,7 @@ export default async function Home() {
   }
 
   const test = await trafficTest();
-
+  const expiryTimestamp = new Date('2025-05-09 00:00:00').toISOString();
   return (
     <>
       <div className="text-4xl text-center">ここはHomeページです</div>
@@ -50,6 +51,10 @@ export default async function Home() {
           // isDisabled={true}
         />
       </div>
+      <div className="my-5">
+        <ResetTimer timestamp={expiryTimestamp}/>
+      </div>
+
       <div className="my-4">
         <p className="flex justify-center font-bold">current_user session</p>
         <pre className="flex justify-center text-sm">{JSON.stringify(session, null, 2)}</pre>

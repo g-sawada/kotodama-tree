@@ -12,10 +12,11 @@
   "dependencies": {
     "embla-carousel-react": "^8.5.2",
     "next": "15.1.6",
-    "primereact": "^10.9.2",
     "next-auth": "^5.0.0-beta.25",
+    "primereact": "^10.9.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-timer-hook": "^4.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
