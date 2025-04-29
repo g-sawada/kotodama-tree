@@ -1,12 +1,11 @@
 import { auth } from "@/auth";
 
 import DropdownMenu from "./DropdownMenu";
-import SignOutButton from "../ui/authButton/SignOutButton";
 import AuthInfo from "./AuthInfo";
 
 export default async function Header () {
   const session = await auth();
-  const userId = session?.user?.userId;
+  const userId = session?.user?.userId ?? null;
 
   return (
     <nav className="flex justify-between w-full border-b px-6">
@@ -15,12 +14,7 @@ export default async function Header () {
       </div>
       <div className="flex items-center justify-center h-16 gap-4">
         <AuthInfo />
-        { userId && ( /**ログインしていない場合は非表示に */
-        <a href={`/profile/${userId}`} className="text-sm">マイページ</a>
-        )}
-        <a href="/login" className="text-sm">遊び方</a>
-        <SignOutButton />
-        <DropdownMenu />
+        <DropdownMenu userId={userId}/>
       </div>
     </nav>
   )
