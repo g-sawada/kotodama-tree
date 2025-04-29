@@ -76,7 +76,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
         handleClick={openListModal}
       />
       <FullSizeModal isOpen={isListModalOpen}>
-        <SoulCardList souls={souls} openModal={openSoulModal} />
+        <SoulCardList souls={souls} openModal={openSoulModal} isMyProfile={isMyProfile}/>
         <div className="flex justify-center my-4">
           <Button
             text="閉じる"
@@ -89,12 +89,14 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
       {selectedSoul && (
         <ResizeModal isOpen={isSoulModalOpen}>
           <SoulCard soul={selectedSoul} >
+            { isMyProfile === true && (
             <div className="flex justify-between">
               <p className="text-gray-700 text-md">
                 しゅうかくされたかいすう
                 <span className="ml-2 font-bold">{selectedSoul.harvested_count}</span>
               </p>
             </div>
+            )}
           </SoulCard>
           <div className="flex justify-center my-4 gap-8">
             { isMyProfile === true && (
@@ -112,7 +114,7 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
               buttonType="cancel"
             />
           </div>
-            { !isDeletable && (
+            { isMyProfile && !isDeletable && (
               <div className="flex justify-center text-xs text-red-700">
                 ＊手元にコトダマが戻るまで削除できません
               </div>
