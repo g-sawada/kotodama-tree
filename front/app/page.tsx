@@ -38,7 +38,8 @@ export default async function Home() {
   }
 
   const test = await trafficTest();
-  const expiryTimestamp = new Date('2025-05-09 00:00:00').toISOString();
+  const now = new Date()
+  const expiryTimestamp = new Date(now.setDate(now.getDate() + 1));
   return (
     <>
       <div className="text-4xl text-center">ここはHomeページです</div>
@@ -52,7 +53,7 @@ export default async function Home() {
         />
       </div>
       <div className="my-5">
-        <ResetTimer timestamp={expiryTimestamp}/>
+        <ResetTimer timestamp={expiryTimestamp.toISOString()}/>
       </div>
 
       <div className="my-4">
