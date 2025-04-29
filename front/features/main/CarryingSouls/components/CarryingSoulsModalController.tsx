@@ -34,9 +34,6 @@ export default function CarryingSoulsModalController({
 
   // session情報を取得
   const session = useSession();
-  if (!session.data?.user.userId) {
-    router.push("/login");
-  }
   const userId = session.data?.user.userId;
 
   // モーダルの開閉制御
