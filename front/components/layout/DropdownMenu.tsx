@@ -6,10 +6,24 @@ import SignOutButton from '../ui/authButton/SignOutButton';
 import ResizeModal from '../ui/ResizeModal';
 import ResetTimer from './ResetTimer';
 import Button from '../ui/Button';
+import { FetchResult } from '@/types/fetchResult';
+
+interface Maintenance {
+  isMaintenance: boolean;
+  nextResetStartAt: string | null;
+} 
 
 export default function Dropdown({ userId }: { userId: string | null }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [resetTimerOpen, setResetTimerOpen] = useState<boolean>(false);
+	const [resetTime, setResetTime] = useState<string | null>(null)
+
+	// Route Handlerを経由してメンテナンス情報を取得
+	const fetchMaintenance = async () => { 
+		const response = await fetch(`/api/maintenance`);
+		const result: FetchResult<Maintenance> = await response.json();
+		return result
+	}
 
 	const openMenu = ()  =>  {
 		setIsOpen(true);
@@ -18,7 +32,15 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 		setIsOpen(false);
 	}
 
-	const openTimer = () => {
+	// タイマーモーダルを開いた際，メンテナンス情報を取得し，nextResetStartAtが取得できたらその時間をセット
+	const openTimer = async () => {
+		const maintenanceResult = await fetchMaintenance()
+		if(maintenanceResult.isOk) {
+			const { isMaintenance, nextResetStartAt } = maintenanceResult.body.data
+			setResetTime(isMaintenance ? null : nextResetStartAt)
+		} else { 
+			setResetTime(null)
+		}
 		closeMenu();
 		setResetTimerOpen(true)
 	}
@@ -29,7 +51,7 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 		<>
 			<div className="relative">
 				<button
-					className="hover:text-blue-400"
+					className="font-bold"
 					onClick={openMenu}
 				>
 					メニュー ▽
@@ -60,7 +82,15 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 						世界のリセットまで
 					</p>
 					<div className='text-4xl'>
-						<ResetTimer	timestamp={new Date('2025-04-30 00:00:00').toISOString()}/>
+						{ resetTime ? (
+								<ResetTimer	timestamp={new Date(resetTime).toISOString()}/>
+							) : (
+								<div className='flex flex-col items-center'>
+									<p>-- : -- : --</p>
+									<p className='text-sm text-gray-400 mt-6'>更新をお待ち下さい</p> 
+								</div>
+							)
+						}
 					</div>
 					<div>
 						<Button text={'閉じる'} buttonType='cancel' handleClick={() => setResetTimerOpen(false)}/>
