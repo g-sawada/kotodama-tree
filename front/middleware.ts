@@ -28,7 +28,6 @@ export default auth( async (req) => {
   }
   // メンテナンス中の場合はメンテナンス中ページにリダイレクト
   const isMaintenance = result.body.data.isMaintenance;
-  console.log(`[INFO] メンテナンス中?: ${isMaintenance}`);
   if(isMaintenance) {
     return Response.redirect(new URL(MAINTENANCE_PATH, nextUrl));
   }
