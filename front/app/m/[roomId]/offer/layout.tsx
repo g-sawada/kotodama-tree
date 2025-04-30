@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import EnterOfferAuth from "@/features/offer/EnterOfferAuth/EnterOfferAuth";
 
 /**
@@ -17,10 +18,15 @@ type Props = {
 export default async function OfferLayout({ children, params }
   : Props) {
   const { roomId } = await params;
-  
+  const session = await auth();
+  const userId = session?.user?.userId;
+  // NOTE: EnterOfferAuth内でsessionを取得すると，初回アクセス時にuserIdがundefinedになるため，
+  // ここで取得してpropsとして渡すようにする。
+  // TODO: undefinedの場合のハンドリング未実装
+
   return (
     <>
-      <EnterOfferAuth thisRoomId={roomId}>
+      <EnterOfferAuth thisRoomId={roomId} userId={userId}>
         {children}
       </EnterOfferAuth>
     </>
