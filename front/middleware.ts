@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 // ログインページ，新規登録ページのパス
 const LOGIN_PATH = '/login';
 const SIGN_UP_PATH = '/signup';
-const REDIRECT_PATH_AFTER_LOGIN = '/loggedIn';
+const REDIRECT_PATH_AFTER_LOGIN = '/';
 const MAINTENANCE_PATH = '/maintenance';
 
 // auth関数をmiddlewareとして使用
@@ -79,7 +79,6 @@ export const config = {
   matcher: [
     '/login',
     '/signup',
-    '/loggedIn',
     '/m/:path*',
     '/profile/:path*'
   ],

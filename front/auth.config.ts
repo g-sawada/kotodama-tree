@@ -119,5 +119,10 @@ export const authConfig: NextAuthConfig = {
       }
       return session;
     }
-  }
+  },
+  //NOTE: pagesのsignInを指定しないと，外部認証エラー・キャンセル時に戻ってくることができない
+  pages: {
+    signIn: "/login",
+    error: "/",
+  },
 }
