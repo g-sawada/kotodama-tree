@@ -48,7 +48,7 @@ export default async function ProfilePage({ params }: Props) {
 
   return (
     <>
-      <h1 className="mt-4 text-center">マイページ</h1>
+      <h1 className="mt-4 text-xl text-center">マイページ</h1>
       <div className="grid place-content-center grid-rows-1 gap-1 mt-5 m-5">
         <div className="row-span-1 border border-white rounded-lg mb-3">
           <div className="text-center py-4 text-lg">{user.name}</div>
