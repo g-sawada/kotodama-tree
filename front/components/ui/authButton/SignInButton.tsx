@@ -19,7 +19,7 @@ export default function SignInButton({provider}: {provider: Provider}) {
     <form
       action={ async () =>  {
         'use server';
-        await signIn(provider);
+        await signIn(provider, ({ redirectTo: '/' }));
       }}
     >
       <button className="flex items-center w-60 h-10 px-4 py-2 font-bold border-2 border-white bg-gray-900 hover:bg-gray-700 rounded transition">

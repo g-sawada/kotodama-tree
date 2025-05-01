@@ -106,11 +106,6 @@ export const authConfig: NextAuthConfig = {
       return token
     },
 
-    // デフォルトのリダイレクト先をカスタマイズ
-    async redirect({baseUrl}) {
-      return baseUrl + "/loggedIn";
-    },
-
     // セッションに追加するデータをカスタマイズ（jwt -> sessionの順で実行される）
     async session({session, token}) {
       session.user = {
