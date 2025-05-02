@@ -14,7 +14,7 @@ class User < ApplicationRecord
     validates :max_carry_souls
     validates :provider
     validates :provider_id, uniqueness: { scope: :provider }
-    validates :system_user, inclusion: { in: [0, 1] }
+    validates :system_user
   end
 
   # インスタンス作成時にデフォルト値を設定
@@ -67,12 +67,8 @@ class User < ApplicationRecord
     end
     self  # attributeを上書きしたインスタンス自身を返すのみ
   end
-  
-  # システムユーザーか一般ユーザーかをenumを使用して判別
-  enum :system_user, {
-    general: 0,
-    system: 1
-    }, default: :general
+
+
 
   private
   
