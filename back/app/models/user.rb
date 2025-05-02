@@ -68,7 +68,11 @@ class User < ApplicationRecord
     self  # attributeを上書きしたインスタンス自身を返すのみ
   end
 
-
+  # システムユーザーか一般ユーザーかをenumを使用して判別
+  enum :system_user, {
+    general: 0,
+    system: 1
+    }, default: :general
 
   private
   
