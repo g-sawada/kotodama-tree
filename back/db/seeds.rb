@@ -23,8 +23,7 @@ end
 def create_dummy_tree(user)
   Tree.create!(
     user_id: user.id,
-    room_id: user.room.id,
-    image: "tree.svg"
+    room_id: user.room.id
   )
 end
 
