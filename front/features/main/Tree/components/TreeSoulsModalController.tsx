@@ -65,7 +65,7 @@ export default function TreeSoulsModalController({
         onClick={() => openModal()}
         className="flex flex-col items-center flex-1 my-4 md:my-0"
       >
-        <TreeImg />
+        <TreeImg image={tree.image}/>
       </button>
 
       <div>

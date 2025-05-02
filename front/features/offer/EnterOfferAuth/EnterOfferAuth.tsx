@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 import getRoomInfoAction from "@/lib/actions/room/getRoomInfoAction";
@@ -20,16 +19,13 @@ import { RoomInfo } from "@/types/room";
 
 interface EnterAuthProps {
   thisRoomId: string;
+  userId: string | undefined;
   children: React.ReactNode;
 }
 
-export default function EnterOfferAuth({ thisRoomId, children }: EnterAuthProps) {
+export default function EnterOfferAuth({ thisRoomId, userId, children }: EnterAuthProps) {
   // 入室チェックの完了まではローディングを表示する
   const [isChecked, setIsChecked] = useState(false);
-
-  // セッションからユーザーIDを取得
-  const { data } = useSession();
-  const userId = data?.user?.userId;
 
   useEffect(() => {
     getRoomInfoAction(thisRoomId).then((data: RoomInfo | undefined) => {
@@ -50,7 +46,7 @@ export default function EnterOfferAuth({ thisRoomId, children }: EnterAuthProps)
         setIsChecked(true);
       }
     });
-  }, [thisRoomId, userId]);
+  });
 
   return (
     <>
