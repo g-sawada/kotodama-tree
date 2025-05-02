@@ -34,7 +34,7 @@ def create_dummy_pathway(room_1, room_2)
 
   Pathway.create!(
     figure_type: rand(1..10), # 1から3のランダムな整数
-    color: ["#377AE8", "#2E41EA", "#8119EE", "#B525C1", "#D72E67", "#CD4121", "#BF6128", "#937F2B", "#479F2E", "#52B234", "#439B4C", "#3F8B93"].sample, # カラーをランダムに選択
+    color: ["#FF0033", "#FF6600", "#FF9900", "#FFCC00", "#CCFF00", "#33FF00", "#00FF99", "#00FFFF", "#0066FF", "#3300FF", "#6600CC", "#990066"].sample, # カラーをランダムに選択
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
   )
