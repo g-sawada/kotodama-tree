@@ -5,7 +5,7 @@ import "@/styles/embla.css";
 
 import userMoveAction from "@/lib/actions/user/userMoveAction";
 
-import { PI_Triangle, PI_Star, PI_Pentagon } from "./PortalIcons";
+import { PI_Triangle, PI_Star, PI_Pentagon, PI_Square, PI_Diamond, PI_Crown, PI_FourPointedStar, PI_Drop, PI_Hexagon, PI_InvertedTriangle } from "./PortalIcons";
 
 type Props = {
   thisRoomId: string;
@@ -16,6 +16,13 @@ const PortalIconMap: { [key: number]: React.FC<{color: string}> } = {
   1: PI_Triangle,
   2: PI_Star,
   3: PI_Pentagon,
+  4: PI_Square,
+  5: PI_Diamond,
+  6: PI_Crown,
+  7: PI_FourPointedStar,
+  8: PI_Drop,
+  9: PI_Hexagon,
+  10: PI_InvertedTriangle
 };
 
 export default function Portal({ thisRoomId, pathway }: Props) {

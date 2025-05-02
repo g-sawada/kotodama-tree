@@ -33,7 +33,7 @@ def create_dummy_pathway(room_1, room_2)
   smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
 
   Pathway.create!(
-    figure_type: rand(1..3), # 1から3のランダムな整数
+    figure_type: rand(1..10), # 1から3のランダムな整数
     color: ["#377AE8", "#2E41EA", "#8119EE", "#B525C1", "#D72E67", "#CD4121", "#BF6128", "#937F2B", "#479F2E", "#52B234", "#439B4C", "#3F8B93"].sample, # カラーをランダムに選択
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
