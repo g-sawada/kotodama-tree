@@ -1,14 +1,9 @@
-import { signOut } from "@/auth";
+import { SignOutAction } from "@/lib/actions/auth/SignOutAction";
 
 export default function SignOutButton() {
   return (
-    <form
-      action={ async () =>  {
-        'use server';
-        await signOut({ redirectTo: '/login' });
-      }}
-    >
-      <button className="text-sm">
+    <form action={SignOutAction}>
+      <button type="submit">
         ログアウト
       </button>
     </form>

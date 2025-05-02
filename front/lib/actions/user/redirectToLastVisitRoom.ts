@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { getUser } from "@/lib/api/user/getUser";
 import { redirect } from "next/navigation";
+import userMoveAction from "./userMoveAction";
 
 // ⭐️ paramでエラーメッセージを受け取らないようにする
 
@@ -46,9 +47,11 @@ export default async function redirectToLastVisitRoomAction(
     setFlashAction("error", errorMessage);
   }
 
-  // last_visit_roomがnullの場合，初回登録時または世界リセット時のため，ユーザーのホームにリダイレクトする
+  // last_visit_roomがnullの場合（初回登録 または 世界リセット直後）
+  // 部屋移動アクションをuserのroom_idで実行
   if (lastVisitRoomId === null) {
-    redirect(`/m/${user.room_id}`)
+    await userMoveAction(user.room_id)
+    return;
   }
 
   redirect(`/m/${lastVisitRoomId}`);

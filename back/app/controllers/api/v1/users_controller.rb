@@ -62,7 +62,7 @@ class Api::V1::UsersController < ApplicationController
         user = User.create!(user_params) # その他のカラムのデフォルト値はDBまたはモデルで設定
         room = user.create_room!
         room.create_pathway_random!
-        user.create_tree!(room_id: room.id, image: 'tree1.png')
+        user.create_tree!(room_id: room.id)
         user  # 成功時にuserを返す
       end
       
@@ -89,6 +89,11 @@ class Api::V1::UsersController < ApplicationController
     begin
       target_room = Room.find(params[:room_id])
       user = User.find(params[:id])
+
+      # userのlast_visit_roomがnilの場合，ユーザーのroom.idで更新する(初回登録，または世界リセットの直後)
+      if user.last_visit_room.nil?
+        user.update!(last_visit_room: user.room.id)
+      end
 
       # 既にuserのlast_visit_roomがtarget_room.idと一致している場合は何もしない
       if user.last_visit_room == target_room.id
