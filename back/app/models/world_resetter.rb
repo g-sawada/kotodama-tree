@@ -5,8 +5,9 @@ class WorldResetter
     begin
       ActiveRecord::Base.transaction do
         # TODO: バックアップ処理
-        # TODO: ユーザーのレベルアップ処理
-
+        # 全てのユーザーのレベルアップ処理（経験値加算処理）を行う
+        update_users_level
+        message = "全てのユーザーのレベルを更新しました"
         # 全てのsoulのowner_idをnilにする
         Soul.update_all(owner_id: nil)
         message = "全てのsoulのowner_idをnilにしました"
@@ -53,6 +54,30 @@ class WorldResetter
         start_time: start_time,
         end_time: end_time
       }
+  end
+
+  # 全ユーザーのレベルアップ処理（経験値加算）をまとめて実行するメソッド
+  def self.update_users_level
+    batch_size = 200
+    user_attributes = []
+    # ユーザーとそのtreeを規定のバッチサイズで取得し，経験値追加後のattributeを取得
+    User.includes(:tree).find_each(batch_size: batch_size) do |user|
+      # ユーザーのtreeの"level"をuserのexpに追加し，インスタンスを更新
+      user.add_exp(user.tree.level)
+      # attributesを取得し，更新時間を上書き
+      update_attributes = user.attributes.merge({
+        "updated_at" => Time.current
+      })
+      user_attributes << update_attributes
+      # バッチサイズに達したらupdate_allし，メモリを解放する
+      if user_attributes.size >= batch_size
+        # NOTE: Rails 6.0以降ではupsert_allを使用可。衝突時はUPDATE，非衝突時はINSERT
+        User.upsert_all(user_attributes)
+        user_attributes.clear
+      end
+    end
+    # 残りのレコードをUPDATE
+    User.upsert_all(user_attributes) unless user_attributes.empty?
   end
 
   # 全ユーザーのroomをまとめて作成するメソッド

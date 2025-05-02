@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       end
 
       post 'system/reset', to: 'system#reset'
+      get  'system/maintenance', to: 'system#maintenance'
     end
   end
 end

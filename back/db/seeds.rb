@@ -23,8 +23,7 @@ end
 def create_dummy_tree(user)
   Tree.create!(
     user_id: user.id,
-    room_id: user.room.id,
-    image: "tree.svg"
+    room_id: user.room.id
   )
 end
 
@@ -98,6 +97,9 @@ two_users.each do |user|
     end
   end
 end
+
+# 非メンテナンス中となるようにResetScheduleを作成
+ResetSchedule.create!(status: :success, scheduled_start_time: Time.current)
 
 puts "seed data successfully created!"
 

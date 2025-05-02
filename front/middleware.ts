@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 const LOGIN_PATH = '/login';
 const SIGN_UP_PATH = '/signup';
 const REDIRECT_PATH_AFTER_LOGIN = '/loggedIn';
+const MAINTENANCE_PATH = '/maintenance';
 
 // auth関数をmiddlewareとして使用
 export default auth( async (req) => {
@@ -17,25 +18,28 @@ export default auth( async (req) => {
   const isLoginRoute = nextUrl.pathname ===  LOGIN_PATH;
   const isSignUpRoute = nextUrl.pathname ===  SIGN_UP_PATH;
 
-  // console.log('pathname', nextUrl.pathname);
-  // console.log('isAuthenticated', isAuthenticated);
-  // console.log('hasUuid', hasUuid);
+  // メンテナンス情報のチェック
+  // NOTE: Data Cacheを使用するため，Route Handlerを経由する
+  const response = await fetch(`${nextUrl.origin}/api/maintenance`);
+  const result = await response.json();
+  if (!result.isOk) {
+    console.log(`[ERROR] メンテナンス情報の取得に失敗しました :${result.body.error}`);
+    return Response.redirect(new URL('/', nextUrl));
+  }
+  // メンテナンス中の場合はメンテナンス中ページにリダイレクト
+  const isMaintenance = result.body.data.isMaintenance;
+  if(isMaintenance) {
+    return Response.redirect(new URL(MAINTENANCE_PATH, nextUrl));
+  }
 
   // ログインページにアクセスした場合
   if (isLoginRoute) {
-    console.log("ログインページにアクセスしました");
-    // 認証済みの場合
-    if (isAuthenticated) {
-        // かつユーザー未登録の場合は新規登録ページにリダイレクト
-        if(!hasUuid) {
-          console.log("未登録のため，新規登録ページにリダイレクトします");
-          return Response.redirect(new URL(SIGN_UP_PATH, nextUrl));
-        }
-        // ユーザー登録済みの場合はホームページにリダイレクト
-        console.log("ログイン済みのため，メイン画面にリダイレクトします");
-        return Response.redirect(new URL(REDIRECT_PATH_AFTER_LOGIN, nextUrl));
+    // 認証済み かつ ユーザー未登録 の場合
+    if (isAuthenticated && !hasUuid) {
+      return Response.redirect(new URL(SIGN_UP_PATH, nextUrl));
     }
-    // ログインしていない場合はそのまま表示
+
+    // 未ログイン または 登録済みの場合はそのまま表示
     return undefined;
   }
 
@@ -43,13 +47,11 @@ export default auth( async (req) => {
   if (isSignUpRoute) {
     // 認証前の場合はログインページにリダイレクト
     if (!isAuthenticated) {
-        console.log("ログインしていないため，ログインページにリダイレクトします");
         return Response.redirect(new URL(LOGIN_PATH, nextUrl));
     }
 
     // ユーザー登録済みの場合はホームページにリダイレクト
     if (hasUuid) {
-      console.log("登録済みのため，メイン画面にリダイレクトします");
       return Response.redirect(new URL(REDIRECT_PATH_AFTER_LOGIN, nextUrl));
     }
 
@@ -59,13 +61,11 @@ export default auth( async (req) => {
 
   // 認証の必要がある全てのページにアクセスした場合
   if (!isAuthenticated) {
-    console.log("未認証のため，ログインページにリダイレクトします");
     return Response.redirect(new URL(LOGIN_PATH, nextUrl));
   }
 
   // 認証済みかつユーザー登録が未完了の場合は新規登録ページにリダイレクト
   if (!hasUuid) {
-    console.log("未登録のため，新規登録ページにリダイレクトします");
     return Response.redirect(new URL(SIGN_UP_PATH, nextUrl));
   }
 
@@ -75,9 +75,12 @@ export default auth( async (req) => {
 
 // matcherでmiddlewareを適用するパスを指定
 export const config = {
+  // 参考: https://zenn.dev/hayato94087/articles/ec16174696a375
   matcher: [
     '/login',
     '/signup',
     '/loggedIn',
-    '/mock',],
+    '/m/:path*',
+    '/profile/:path*'
+  ],
 };
