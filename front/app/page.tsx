@@ -5,6 +5,7 @@ import SignInButton from "@/components/ui/authButton/SignInButton";
 import { auth } from "@/auth";
 import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
+import { invalidateCache } from "@/lib/actions/maintenance/invalidateCache";
 
 export default async function Home() {
   const session = await auth();
@@ -15,6 +16,10 @@ export default async function Home() {
     console.log("ボタンがクリックされました");
     // フラッシュメッセージ用データをcookieに保存
     await setFlashAction("success", "TEST: 最後に訪れた場所 または ユーザーのホームに移動");
+
+    // Data Cacheの maintenanceを削除
+    await invalidateCache();
+
     await redirectToLastVisitRoomAction()
     return;
   }
@@ -22,8 +27,8 @@ export default async function Home() {
   // 外部接続テスト
   const trafficTest = async () =>  {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-    console.log("response");
-    console.log(response);
+    // console.log("response");
+    // console.log(response);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

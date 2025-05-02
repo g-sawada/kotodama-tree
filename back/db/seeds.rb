@@ -99,5 +99,8 @@ two_users.each do |user|
   end
 end
 
+# 非メンテナンス中となるようにResetScheduleを作成
+ResetSchedule.create!(status: :success, scheduled_start_time: Time.current)
+
 puts "seed data successfully created!"
 
