@@ -37,8 +37,8 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
   const closeModal = () => setIsModalOpen(false);
 
   // 削除処理確認後の処理
-  const handleSubmit = () => {
-    deleteClick();
+  const handleSubmit = async () => {
+    await deleteClick();
     closeModal();
   };
 
@@ -114,23 +114,6 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
               isDisabled={!isDeletable}
             />
             )}
-            <ResizeModal isOpen={isModalOpen}>
-              <div className="p-6">
-                <p className="text-lg mb-6 text-yellow-300 text-center">本当に削除してもいいですか？</p>
-                <div className="flex justify-center gap-4 mt-4">
-                  <Button
-                    text="Cancel"
-                    handleClick={closeModal}
-                    buttonType="cancel"
-                  />
-                  <Button
-                    text="OK"
-                    handleClick={handleSubmit}
-                    buttonType="ok"
-                  />
-                </div>
-              </div>
-            </ResizeModal>
             <Button
               text="閉じる"
               handleClick={closeSoulModal}
@@ -144,6 +127,23 @@ export default function SoulModalController({ user, tree, souls, isMyProfile }: 
             )}
         </ResizeModal>
       )}
+      <ResizeModal isOpen={isModalOpen}>
+        <div className="p-6">
+          <p className="text-lg mb-6 text-yellow-300 text-center">本当に削除してもいいですか？</p>
+          <div className="flex justify-center gap-4 mt-4">
+            <Button
+              text="Cancel"
+              handleClick={closeModal}
+              buttonType="cancel"
+            />
+            <Button
+              text="OK"
+              handleClick={handleSubmit}
+              buttonType="ok"
+            />
+          </div>
+        </div>
+      </ResizeModal>
     </>
   );
 }

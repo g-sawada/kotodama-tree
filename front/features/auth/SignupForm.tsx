@@ -12,7 +12,7 @@ export default function SignupForm() {
   const [name, setName] = useState<string>(session.data?.user.name || '');
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeletable, setIsDeletable] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
 
   useEffect(() => {
     if (name) {
@@ -25,14 +25,14 @@ export default function SignupForm() {
     const value = e.target.value;
     setName(value);
     if (value.length === 0) {
-      setIsDeletable(true);
+      setIsRegister(true);
       setError("名前を1文字以上入力して下さい");
     } else if (value.length > 10) {
       setError("名前は10文字以内で入力してください");
-      setIsDeletable(true);
+      setIsRegister(true);
     } else {
       setError("");
-      setIsDeletable(false);
+      setIsRegister(false);
     }
   }
 
@@ -73,9 +73,9 @@ export default function SignupForm() {
         <button
           type="button"
           onClick={openModal}
-          disabled={isDeletable}
+          disabled={isRegister}
           className={`my-10 px-4 py-2 font-bold border-2 border-white rounded transition bg-cyan-500 hover:bg-cyan-400 cursor-pointer
-                    ${isDeletable ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    ${isRegister ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           登録する
         </button>
@@ -95,6 +95,7 @@ export default function SignupForm() {
                 buttonType="ok"
               />
             </div>
+            <p className="text-sm mt-6 text-yellow-300 text-center">後から変更することはできません！！</p>
           </div>
         </ResizeModal>
       </div>
