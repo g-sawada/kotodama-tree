@@ -93,6 +93,19 @@ RSpec.describe User, type: :model do
         subject.system_user = ''
         expect(subject).to be_invalid
       end
+
+      it 'system_user を指定しない場合は general が設定されること' do
+        user = User.new(
+          name: "テスト太郎",
+          level: 1,
+          exp: 0,
+          max_create_souls: 3,
+          max_carry_souls: 3,
+          provider: "google",
+          provider_id: "abc123"
+        )
+        expect(user.system_user).to eq("general")
+      end
     
       it '範囲外の値(0, 1以外)の場合はArgumentErrorが発生し、generalになること' do
         expect { subject.system_user = 3 }.to raise_error(ArgumentError)
