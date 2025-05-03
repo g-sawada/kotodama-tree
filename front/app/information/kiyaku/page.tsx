@@ -1,9 +1,7 @@
-import React from 'react';
-
-const KiyakuPage: React.FC = () => {
+export default function KiyakuPage() {
   return (
     <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed">
-      <h1 className="text-2xl font-bold mb-4">利用規約</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">利用規約</h1>
 
       <p className="mb-6">
         この利用規約（以下、「本規約」といいます。）は、澤田昂大（以下、「開発者」といいます。）がチーム開発内の個人開発プロジェクトとして提供する、「コトダマノキ」（以下、「本サービス」といいます。）の利用条件を定めるものです。ユーザー（以下、「ユーザー」といいます。）の皆さまには、本規約に同意の上、本サービスをご利用いただきます。
@@ -248,4 +246,3 @@ const KiyakuPage: React.FC = () => {
     </main>
   );
 };
-export default KiyakuPage;
