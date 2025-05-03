@@ -95,7 +95,7 @@ export default function SignupForm() {
                 buttonType="ok"
               />
             </div>
-            <p className="text-sm mt-6 text-yellow-300 text-center">後から変更することはできません！！</p>
+            <p className="text-sm mt-6 text-yellow-300 text-center">後から変更することはできません！</p>
           </div>
         </ResizeModal>
       </div>
