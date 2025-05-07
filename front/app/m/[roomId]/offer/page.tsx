@@ -72,7 +72,7 @@ export default async function OfferPage({ params }: Props) {
           <button className="ml-3 mt-3" onClick={backToMainPage}>⇐ もどる</button>
         </div>
         <h1 className="text-2xl text-center my-4 flex-none">
-          捧げるコトダマを選んでください
+          捧げるコトダマを選択
         </h1>
         <div className="w-full mx-auto flex flex-col items-center flex-none">
           <div className="my-2">

@@ -73,7 +73,7 @@ export default function CarryingSoulsModalController({
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <h1 className="text-center text-xl font-bold">
-            手持ちのコトダマ一覧
+            手持ちのコトダマ
           </h1>
           <div className="my-4">
             {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}

@@ -70,7 +70,7 @@ export default function TreeSoulsModalController({
 
       <div>
         <FullSizeModal isOpen={isModalOpen}>
-          <h1 className="text-center text-xl font-bold">コトダマ一覧</h1>
+          <h1 className="text-center text-xl font-bold">キにやどるコトダマ</h1>
           {souls.length ? (
             // 捧げられているコトダマが1つ以上ある場合
             <>
@@ -85,7 +85,7 @@ export default function TreeSoulsModalController({
             </>
             ) : (
             // 捧げられているコトダマがない場合
-              <p className="text-center mt-2">コトダマがありません</p>
+              <p className="text-center mt-2 text-gray-500">コトダマがありません</p>
             )}
           
           <div className="my-4">
