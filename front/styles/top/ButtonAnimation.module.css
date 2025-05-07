@@ -3,7 +3,7 @@
   transform: translateY(100px);
   transition: opacity 0.3s ease, transform 0.6s ease;
   animation: bounce 0.6s ease forwards;
-  animation-delay: 3s;
+  animation-delay: 3300ms;
 }
 
 @keyframes bounce {
