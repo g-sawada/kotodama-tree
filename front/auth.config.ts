@@ -106,11 +106,6 @@ export const authConfig: NextAuthConfig = {
       return token
     },
 
-    // デフォルトのリダイレクト先をカスタマイズ
-    async redirect({baseUrl}) {
-      return baseUrl + "/loggedIn";
-    },
-
     // セッションに追加するデータをカスタマイズ（jwt -> sessionの順で実行される）
     async session({session, token}) {
       session.user = {
@@ -124,5 +119,10 @@ export const authConfig: NextAuthConfig = {
       }
       return session;
     }
-  }
+  },
+  //NOTE: pagesのsignInを指定しないと，外部認証エラー・キャンセル時に戻ってくることができない
+  pages: {
+    signIn: "/login",
+    error: "/",
+  },
 }

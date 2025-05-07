@@ -72,8 +72,11 @@ export default function CarryingSoulsModalController({
 
       <div>
         <FullSizeModal isOpen={isModalOpen}>
+          <div className="absolute">
+            <button className="p-1 bg-gray-500 border-2 border-white rounded" onClick={closeModal}>とじる</button>
+          </div>
           <h1 className="text-center text-xl font-bold">
-            手持ちのコトダマ一覧
+            手持ちのコトダマ
           </h1>
           <div className="my-4">
             {/* ユーザー自身の部屋の時のみ捧げページへのリンクを表示 */}
@@ -87,13 +90,6 @@ export default function CarryingSoulsModalController({
               </div>
             )}
             <CarryingSoulCardList souls={souls} />
-          </div>
-          <div className="flex justify-center my-4">
-            <Button
-              text="閉じる"
-              handleClick={() => closeModal()}
-              buttonType="cancel"
-            />
           </div>
         </FullSizeModal>
       </div>

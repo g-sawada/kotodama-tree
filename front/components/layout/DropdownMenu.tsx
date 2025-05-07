@@ -68,8 +68,9 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 						</>
 					) : (
 						<>
-							<Link href={'#'} onClick={closeMenu} className=''>遊び方</Link>
 							<Link href={'/login'} onClick={closeMenu} className=''>ログイン</Link>
+							<Link href={'#'} onClick={closeMenu} className=''>遊び方</Link>
+							<Link href={'/'} onClick={closeMenu} className=''>タイトルへ</Link>
 							<Link href={'#'} onClick={closeMenu} className=''>お問い合わせ</Link>
 						</>
 					)}
