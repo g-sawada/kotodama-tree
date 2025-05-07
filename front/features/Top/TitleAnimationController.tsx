@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import styles from '@/styles/TitleAnimation.module.css';
+import styles from '@/styles/top/TitleAnimation.module.css';
 
 
 export default function TopTitle() {

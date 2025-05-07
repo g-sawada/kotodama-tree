@@ -8,6 +8,10 @@ import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisi
 import { invalidateCache } from "@/lib/actions/maintenance/invalidateCache";
 import ResetTimer from "@/components/layout/ResetTimer";
 
+import styles from '@/styles/top/ButtonAnimation.module.css';
+import TopImage from "@/features/Top/ImageAnimationController";
+import TopTitle from "@/features/Top/TitleAnimationController";
+
 export default async function Home() {
   const session = await auth();
 
@@ -43,14 +47,21 @@ export default async function Home() {
   return (
     <>
       <div className="text-4xl text-center">ここはHomeページです</div>
-      <div className="flex max-w-32 mx-auto justify-center items-center h-40 gap-4">
-        <Button 
-          text="はじめる"
-          buttonType="ok"
-          handleClick={handleButtonClick}
-          // inProgress={true}
-          // isDisabled={true}
-        />
+        <div className="flex flex-col justify-center items-center min-h-screen transform -translate-y-10">
+          <div className="text-3xl text-center">
+            <TopTitle />
+          </div>
+          <div className="mt-8">
+            <TopImage src="/tree.svg" alt="木の画像"/>
+          </div>
+        <div className="mt-8">
+        <button 
+        onClick={handleButtonClick}
+        className={`${styles.button} 
+        px-4 py-2 font-bold border-2 border-white rounded transition bg-cyan-500 hover:bg-cyan-400`}>
+          はじめる
+        </button>
+        </div>
       </div>
       <div className="my-5">
         <ResetTimer timestamp={expiryTimestamp.toISOString()}/>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from '@/styles/ImageAnimation.module.css';
+import styles from '@/styles/top/ImageAnimation.module.css';
 
 type Props = {
   src: string;
