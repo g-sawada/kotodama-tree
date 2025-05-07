@@ -70,7 +70,10 @@ export default function TreeSoulsModalController({
 
       <div>
         <FullSizeModal isOpen={isModalOpen}>
-          <h1 className="text-center text-xl font-bold">キにやどるコトダマ</h1>
+          <div className="absolute">
+            <button className="p-1 bg-gray-500 border-2 border-white rounded" onClick={closeModal}>とじる</button>
+          </div>
+          <h1 className="text-center text-xl font-bold mb-6">キにやどるコトダマ</h1>
           {souls.length ? (
             // 捧げられているコトダマが1つ以上ある場合
             <>
@@ -104,13 +107,6 @@ export default function TreeSoulsModalController({
                 />
               </div>
             )}
-          </div>
-          <div className="flex justify-center my-4">
-            <Button
-              text="閉じる"
-              handleClick={() => closeModal()}
-              buttonType="cancel"
-            />
           </div>
         </FullSizeModal>
       </div>
