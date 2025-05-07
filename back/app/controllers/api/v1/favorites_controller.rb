@@ -22,7 +22,10 @@ class Api::V1::FavoritesController < ApplicationController
   def destroy
     begin
       user = User.find(params[:user_id])
-      soul = Soul.find(params[:soul_id])
+      soul = Soul.find_by(id: params[:soul_id])
+      if soul.nil?
+        return render json: { error: "コトダマが存在しません" }, status: :not_found
+      end
       if !user.favorite?(soul)
         return render json: { error: "データが一致しません" }, status: :conflict
       end
