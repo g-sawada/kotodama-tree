@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attribute :system_user, :integer
+  
   has_many :owner_souls, class_name: 'Soul', foreign_key: 'owner_id'
   has_many :creator_souls, class_name: 'Soul', foreign_key: 'creator_id', dependent: :destroy
   has_many :favorites

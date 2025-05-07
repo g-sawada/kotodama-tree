@@ -92,7 +92,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_26_145855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "last_visit_room"
-    t.integer "system_user", default: 0, null: false
+    t.integer "system_user", null: false
     t.index ["provider", "provider_id"], name: "index_users_on_provider_and_provider_id", unique: true
     t.check_constraint "\"system_user\" = ANY (ARRAY[0, 1])", name: "system_user_check"
   end
