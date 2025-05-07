@@ -65,7 +65,7 @@ export default async function ProfilePage({ params }: Props) {
           </div>
 
           <div className="row-span-2 border border-white rounded-lg p-5 grid grid-cols-12 mb-3 ">
-            <Image src={`/${tree.image}`} width={130} height={130} alt="Tree Image" className="col-span-5"/>
+            <Image src={`${tree.image}`} width={130} height={130} alt="Tree Image" className="col-span-5"/>
             <div className="grid grid-rows-3 col-span-7">
               <p className="text-end rows-span-2">キのようす</p>
               <p className="text-end rows-span-1">Lv:{tree.level}</p>
