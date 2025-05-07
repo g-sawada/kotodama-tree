@@ -37,7 +37,7 @@ export default function OfferSoulCardList({ souls, roomId }: Props) {
                 </div>
               </SoulCard>
             )) :
-            <p className="text-gray-500 text-md">コトダマがありません</p>
+            <p className="text-gray-500 text-md">手持ちのコトダマがありません</p>
           }
         </div>
       </div>
