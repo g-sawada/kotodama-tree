@@ -71,7 +71,7 @@ export default function TreeSoulsModalController({
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <div className="absolute">
-            <button className="p-1 bg-gray-500 border-2 border-white rounded" onClick={closeModal}>とじる</button>
+            <button className="p-1 bg-gray-500 border-2 border-white rounded text-sm" onClick={closeModal}>とじる</button>
           </div>
           <h1 className="text-center text-xl font-bold mb-6">キにやどるコトダマ</h1>
           {souls.length ? (

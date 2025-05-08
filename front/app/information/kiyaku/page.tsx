@@ -6,7 +6,7 @@ export default function KiyakuPage() {
       <div className="ml-3 mt-3">
         <Link href={"/"}>⇐ タイトルに戻る</Link>
       </div>
-      <h1 className="text-2xl font-bold mb-4 text-center">利用規約</h1>
+      <h1 className="text-2xl font-bold my-4 text-center">利用規約</h1>
       <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed overflow-y-auto">
         <p className="mb-6">
           この利用規約（以下、「本規約」といいます。）は、澤田昂大（以下、「開発者」といいます）を代表とする「コトダマノキプロジェクトチーム」が提供する、「コトダマノキ」（以下、「本サービス」といいます。）の利用条件を定めるものです。ユーザー（以下、「ユーザー」といいます。）の皆さまには、本規約に同意の上、本サービスをご利用いただきます。

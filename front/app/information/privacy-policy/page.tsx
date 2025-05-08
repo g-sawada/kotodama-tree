@@ -6,7 +6,7 @@ export default function policyPage() {
       <div className="ml-3 mt-3">
         <Link href={"/"}>⇐ タイトルに戻る</Link>
       </div>
-      <h1 className="text-2xl font-bold mb-4 text-center">プライバシーポリシー</h1>
+      <h1 className="text-2xl font-bold my-4 text-center">プライバシーポリシー</h1>
       <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed overflow-y-auto">
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">お客様から取得する情報</h2>

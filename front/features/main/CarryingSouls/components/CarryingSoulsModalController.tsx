@@ -73,7 +73,7 @@ export default function CarryingSoulsModalController({
       <div>
         <FullSizeModal isOpen={isModalOpen}>
           <div className="absolute">
-            <button className="p-1 bg-gray-500 border-2 border-white rounded" onClick={closeModal}>とじる</button>
+            <button className="p-1 text-sm bg-gray-500 border-2 border-white rounded" onClick={closeModal}>とじる</button>
           </div>
           <h1 className="text-center text-xl font-bold">
             手持ちのコトダマ

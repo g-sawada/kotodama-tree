@@ -82,7 +82,7 @@ export default function HomePortalButton({ thisRoomId }: Prop) {
         <ResizeModal isOpen={isModalOpen}>
           <div className="flex flex-col justify-center gap-4 mt-6">
             <p className="text-center text-lg">
-              自分の部屋へのポータルを開きます。
+              自分のキへのポータルを開きます。
               <br />
               よろしいですか？
             </p>

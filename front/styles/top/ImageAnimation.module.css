@@ -1,0 +1,17 @@
+.Image {
+  width: 200px;
+  height: 200px;
+  filter: blur(8px);
+  transform: scale(1.1);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.stage-1 { filter: blur(7px); transform: scale(1.09); }
+.stage-2 { filter: blur(6px); transform: scale(1.08); }
+.stage-3 { filter: blur(5px); transform: scale(1.07); }
+.stage-4 { filter: blur(4px); transform: scale(1.06); }
+.stage-5 { filter: blur(3px); transform: scale(1.05); }
+.stage-6 { filter: blur(2px); transform: scale(1.04); }
+.stage-7 { filter: blur(1px); transform: scale(1.03); }
+.stage-8 { filter: blur(0px); transform: scale(1.00); }
+
