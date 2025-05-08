@@ -113,7 +113,7 @@ class WorldResetter
         exp: 0,
         level: 1,
         # TODO: ランダムな画像を選択する処理を追加する
-        image: 'tree.svg',
+        image: "/tree_images/" + Tree::SMALL_TREE_FILENAME.sample, # Sサイズのキの画像をランダムに選択
         last_charged_at: nil,
         # NOTE: id, created_at, updated_atは自動で生成されるので指定しなくてよい
       }
