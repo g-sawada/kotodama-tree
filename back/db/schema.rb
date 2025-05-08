@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_26_145855) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_08_142538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "capture_logs", force: :cascade do |t|
+    t.string "capture_user", null: false
+    t.integer "soul_id", null: false
+    t.string "creator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "favorites", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,6 +30,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_26_145855) do
     t.index ["soul_id"], name: "index_favorites_on_soul_id"
     t.index ["user_id", "soul_id"], name: "index_favorites_on_user_id_and_soul_id", unique: true
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "offer_logs", force: :cascade do |t|
+    t.string "offer_user", null: false
+    t.integer "soul_id", null: false
+    t.string "creator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pathways", force: :cascade do |t|
@@ -58,10 +74,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_26_145855) do
     t.integer "harvested_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "creator_id", null: false
-    t.bigint "captured_tree_id"
-    t.bigint "home_tree_id"
     t.uuid "owner_id"
+    t.uuid "creator_id", null: false
+    t.bigint "home_tree_id"
+    t.bigint "captured_tree_id"
     t.index ["captured_tree_id"], name: "index_souls_on_captured_tree_id"
     t.index ["creator_id"], name: "index_souls_on_creator_id"
     t.index ["home_tree_id"], name: "index_souls_on_home_tree_id"
