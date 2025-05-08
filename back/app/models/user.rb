@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_one :room
 
   with_options presence: true do
-    validates :name, length: { maximum: 10 }
+    validates :name, length: { maximum: 10 }, if: -> { system_user == "general" }
     validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
     validates :exp, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
     validates :max_create_souls
