@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import styles from '@/styles/top/ButtonAnimation.module.css';
 import TopImage from "@/features/Top/ImageAnimationController";
 import TopTitle from "@/features/Top/TitleAnimationController";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -39,8 +40,8 @@ export default async function Home() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-h-screen transform -translate-y-10">
-        <div className="text-3xl text-center">
+      <div className="flex flex-col justify-center items-center h-screen transform -translate-y-10">
+        <div className="text-3xl text-center mt-16">
           <TopTitle />
         </div>
         <div className="mt-8">
@@ -62,6 +63,10 @@ export default async function Home() {
               ログインが必要です
           </button>
           }
+        </div>
+        <div className="mt-24 flex gap-8">
+          <Link href="/information/kiyaku" className="text-sm text-gray-300">利用規約</Link>
+          <Link href="/information/privacy-policy" className="text-sm text-gray-300">プライバシー・ポリシー</Link>
         </div>
       </div>
   </>
