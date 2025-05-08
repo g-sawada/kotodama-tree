@@ -63,7 +63,6 @@ export default async function ProfilePage({ params }: Props) {
           <div className="row-span-1 border border-white rounded-lg mb-3">
             <div className="text-center py-4 text-lg">{user.name}</div>
           </div>
-
           <div className="row-span-2 border border-white rounded-lg p-5 grid grid-cols-12 mb-3 ">
             <Image src={`${tree.image}`} width={130} height={130} alt="Tree Image" className="col-span-5"/>
             <div className="grid grid-rows-3 col-span-7">
@@ -75,7 +74,6 @@ export default async function ProfilePage({ params }: Props) {
               </div>
             </div>
           </div>
-          
           <div className="row-span-2 border border-white rounded-lg p-2 py-5 grid grid-cols-12 mb-5">
             <Image src="/soul.svg" width={90} height={90} alt="Soul Image" className="col-span-4"/>
             <div className="col-span-8">
