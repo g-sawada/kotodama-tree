@@ -1,0 +1,2 @@
+class OfferLog < ApplicationRecord
+end
