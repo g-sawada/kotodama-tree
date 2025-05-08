@@ -69,8 +69,8 @@ export default function CreateSoulsModalController({ creatableCount }: { creatab
             <div className="min-h-10">
               {error && <p className="text-red-500">{error}</p>}
             </div>
-
-            <div className="mt-10">
+            <p className="text-sm text-yellow-300">作成したコトダマは、自分の手持ちまたは自分のキに捧げられている場合のみ、マイページから削除できます。</p>
+            <div className="mt-6">
               <Button
                 text="コトダマを捧げる"
                 submit={true}
