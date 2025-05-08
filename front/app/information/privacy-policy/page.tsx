@@ -1,12 +1,12 @@
 export default function policyPage() {
   return (
-      <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed">
+      <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed overflow-y-auto">
         <h1 className="text-2xl font-bold mb-4 text-center">プライバシーポリシー</h1>
 
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">お客様から取得する情報</h2>
           <p className="mb-4">
-            当チームは、お客様から以下の情報を取得します。
+            「コトダマノキ」（以下，「本サービス」とします）は、お客様から以下の情報を取得します。
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>氏名（ニックネームやペンネームも含む）</li>
@@ -35,9 +35,12 @@ export default function policyPage() {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">安全管理のために講じた措置</h2>
+          <h2 className="text-lg font-semibold mb-2">安全管理のために講じる措置</h2>
           <p className="mb-4">
-            当チームは、お客様から取得した情報に関して安全管理を徹底し、必要に応じて適切な措置を講じています。具体的な措置についてのお問い合わせは、以下の連絡先にご連絡いただければ、法令に従って個別にご回答いたします。
+            本サービスは、お客様から取得した情報に関して安全管理を徹底し、必要に応じて適切な措置を講じています。具体的な措置についてのお問い合わせは、「お問い合わせ」ページより本サービスの定める方法でご連絡下さい。
+          </p>
+          <p className="mb-4">
+            他のユーザーからの誹謗中傷や、嫌がらせを目的とする行為の被害を受けた場合、またはその恐れがある場合には、当サービスの「お問い合わせ」ページよりご連絡ください。必要に応じて、当サービスの運営チームが適切な措置を講じます。
           </p>
         </section>
 
@@ -47,10 +50,7 @@ export default function policyPage() {
             当チームは、お客様から取得した情報のうち、個人データ（個人情報保護法第16条第3項）に該当するものについて、あらかじめお客様の同意を得ずに、第三者（日本国外にある者を含みます）に提供することはありません。ただし、次の場合は除きます。
           </p>
           <ul className="list-decimal pl-5 space-y-2">
-            <li>個人データの取扱いを外部に委託する場合</li>
-            <li>当チームや当サービスが買収された場合</li>
-            <li>事業パートナーと共同利用する場合（具体的な共同利用がある場合は、その内容を別途公表します）</li>
-            <li>その他、法律によって合法的に第三者提供が許されている場合</li>
+            <li>法律によって合法的に第三者提供が許されている場合</li>
           </ul>
         </section>
 
@@ -64,20 +64,14 @@ export default function policyPage() {
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">お問い合わせ</h2>
           <p className="mb-4">
-            お客様の情報の開示、訂正、利用停止、削除をご希望の場合は、以下のメールアドレスにご連絡ください。
-          </p>
-          <ul className="list-none pl-5">
-            <li>メールアドレス: 〇〇〇〇〇〇〇〇</li>
-          </ul>
-          <p className="mb-4">
-            この場合、運転免許証など、当チームが指定する方法により、ご本人からの請求であることを確認させていただきます。情報の開示請求に関しては、開示の有無に関わらず、1件あたり1,000円の事務手数料を申し受けます。
+            お客様の情報の開示、訂正、利用停止、削除をご希望の場合は、「お問い合わせ」ページより本サービスの定める方法でご連絡ください。なお、返信には数日かかる場合がありますので、あらかじめご了承ください。
           </p>
         </section>
 
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">開発者情報</h2>
           <ul className="list-none pl-5">
-            <li>開発者の氏名: 澤田昂大</li>
+            <li>開発代表者の氏名: 澤田昂大</li>
           </ul>
         </section>
 
