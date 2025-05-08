@@ -16,7 +16,7 @@ export default function TopTitle() {
   }, []);
 
   return (
-    <h1 className={`${styles.title} ${showTitle ? styles.enter : ''}`}>
+    <h1 className={`${styles.title} ${showTitle ? styles.enter : ''} text-4xl font-bold`}>
       コトダマノキ
     </h1>
   )

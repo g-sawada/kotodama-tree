@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { postFetch } from "@/lib/api/fetcher/postFetch";
 import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import { User } from "@/types/user";
+import redirectToLastVisitRoomAction from "./redirectToLastVisitRoom";
 
 /**
  * ユーザー新規登録ページのフォーム送信から起動し，API users#createをコールする。
@@ -39,7 +40,7 @@ export default async function createUserAction(formData: FormData) {
     redirect("/signup");
   }
 
-  console.log("ユーザーの作成に成功しました");
   await setFlashAction("success", "ユーザーの作成に成功しました");
-  redirect("/loggedIn");
+  await redirectToLastVisitRoomAction();
+  return;
 } 

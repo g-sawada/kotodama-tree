@@ -38,6 +38,7 @@ export default async function harvestSoulAction(soulId: number, roomId: string) 
    * - コトダマ収獲処理を実行 (200 OK)
    *   @returns data :Soul  収獲したコトダマ
    * 異常系
+   * - 処理対象のコトダマが存在しない (404 Not Found)
    * - ユーザーのlast_visit_roomが現在訪れている部屋でない (403 Forbidden)
    * - 現在訪れている部屋のキに対象のコトダマが捧げられていない (409 Conflict)
    * - ユーザーの手持ちコトダマ数が上限値に達している (409 Conflict)
@@ -54,7 +55,7 @@ export default async function harvestSoulAction(soulId: number, roomId: string) 
       await setFlashAction("error", "コトダマのしゅうかくに失敗しました。\n 最後に訪れた場所を読み込みました。");
       await redirectToLastVisitRoomAction();
       return;
-    }else if (result.status === 409 || result.status === 422) {
+    }else if (result.status === 409 || result.status === 422 || result.status === 404) {
       /**
        * redirectToLastVisitRoomActionを使用すると，同じ部屋へリダイレクトしようとして
        * ページのリロードが発生しないため，クライアントで処理
