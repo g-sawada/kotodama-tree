@@ -51,7 +51,11 @@ export default function EnterOfferAuth({ thisRoomId, userId, children }: EnterAu
   return (
     <>
       {/* 仮実装。今後ローディングアニメーションに置き換える */}
-      {isChecked ? children : <div>入室チェック中...</div>}
+      {isChecked ? 
+        children : 
+        <div className="flex justify-center items-center h-screen">
+          読み込み中...
+        </div>}
     </>
   )
 }

@@ -13,7 +13,7 @@ class Pathway < ApplicationRecord
   private
 
   def set_default_values
-    self.figure_type ||= rand(1..3) # 1から3のランダムな整数
-    self.color  ||= ["#FFB6C1", "#FFD700", "#98FB98", "#ADD8E6", "#FF69B4", "#FF6347", "#E6E6FA", "#DDA0DD"].sample # カラーをランダムに選択
+    self.figure_type ||= rand(1..10) # 1から10のランダムな整数
+    self.color  ||= ["#FF0033", "#FF6600", "#FF9900", "#FFCC00", "#CCFF00", "#33FF00", "#00FF99", "#00FFFF", "#0066FF", "#3300FF", "#6600CC", "#990066"].sample # カラーをランダムに選択
   end
 end

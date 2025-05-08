@@ -44,7 +44,7 @@ export default function CreateSoulsModalController({ creatableCount }: { creatab
       {creatableCount <= 0 && <p>コトダマ作成上限に達しています</p>}
       <div className="text-center">
         <Button
-          text="新たにコトダマを創る"
+          text="新たにコトダマをつくる"
           buttonType="ok"
           handleClick={() => openModal()}
           isDisabled={creatableCount <= 0} // 作成上限に達している場合はdisable
@@ -53,7 +53,7 @@ export default function CreateSoulsModalController({ creatableCount }: { creatab
 
       <div>
         <FullSizeModal isOpen={isModalOpen}>
-          <h1 className="text-center text-xl font-bold">コトダマを創る</h1>
+          <h1 className="text-center text-xl font-bold">コトダマをつくる</h1>
           <form action={createSoulAction} className="my-8 flex flex-col items-center">
 
             <p>作成可能コトダマ数：あと{creatableCount}個</p>
@@ -69,8 +69,8 @@ export default function CreateSoulsModalController({ creatableCount }: { creatab
             <div className="min-h-10">
               {error && <p className="text-red-500">{error}</p>}
             </div>
-
-            <div className="mt-10">
+            <p className="text-sm text-yellow-300">作成したコトダマは、自分の手持ちまたは自分のキに捧げられている場合のみ、マイページから削除できます。</p>
+            <div className="mt-6">
               <Button
                 text="コトダマを捧げる"
                 submit={true}

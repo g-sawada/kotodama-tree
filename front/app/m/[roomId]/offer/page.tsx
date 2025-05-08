@@ -1,12 +1,12 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-import Button from "@/components/ui/Button";
+import { getUser } from "@/lib/api/user/getUser";
+import { getSouls } from "@/lib/api/soul/getSouls";
+import ErrorPage from "@/components/layout/ErrorPage";
+
 import CreateSoulsModalController from "@/features/offer/Offer/components/CreateSoulModalController";
 import OfferSoulCardList from "@/features/offer/Offer/components/OfferSoulCardList";
-import { getUser } from "@/lib/api/user/getUser";
-import ErrorPage from "@/components/layout/ErrorPage";
-import { getSouls } from "@/lib/api/soul/getSouls";
 
 /**
  * コトダマ捧げページコンポーネント
@@ -67,23 +67,23 @@ export default async function OfferPage({ params }: Props) {
 
   return (
     <>
-      <h1 className="text-2xl text-center my-4 flex-none">
-        捧げるコトダマを選んでください
-      </h1>
-      <div className="w-full mx-auto flex flex-col items-center flex-none">
-        <div className="my-2">
-          <CreateSoulsModalController creatableCount={creatableCount} />
+      <div className="container mx-auto">
+        <div className="absolute">
+          <button className="ml-3 mt-3" onClick={backToMainPage}>⇐ もどる</button>
         </div>
-        <div className="mb-2">
-          <Button
-            text="もどる"
-            handleClick={backToMainPage}
-            buttonType="cancel"
-          />
+        <h1 className="mt-10 text-xl text-center my-4 flex-none">
+          捧げるコトダマを選択
+        </h1>
+        <div className="w-full mx-auto flex flex-col items-center flex-none">
+          <div className="my-2">
+            <CreateSoulsModalController creatableCount={creatableCount} />
+          </div>
+          <div className="mb-2">
+          </div>
         </div>
-      </div>
-      <div className="m-6 overflow-y-auto">
-        <OfferSoulCardList souls={carryingSouls} roomId={thisRoomId} />
+        <div className="m-6 overflow-y-auto">
+          <OfferSoulCardList souls={carryingSouls} roomId={thisRoomId} />
+        </div>
       </div>
     </>
   );

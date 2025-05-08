@@ -9,7 +9,8 @@ def create_dummy_user(name)
     max_create_souls: 7,
     max_carry_souls: 7,
     provider: "google",
-    provider_id: Faker::Alphanumeric.alphanumeric(number: 10)
+    provider_id: Faker::Alphanumeric.alphanumeric(number: 10),
+    system_user: "general"
   )
 end
 
@@ -32,8 +33,8 @@ def create_dummy_pathway(room_1, room_2)
   smaller_room_id, larger_room_id = [room_1.id, room_2.id].sort
 
   Pathway.create!(
-    figure_type: rand(1..3), # 1から3のランダムな整数
-    color: ["#FFB6C1", "#FFD700", "#98FB98", "#ADD8E6", "#FF69B4", "#FF6347", "#E6E6FA", "#DDA0DD"].sample, # カラーをランダムに選択
+    figure_type: rand(1..10), # 1から3のランダムな整数
+    color: ["#FF0033", "#FF6600", "#FF9900", "#FFCC00", "#CCFF00", "#33FF00", "#00FF99", "#00FFFF", "#0066FF", "#3300FF", "#6600CC", "#990066"].sample, # カラーをランダムに選択
     room_1_id: smaller_room_id,
     room_2_id: larger_room_id
   )

@@ -1,83 +1,74 @@
-import React from "react";
-import Button from "@/components/ui/Button";
-import DemoModalController from "@/features/demo/components/DemoModalController";
-import SignInButton from "@/components/ui/authButton/SignInButton";
 import { auth } from "@/auth";
 import { setFlashAction } from "@/lib/actions/flash/setFlashAction";
 import redirectToLastVisitRoomAction from "@/lib/actions/user/redirectToLastVisitRoom";
 import { invalidateCache } from "@/lib/actions/maintenance/invalidateCache";
-import ResetTimer from "@/components/layout/ResetTimer";
+
+import { redirect } from "next/navigation";
+
+import styles from '@/styles/top/ButtonAnimation.module.css';
+import TopImage from "@/features/Top/ImageAnimationController";
+import TopTitle from "@/features/Top/TitleAnimationController";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
+  const userId = session?.user?.userId
 
   // ボタンテスト用関数（不要になったら削除）
-  const handleButtonClick = async () => {
+  const handleStartButtonClick = async () => {
     "use server";
-    console.log("ボタンがクリックされました");
-    // フラッシュメッセージ用データをcookieに保存
-    await setFlashAction("success", "TEST: 最後に訪れた場所 または ユーザーのホームに移動");
-
     // Data Cacheの maintenanceを削除
     await invalidateCache();
 
+    if(!userId) {
+      // ログイン中かつuserIdがない場合，新規登録ページへ誘導
+      redirect("/signup")
+    }
+    await setFlashAction("success", "最後に訪れた場所を読み込みました。");
     await redirectToLastVisitRoomAction()
     return;
   }
 
-  // 外部接続テスト
-  const trafficTest = async () =>  {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-    // console.log("response");
-    // console.log(response);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const body =  await response.json();
-    return body
+  const handleLoginButtonClick = async () => {
+    "use server";
+    // Data Cacheの maintenanceを削除
+    await invalidateCache();
+
+    // ログイン画面にリダイレクト
+    redirect("/login")
   }
 
-  const test = await trafficTest();
-  const now = new Date()
-  const expiryTimestamp = new Date(now.setDate(now.getDate() + 1));
   return (
     <>
-      <div className="text-4xl text-center">ここはHomeページです</div>
-      <div className="flex max-w-32 mx-auto justify-center items-center h-40 gap-4">
-        <Button 
-          text="はじめる"
-          buttonType="ok"
-          handleClick={handleButtonClick}
-          // inProgress={true}
-          // isDisabled={true}
-        />
+      <div className="flex flex-col justify-center items-center h-screen transform -translate-y-10">
+        <div className="text-3xl text-center mt-16">
+          <TopTitle />
+        </div>
+        <div className="mt-8">
+          <TopImage src="/tree.svg" alt="木の画像"/>
+        </div>
+        <div className="mt-8">
+        { !!session ? 
+          <button 
+            onClick={handleStartButtonClick}
+            className={`${styles.button} 
+            px-4 py-2 font-bold border-2 border-white rounded transition bg-cyan-500 hover:bg-cyan-400`}>
+              はじめる
+          </button>
+          :
+          <button 
+            onClick={handleLoginButtonClick}
+            className={`${styles.button} 
+            px-4 py-2 font-bold border-2 border-white rounded transition bg-gray-500 hover:bg-gray-400`}>
+              ログインが必要です
+          </button>
+          }
+        </div>
+        <div className="mt-24 flex gap-8">
+          <Link href="/information/kiyaku" className="text-sm text-gray-300">利用規約</Link>
+          <Link href="/information/privacy-policy" className="text-sm text-gray-300">プライバシー・ポリシー</Link>
+        </div>
       </div>
-      <div className="my-5">
-        <ResetTimer timestamp={expiryTimestamp.toISOString()}/>
-      </div>
-
-      <div className="my-4">
-        <p className="flex justify-center font-bold">current_user session</p>
-        <pre className="flex justify-center text-sm">{JSON.stringify(session, null, 2)}</pre>
-      </div>
-
-      <div className="flex flex-col mx-auto justify-center items-center gap-4">
-        <SignInButton provider="github"/>
-        <SignInButton provider="google"/>
-        <SignInButton provider="twitter"/>
-      </div>
-
-      <div className="flex flex-col justify-center items-center my-4">
-        <div>環境変数チェック</div>
-        <p className="text-sm">API_URL: {process.env.API_URL}</p>
-        <p className="text-sm">AUTH_GOOGLE_ID: {process.env.AUTH_GOOGLE_ID}</p>
-      </div>
-
-      <pre className="flex justify-center text-sm">{JSON.stringify(test.title, null, 2)}</pre>
-
-      <div className="flex justify-center items-center my-10">
-        <DemoModalController />
-      </div>
-    </>
+  </>
   );
 }

@@ -25,7 +25,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <body className={dotGothic16.className}>
             <div className="min-w-[360] sm:bg-gray-900">
-              <div className="container mx-auto full:h-screen border-2 border-white text-white bg-gray-900">
+              <div className="container mx-auto h-screen border-2 border-white text-white bg-gray-900">
                 <div className="flex flex-col h-full"> 
                   <FlashProvider>
                     <Header />

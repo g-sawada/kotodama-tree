@@ -71,7 +71,11 @@ class Api::V1::SoulsController < ApplicationController
 
   def harvest
     begin
-      soul = Soul.find(params[:id])
+      soul = Soul.find_by(id: params[:id])
+      # コトダマが存在しない場合は404を返す
+      if soul.nil?
+        return render json: { error: "コトダマが存在しません" }, status: :not_found
+      end
       user = User.find(params[:user_id])
       room = Room.find(params[:room_id])
       tree = room.tree
@@ -106,7 +110,11 @@ class Api::V1::SoulsController < ApplicationController
 
   def offer
     begin
-      soul = Soul.find(params[:id])
+      soul = Soul.find_by(id: params[:id])
+      # コトダマが存在しない場合は404を返す
+      if soul.nil?
+        return render json: { error: "コトダマが存在しません" }, status: :not_found
+      end
       user = User.find(params[:user_id])
       room = Room.find(params[:room_id])
       # last_visit_roomが現在訪れているroomのidと一致しない、または現在訪れているroomがユーザーの部屋でない場合は403を返す
