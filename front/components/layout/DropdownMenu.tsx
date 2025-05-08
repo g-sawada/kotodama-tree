@@ -7,6 +7,8 @@ import ResizeModal from '../ui/ResizeModal';
 import ResetTimer from './ResetTimer';
 import Button from '../ui/Button';
 import { FetchResult } from '@/types/fetchResult';
+import FullSizeModal from '../ui/FullSizeModal';
+import HowToPlayText from './HowToPlayText';
 
 interface Maintenance {
   isMaintenance: boolean;
@@ -17,6 +19,7 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [resetTimerOpen, setResetTimerOpen] = useState<boolean>(false);
 	const [resetTime, setResetTime] = useState<string | null>(null)
+	const [howToPlayOpen, setHowToPlayOpen] = useState<boolean>(false);
 
 	// Route Handlerを経由してメンテナンス情報を取得
 	const fetchMaintenance = async () => { 
@@ -45,6 +48,11 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 		setResetTimerOpen(true)
 	}
 
+	const openHowToPlay = () => {
+		closeMenu();
+		setHowToPlayOpen(true)
+	}
+
 	const transClass = isOpen ? "flex" : "hidden";
 
 	return (
@@ -61,7 +69,7 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 						<>
 							<Link href={`/profile/${userId}`} onClick={closeMenu} className=''>マイページ</Link>
 							<button onClick={openTimer}>リセット残り時間</button>
-							<Link href={'#'} onClick={closeMenu} className=''>遊び方</Link>
+							<button onClick={openHowToPlay}>遊び方</button>
 							<Link href={'/'} onClick={closeMenu} className=''>タイトルへ</Link>
 							<Link href={'#'} onClick={closeMenu} className=''>お問い合わせ</Link>
 							<SignOutButton />
@@ -69,7 +77,7 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 					) : (
 						<>
 							<Link href={'/login'} onClick={closeMenu} className=''>ログイン</Link>
-							<Link href={'#'} onClick={closeMenu} className=''>遊び方</Link>
+							<button onClick={openHowToPlay}>遊び方</button>
 							<Link href={'/'} onClick={closeMenu} className=''>タイトルへ</Link>
 							<Link href={'#'} onClick={closeMenu} className=''>お問い合わせ</Link>
 						</>
@@ -98,6 +106,20 @@ export default function Dropdown({ userId }: { userId: string | null }) {
 					</div>
 				</div>
 			</ResizeModal>
+
+			<FullSizeModal isOpen={howToPlayOpen}>
+				<div className="absolute">
+            <button 
+							className="p-1 text-sm bg-gray-500 border-2 border-white rounded"
+							onClick={() => setHowToPlayOpen(false)}
+							>とじる
+						</button>
+				</div>
+				<div className="flex justify-center items-center">
+					<h1 className='text-2xl'>遊び方</h1>
+				</div>
+				<HowToPlayText />
+			</FullSizeModal>
 
 			{/* メニュー外をクリックして閉じるための透過スクリーン */}
 			{ isOpen ?
