@@ -1,8 +1,13 @@
+import Link from "next/link";
+
 export default function policyPage() {
   return (
+    <>
+      <div className="ml-3 mt-3">
+        <Link href={"/"}>⇐ タイトルに戻る</Link>
+      </div>
+      <h1 className="text-2xl font-bold mb-4 text-center">プライバシーポリシー</h1>
       <main className="p-6 max-w-3xl mx-auto text-sm leading-relaxed overflow-y-auto">
-        <h1 className="text-2xl font-bold mb-4 text-center">プライバシーポリシー</h1>
-
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">お客様から取得する情報</h2>
           <p className="mb-4">
@@ -80,7 +85,7 @@ export default function policyPage() {
           <p>2025年05月7日 制定</p>
         </section>
       </main>
-
+    </>
   );
 };
 
