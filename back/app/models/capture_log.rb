@@ -1,0 +1,2 @@
+class CaptureLog < ApplicationRecord
+end

@@ -97,6 +97,7 @@ class Api::V1::SoulsController < ApplicationController
         soul.captured_tree_id = nil
         soul.harvested_count += 1
         soul.save!
+        CaptureLog.create!(capture_user: user.id, soul_id: soul.id, creator_id: soul.creator_id)
         soul  # 成功時にsoulを返す
       end
 
@@ -130,6 +131,7 @@ class Api::V1::SoulsController < ApplicationController
         soul.owner_id = nil
         soul.captured_tree_id = user.tree.id
         soul.save!
+        OfferLog.create!(offer_user: user.id, soul_id: soul.id, creator_id: soul.creator_id)
         soul  # 成功時にsoulを返す
       end
 
