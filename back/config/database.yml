@@ -87,9 +87,10 @@ test:
 #
 production:
   <<: *default
-  database: app_production
-  username: app
-  password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+  database: kotodama_prod_db
+  username: ktdm-prod-back-sysuser
+  password: <%= Rails.application.credentials.dig(:gcp, :db_password) || 'password' %>
+  host: <%= Rails.application.credentials.dig(:gcp, :db_host_ip) || 'localhost' %>
 
 staging:
   <<: *default
