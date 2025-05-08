@@ -54,7 +54,7 @@ export default function SignupForm() {
       <div className="min-h-10">
         {error && <p className="text-red-500">{error}</p>}
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center max-w-52 mx-auto">
         <label htmlFor="name" className="block font-bold mb-6">
           ユーザー名をきめてください
         </label>
